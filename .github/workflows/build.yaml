@@ -1,6 +1,6 @@
 name: Python package
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.8, 3.9]
 
     steps:
       - uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 pytest build
+          pip install flake8 pytest pytest-cov build
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Lint with flake8
         run: |
@@ -35,6 +35,13 @@ jobs:
           cd tests
           pip install $(ls ../dist/argodata-*.whl)
           pytest
+      - name: Test coverage
+        if: success() && (matrix.python-version == '3.9')
+        run: |
+          pwd
+          python -m pytest --cov ./argodata
+      - name: "Upload coverage to Codecov"
+        uses: codecov/codecov-action@v1
       - name: Upload dist
         uses: actions/upload-artifact@main
         with:
