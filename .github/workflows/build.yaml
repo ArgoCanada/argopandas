@@ -41,7 +41,10 @@ jobs:
           pwd
           python -m pytest --cov ./argodata
       - name: "Upload coverage to Codecov"
+        if: !event.pull_request
         uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload dist
         uses: actions/upload-artifact@main
         with:
