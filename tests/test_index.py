@@ -25,7 +25,15 @@ class TestArgoIndex(unittest.TestCase):
         self.assertTrue(ArgoIndex(self.index_file).is_valid())
         self.assertFalse(ArgoIndex(self.index_file, [None, ]).is_valid())
         self.assertTrue(ArgoIndex(self.index_file, [lambda x: True, ]).is_valid())
-        
+    
+    def test_index_length(self):
+        self.assertEqual(len(ArgoIndex(self.index_file)), 2)
+    
+    def test_index_iter(self):
+        for item in ArgoIndex(self.index_file):
+            self.assertIn('file', item.keys())
+            self.assertRegexpMatches(item['file'], '_meta.nc$')
+    
 
 if __name__ == '__main__':
     unittest.main()
