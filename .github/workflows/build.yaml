@@ -33,7 +33,7 @@ jobs:
       - name: Test dist
         run: |
           cd tests
-          pip install $(ls dist/argodata-*.whl)
+          pip install $(ls ../dist/argodata-*.whl)
           pytest
       - name: Upload dist
         uses: actions/upload-artifact@main
