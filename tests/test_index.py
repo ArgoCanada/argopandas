@@ -51,9 +51,30 @@ class TestArgoIndex(unittest.TestCase):
         self.assertEqual(len(ind[0:-1]), 1)
         self.assertEqual(len(ind[-2:-1]), 1)
         self.assertEqual(len(ind[-1:]), 1)
-
         with self.assertRaises(ValueError):
             ind[1:2:3]
+    
+    def test_slice_filtered(self):
+        filter_true = lambda x: True
+        filter_false = lambda x: False
+
+        ind = ArgoIndex(self.index_file, [filter_true, ])
+        self.assertEqual(len(ind), 2)
+        self.assertIs(ind[:], ind)
+        self.assertEqual(len(ind[:1]), 1)
+        self.assertEqual(len(ind[1:]), 1)
+        self.assertEqual(len(ind[0:-1]), 1)
+        self.assertEqual(len(ind[-2:-1]), 1)
+        self.assertEqual(len(ind[-1:]), 1)
+
+        ind = ArgoIndex(self.index_file, [filter_false, ])
+        self.assertEqual(len(ind), 0)
+        self.assertIs(ind[:], ind)
+        self.assertEqual(len(ind[:1]), 0)
+        self.assertEqual(len(ind[1:]), 0)
+        self.assertEqual(len(ind[0:-1]), 0)
+        self.assertEqual(len(ind[-2:-1]), 0)
+        self.assertEqual(len(ind[-1:]), 0)
 
     def test_extract(self):
         ind = ArgoIndex(self.index_file)

@@ -97,13 +97,14 @@ class ArgoIndex:
                     names = line[:-1].decode('UTF-8').split(',')
                     continue
 
+                item = {k: v for k, v in zip(names, line[:-1].decode('UTF-8').split(','))}
+                if any(not f(item) for f in self._filters):
+                    continue
+
                 length += 1
                 if length < self._start:
                     continue
-
-                item = {k: v for k, v in zip(names, line[:-1].decode('UTF-8').split(','))}
-                if all(f(item) for f in self._filters):
-                    yield item
+                yield item
                 
                 size += 1
                 if size == self._limit:
