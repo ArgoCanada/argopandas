@@ -34,14 +34,6 @@ class TestArgoIndex(unittest.TestCase):
             # check twice because the file object needs to be reset for each iterator
             self.assertEqual(list(ind), list(ind))
     
-    def test_existing_url_object(self):
-        url = 'https://data-argo.ifremer.fr/ar_index_global_meta.txt.gz'
-        import urllib.request
-        import gzip
-        with gzip.open(urllib.request.urlopen(url)) as f:
-            ind = ArgoIndex(f)
-            self.assertEqual(len(list(ind[:6])), 6)
-    
     def test_length(self):
         self.assertEqual(len(ArgoIndex(self.index_file)), 2)
     
