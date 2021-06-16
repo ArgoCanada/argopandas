@@ -59,7 +59,7 @@ class ArgoIndex:
 
         elif isinstance(k, int):
             if k < 0:
-                k = len(self) - k
+                k = len(self) + k
 
             n = 0
             for item in self:
@@ -73,7 +73,7 @@ class ArgoIndex:
             
             raise IndexError(f"Can't extract item {k} from ArgoIndex of length {n}")
         else:
-            raise ValueError(f"Can't subset ArgoIndex with object of type '{type(k)}'")
+            raise ValueError(f"Can't subset ArgoIndex with object of type '{type(k).__name__}'")
 
     def __len__(self):
         if self._cached_len is None:
@@ -118,9 +118,3 @@ class ArgoIndex:
 
     def __str__(self) -> str:
         return repr(self)
-
-if __name__ == '__main__':
-    ind = ArgoIndex("../argodata/cache-dev/ar_index_global_meta.txt.gz")
-    print(repr(ind))
-    print(len(ind))
-    print(repr(ind[-2:-1]))
