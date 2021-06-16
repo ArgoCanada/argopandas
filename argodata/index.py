@@ -4,7 +4,7 @@ import itertools
 import contextlib
 from collections import deque
 
-class ArgoIndex:
+class Index:
 
     def __init__(self, src, filters=None, skip=0, limit=None):
         self._src = src
@@ -17,7 +17,7 @@ class ArgoIndex:
     def filter(self, f):
         if not callable(f):
             raise ValueError(f"Filter for argo.Index must be callable.")
-        return ArgoIndex(self._src, list(self._filters) + [f, ], self._skip, self._limit)
+        return Index(self._src, list(self._filters) + [f, ], self._skip, self._limit)
     
     def is_valid(self):
         try:
@@ -42,7 +42,7 @@ class ArgoIndex:
             k_start = k.start
             k_stop = k.stop
             if k.step is not None:
-                raise ValueError("Can't subset ArgoIndex with stepped slice")
+                raise ValueError("Can't subset Index with stepped slice")
 
             if k_start is None and k_stop is None:
                 return self
@@ -52,7 +52,7 @@ class ArgoIndex:
 
             # a common case where we can avoid calculating the length
             if k_stop is None and self._limit is None and k_start >= 0:
-                return ArgoIndex(self._src, filters=self._filters, skip=self._skip + k_start)
+                return Index(self._src, filters=self._filters, skip=self._skip + k_start)
 
             if k_start < 0 or k_stop is None or k_stop < 0:
                 this_len = len(self)
@@ -62,7 +62,7 @@ class ArgoIndex:
 
             new_skip = self._skip + k_start
             new_limit = k_stop - k_start
-            return ArgoIndex(self._src, filters=self._filters, skip=new_skip, limit=new_limit)
+            return Index(self._src, filters=self._filters, skip=new_skip, limit=new_limit)
 
         elif isinstance(k, int):
             if k < 0:
@@ -78,9 +78,9 @@ class ArgoIndex:
             if self._cached_len is None:
                 self._cached_len = n
             
-            raise IndexError(f"Can't extract item {k} from ArgoIndex of length {n}")
+            raise IndexError(f"Can't extract item {k} from Index of length {n}")
         else:
-            raise ValueError(f"Can't subset ArgoIndex with object of type '{type(k).__name__}'")
+            raise ValueError(f"Can't subset Index with object of type '{type(k).__name__}'")
 
     def __len__(self):
         if self._cached_len is None:
@@ -133,7 +133,7 @@ class ArgoIndex:
 
     def __repr__(self) -> str:
         filter_repr = repr(self._filters)
-        return f"ArgoIndex({repr(self._src)}, {filter_repr}, {self._skip}, {self._limit})"
+        return f"Index({repr(self._src)}, {filter_repr}, {self._skip}, {self._limit})"
 
     def __str__(self) -> str:
         return repr(self)
