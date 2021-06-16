@@ -47,6 +47,15 @@ class TestArgoIndex(unittest.TestCase):
             count += 1
         self.assertEqual(count, 0)
     
+    def test_filter(self):
+        filter_true = lambda x: True
+        filter_false = lambda x: False
+        self.assertEqual(len(ArgoIndex(self.index_file).filter(filter_false)), 0)
+        self.assertEqual(
+            list(ArgoIndex(self.index_file)),
+            list(ArgoIndex(self.index_file).filter(filter_true))
+        )
+    
     def test_getitem(self):
         with self.assertRaises(ValueError):
             ArgoIndex("dummy")[list()]

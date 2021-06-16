@@ -14,6 +14,11 @@ class ArgoIndex:
         self._cached_len = None
         self._fresh = True
     
+    def filter(self, f):
+        if not callable(f):
+            raise ValueError(f"Filter for argo.Index must be callable.")
+        return ArgoIndex(self._src, list(self._filters) + [f, ], self._skip, self._limit)
+    
     def is_valid(self):
         try:
             self.validate()
