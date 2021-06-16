@@ -57,12 +57,12 @@ class TestArgoIndex(unittest.TestCase):
 
     def test_extract(self):
         ind = ArgoIndex(self.index_file)
+        with self.assertRaises(IndexError):
+            ind[2]
         self.assertEqual(ind[0]["file"], "csio/2900313/2900313_meta.nc")
         self.assertEqual(ind[1]["file"], "csio/2902746/2902746_meta.nc")
         self.assertEqual(ind[-1], ind[1])
         self.assertEqual(ind[-2], ind[0])
-        with self.assertRaises(IndexError):
-            ind[2]
 
 if __name__ == '__main__':
     unittest.main()
