@@ -4,7 +4,7 @@ import itertools
 import contextlib
 from collections import deque
 
-class Index:
+class IndexFile:
 
     def __init__(self, src, filters=None, skip=0, limit=None):
         self._src = src
@@ -14,10 +14,9 @@ class Index:
         self._cached_len = None
         self._fresh = True
     
-    def filter(self, f):
-        if not callable(f):
-            raise ValueError(f"Filter for argo.Index must be callable.")
-        return Index(self._src, list(self._filters) + [f, ], self._skip, self._limit)
+    def filter(self, *args):
+        new_filters = list(self._filters) + list(args)
+        return IndexFile(self._src, new_filters, self._skip, self._limit)
     
     def is_valid(self):
         try:
@@ -52,7 +51,7 @@ class Index:
 
             # a common case where we can avoid calculating the length
             if k_stop is None and self._limit is None and k_start >= 0:
-                return Index(self._src, filters=self._filters, skip=self._skip + k_start)
+                return IndexFile(self._src, filters=self._filters, skip=self._skip + k_start)
 
             if k_start < 0 or k_stop is None or k_stop < 0:
                 this_len = len(self)
@@ -62,7 +61,7 @@ class Index:
 
             new_skip = self._skip + k_start
             new_limit = k_stop - k_start
-            return Index(self._src, filters=self._filters, skip=new_skip, limit=new_limit)
+            return IndexFile(self._src, filters=self._filters, skip=new_skip, limit=new_limit)
 
         elif isinstance(k, int):
             if k < 0:
@@ -92,7 +91,7 @@ class Index:
     def __iter__(self):
         if self._limit is not None and self._limit <= 0:
             return
-
+        
         with self._open() as f:
             if not self._fresh:
                 f.seek(0)

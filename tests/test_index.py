@@ -2,9 +2,9 @@
 import unittest
 import os
 
-from argodata.index import Index
+from argodata.index import IndexFile
 
-class TestIndex(unittest.TestCase):
+class TestIndexFile(unittest.TestCase):
 
     def setUp(self):
         this_file = os.path.dirname(__file__)
@@ -13,55 +13,55 @@ class TestIndex(unittest.TestCase):
         self.index_file = os.path.join(this_file, mirror_dir, index_file)
 
     def test_repr(self):
-        self.assertEqual(repr(Index('src', None, 0, 1)), """Index('src', [], 0, 1)""")
-        self.assertEqual(repr(Index('src')), """Index('src', [], 0, None)""")
+        self.assertEqual(repr(IndexFile('src', None, 0, 1)), """Index('src', [], 0, 1)""")
+        self.assertEqual(repr(IndexFile('src')), """Index('src', [], 0, None)""")
     
     def test_str(self):
-        self.assertEqual(str(Index('src', None, 0, 1)), """Index('src', [], 0, 1)""")
-        self.assertEqual(str(Index('src')), """Index('src', [], 0, None)""")
+        self.assertEqual(str(IndexFile('src', None, 0, 1)), """Index('src', [], 0, 1)""")
+        self.assertEqual(str(IndexFile('src')), """Index('src', [], 0, None)""")
 
     def test_valid(self):
-        self.assertFalse(Index("not a file").is_valid())
-        self.assertTrue(Index(self.index_file).is_valid())
-        self.assertFalse(Index(self.index_file, [None, ]).is_valid())
-        self.assertTrue(Index(self.index_file, [lambda x: True, ]).is_valid())
+        self.assertFalse(IndexFile("not a file").is_valid())
+        self.assertTrue(IndexFile(self.index_file).is_valid())
+        self.assertFalse(IndexFile(self.index_file, [None, ]).is_valid())
+        self.assertTrue(IndexFile(self.index_file, [lambda x: True, ]).is_valid())
     
     def test_existing_file_object(self):
         import gzip
         with gzip.open(self.index_file, 'rb') as f:
-            ind = Index(f)
+            ind = IndexFile(f)
             self.assertTrue(ind.is_valid())
             # check twice because the file object needs to be reset for each iterator
             self.assertEqual(list(ind), list(ind))
     
     def test_length(self):
-        self.assertEqual(len(Index(self.index_file)), 2)
+        self.assertEqual(len(IndexFile(self.index_file)), 2)
     
     def test_iter(self):
-        for item in Index(self.index_file):
+        for item in IndexFile(self.index_file):
             self.assertIn('file', item.keys())
             self.assertRegexpMatches(item['file'], '_meta.nc$')
         
         count = 0
-        for item in Index(self.index_file, limit=0):
+        for item in IndexFile(self.index_file, limit=0):
             count += 1
         self.assertEqual(count, 0)
     
     def test_filter(self):
         filter_true = lambda x: True
         filter_false = lambda x: False
-        self.assertEqual(len(Index(self.index_file).filter(filter_false)), 0)
+        self.assertEqual(len(IndexFile(self.index_file).filter(filter_false)), 0)
         self.assertEqual(
-            list(Index(self.index_file)),
-            list(Index(self.index_file).filter(filter_true))
+            list(IndexFile(self.index_file)),
+            list(IndexFile(self.index_file).filter(filter_true))
         )
     
     def test_getitem(self):
         with self.assertRaises(ValueError):
-            Index("dummy")[list()]
+            IndexFile("dummy")[list()]
     
     def test_slice(self):
-        ind = Index(self.index_file)
+        ind = IndexFile(self.index_file)
         self.assertIs(ind[:], ind)
         self.assertEqual(len(ind[:1]), 1)
         self.assertEqual(len(ind[1:]), 1)
@@ -75,7 +75,7 @@ class TestIndex(unittest.TestCase):
         filter_true = lambda x: True
         filter_false = lambda x: False
 
-        ind = Index(self.index_file, [filter_true, ])
+        ind = IndexFile(self.index_file, [filter_true, ])
         self.assertEqual(len(ind), 2)
         self.assertIs(ind[:], ind)
         self.assertEqual(len(ind[:1]), 1)
@@ -84,7 +84,7 @@ class TestIndex(unittest.TestCase):
         self.assertEqual(len(ind[-2:-1]), 1)
         self.assertEqual(len(ind[-1:]), 1)
 
-        ind = Index(self.index_file, [filter_false, ])
+        ind = IndexFile(self.index_file, [filter_false, ])
         self.assertEqual(len(ind), 0)
         self.assertIs(ind[:], ind)
         self.assertEqual(len(ind[:1]), 0)
@@ -94,7 +94,7 @@ class TestIndex(unittest.TestCase):
         self.assertEqual(len(ind[-1:]), 0)
 
     def test_extract(self):
-        ind = Index(self.index_file)
+        ind = IndexFile(self.index_file)
         with self.assertRaises(IndexError):
             ind[2]
         self.assertEqual(ind[0]["file"], "csio/2900313/2900313_meta.nc")
