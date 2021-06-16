@@ -40,7 +40,7 @@ class TestIndexFile(unittest.TestCase):
     def test_iter(self):
         for item in IndexFile(self.index_file):
             self.assertIn('file', item.keys())
-            self.assertRegexpMatches(item['file'], '_meta.nc$')
+            self.assertRegex(item['file'], '_meta.nc$')
         
         count = 0
         for item in IndexFile(self.index_file, limit=0):
