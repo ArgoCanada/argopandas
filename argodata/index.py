@@ -1,8 +1,19 @@
 
 import gzip
 import itertools
-import contextlib
+from contextlib import AbstractContextManager
 from collections import deque
+
+# needed to support Python 3.6 (contextlib.nullcontext was added in 3.7)
+class nullcontext(AbstractContextManager):
+    def __init__(self, enter_result=None):
+        self.enter_result = enter_result
+
+    def __enter__(self):
+        return self.enter_result
+
+    def __exit__(self, *excinfo):
+        pass
 
 class IndexFile:
 
@@ -126,7 +137,7 @@ class IndexFile:
         elif isinstance(self._src, str):
             return open(self._src, 'rb')
         elif hasattr(self._src, 'readline') and callable(self._src.readline):
-           return contextlib.nullcontext(self._src)
+           return nullcontext(self._src)
         else:
             raise ValueError("src must be a filename or file-like object")
 
