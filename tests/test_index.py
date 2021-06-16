@@ -39,9 +39,18 @@ class TestArgoIndex(unittest.TestCase):
         self.assertIs(ind[:], ind)
         self.assertEqual(len(ind[:1]), 1)
         self.assertEqual(len(ind[1:]), 1)
-        self.assertEqual(len(ind[0:-1]), 2)
+        self.assertEqual(len(ind[0:-1]), 1)
         self.assertEqual(len(ind[-2:-1]), 1)
+        self.assertEqual(len(ind[-1:]), 1)
+
+        with self.assertRaises(ValueError):
+            ind[1:2:3]
     
+    def test_debug(self):
+        ind = ArgoIndex(self.index_file)
+        self.assertEqual(len(ind[-1:]), 1)
+        self.assertEqual(len(ind[-2:-1]), 1)
+
     def test_extract(self):
         ind = ArgoIndex(self.index_file)
         self.assertEqual(ind[0]["file"], "csio/2900313/2900313_meta.nc")

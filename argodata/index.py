@@ -47,13 +47,11 @@ class ArgoIndex:
             if k_stop is None and self._limit is None and k_start >= 0:
                 return ArgoIndex(self._src, filters=self._filters, start=self._start + k_start)
 
-            if k_stop is None:
-                k_stop = -1
-
-            if k_start < 0 or k_stop < 0:
+            if k_start < 0 or k_stop is None or k_stop < 0:
                 this_len = len(self)
-                k_start = this_len + k_start + 1 if k_start < 0 else k_start
-                k_stop = this_len + k_stop + 1 if k_stop < 0 else k_stop
+                k_stop = this_len if k_stop is None else k_stop
+                k_start = this_len + k_start if k_start < 0 else k_start
+                k_stop = this_len + k_stop if k_stop < 0 else k_stop
 
             new_start = self._start + k_start
             new_limit = k_stop - k_start
