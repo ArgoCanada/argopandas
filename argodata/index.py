@@ -1,16 +1,18 @@
 
 import gzip
 import itertools
+import contextlib
 from collections import deque
 
 class ArgoIndex:
 
-    def __init__(self, src, filters=None, start=0, limit=None):
-        self._src = str(src)
+    def __init__(self, src, filters=None, skip=0, limit=None):
+        self._src = src
         self._filters = [] if filters is None else list(filters)
-        self._start = int(start)
+        self._skip = int(skip)
         self._limit = limit
         self._cached_len = None
+        self._fresh = True
     
     def is_valid(self):
         try:
@@ -45,7 +47,7 @@ class ArgoIndex:
 
             # a common case where we can avoid calculating the length
             if k_stop is None and self._limit is None and k_start >= 0:
-                return ArgoIndex(self._src, filters=self._filters, start=self._start + k_start)
+                return ArgoIndex(self._src, filters=self._filters, skip=self._skip + k_start)
 
             if k_start < 0 or k_stop is None or k_stop < 0:
                 this_len = len(self)
@@ -53,9 +55,9 @@ class ArgoIndex:
                 k_start = this_len + k_start if k_start < 0 else k_start
                 k_stop = this_len + k_stop if k_stop < 0 else k_stop
 
-            new_start = self._start + k_start
+            new_skip = self._skip + k_start
             new_limit = k_stop - k_start
-            return ArgoIndex(self._src, filters=self._filters, start=new_start, limit=new_limit)
+            return ArgoIndex(self._src, filters=self._filters, skip=new_skip, limit=new_limit)
 
         elif isinstance(k, int):
             if k < 0:
@@ -81,12 +83,16 @@ class ArgoIndex:
             deque(zip(self, counter), maxlen=0)
             self._cached_len = next(counter)
         return self._cached_len
-
+    
     def __iter__(self):
         if self._limit is not None and self._limit <= 0:
             return
 
         with self._open() as f:
+            if not self._fresh:
+                f.seek(0)
+            self._fresh = False
+            
             names = None
             length = -1
             size = 0
@@ -102,7 +108,7 @@ class ArgoIndex:
                     continue
 
                 length += 1
-                if length < self._start:
+                if length < self._skip:
                     continue
                 yield item
                 
@@ -111,11 +117,18 @@ class ArgoIndex:
                     break
     
     def _open(self):
-        return gzip.open(self._src)
+        if isinstance(self._src, str) and self._src.endswith('.gz'):
+            return gzip.open(self._src)
+        elif isinstance(self._src, str):
+            return open(self._src, 'rb')
+        elif hasattr(self._src, 'readline') and callable(self._src.readline):
+           return contextlib.nullcontext(self._src)
+        else:
+            raise ValueError("src must be a filename or file-like object")
 
     def __repr__(self) -> str:
         filter_repr = repr(self._filters)
-        return f"ArgoIndex({repr(self._src)}, {filter_repr}, {self._start}, {self._limit})"
+        return f"ArgoIndex({repr(self._src)}, {filter_repr}, {self._skip}, {self._limit})"
 
     def __str__(self) -> str:
         return repr(self)
