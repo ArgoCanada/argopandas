@@ -2,7 +2,7 @@
 import unittest
 import os
 
-from argodata.index import IndexFile
+from argodata.index_file import IndexFile
 
 class TestIndexFile(unittest.TestCase):
 
