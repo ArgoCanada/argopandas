@@ -1,6 +1,6 @@
 
 from .globals import get_default_mirror, set_default_mirror
-from typing import Union, Iterator, BytesIO
+from typing import Union, Iterator, BinaryIO
 
 def _file_iter(path, mirror):
     mirror.prepare(path)
@@ -17,7 +17,7 @@ def _url_iter(path, mirror):
     for p in path:
         yield mirror.url(p)
 
-def file(path: Union[str, Iterator[str]]) -> Union[str, Iterator[BytesIO]]:
+def file(path: Union[str, Iterator[str]]) -> Union[str, Iterator[BinaryIO]]:
     mirror = get_default_mirror()
     if isinstance(path, str):
         return mirror.prepare([path]).open(path)
