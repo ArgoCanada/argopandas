@@ -17,7 +17,26 @@ class nullcontext(AbstractContextManager):
         pass
 
 
-class IndexFile:
+import sqlite3
+from typing import Tuple, Iterable
+
+
+class SQLiteIndex:
+
+    def __init__(self, names: Iterable[str], values=None):
+        self._con = sqlite3.connect(':memory:')
+        self._names = tuple(names)
+        if values is not None:
+            pass
+
+    def __del__(self):
+        self._con.close()
+
+    def names(self) -> Tuple[str]:
+        return self._names
+
+
+class FileIndex:
 
     def __init__(self, src, filters=None, skip=0, limit=None):
         self._src = src
@@ -29,7 +48,7 @@ class IndexFile:
 
     def filter(self, *args):
         new_filters = list(self._filters) + list(args)
-        return IndexFile(self._src, new_filters, self._skip, self._limit)
+        return FileIndex(self._src, new_filters, self._skip, self._limit)
 
     def is_valid(self):
         try:
@@ -66,7 +85,7 @@ class IndexFile:
 
         # a common case where we can avoid calculating the length
         if k_stop is None and self._limit is None and k_start >= 0:
-            return IndexFile(self._src, filters=self._filters, skip=self._skip + k_start)
+            return FileIndex(self._src, filters=self._filters, skip=self._skip + k_start)
 
         if k_start < 0 or k_stop is None or k_stop < 0:
             this_len = len(self)
@@ -76,7 +95,7 @@ class IndexFile:
 
         new_skip = self._skip + k_start
         new_limit = k_stop - k_start
-        return IndexFile(self._src, filters=self._filters, skip=new_skip, limit=new_limit)
+        return FileIndex(self._src, filters=self._filters, skip=new_skip, limit=new_limit)
 
     def __len__(self):
         if self._cached_len is None:
