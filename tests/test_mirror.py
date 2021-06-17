@@ -47,6 +47,10 @@ class TestFileMirror(unittest.TestCase):
             os.path.join(self.mirror_dir, "some_file")
         )
 
+    def test_url(self):
+        mirror = FileMirror(self.mirror_dir)
+        self.assertRegex(mirror.url('some_file'), r'^file://.*?some_file$')
+
     def test_prepare(self):
         mirror = FileMirror(self.mirror_dir)
         self.assertIs(mirror.prepare(['ar_index_global_meta.txt.gz']), mirror)

@@ -1,2 +1,4 @@
 
-from .argodata import hello_world
+from .argodata import *
+
+__all__ = argodata.__all__

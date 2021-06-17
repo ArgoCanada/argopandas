@@ -27,6 +27,9 @@ class Mirror:
     
     def prepare(self, path_iter):
         raise NotImplementedError()
+    
+    def url(self, path):
+        raise NotImplementedError()
 
 
 class FileMirror(Mirror):
@@ -44,6 +47,10 @@ class FileMirror(Mirror):
     
     def filename(self, path) -> str:
         return os.path.join(self._root, path)
+    
+    def url(self, path) -> str:
+        abspath = os.path.abspath(self.filename(path))
+        return 'file://' + abspath.replace('\\', '/')
 
     def prepare(self, path_iter):
         bad_paths = []
