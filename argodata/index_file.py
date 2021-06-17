@@ -16,6 +16,7 @@ class nullcontext(AbstractContextManager):
     def __exit__(self, *excinfo):
         pass
 
+
 class IndexFile:
 
     def __init__(self, src, filters=None, skip=0, limit=None):
