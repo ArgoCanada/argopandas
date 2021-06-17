@@ -67,15 +67,15 @@ class TestUrlMirror(unittest.TestCase):
 
     def test_repr(self):
         self.assertEqual(repr(UrlMirror('something')), "argo.UrlMirror('something')")
-    
+
     def test_filename(self):
         with self.assertRaises(NotImplementedError):
             UrlMirror('something').filename('something')
-    
+
     def test_prepare(self):
         mirror = UrlMirror('something')
         self.assertIs(mirror.prepare([]), mirror)
-    
+
     def test_open(self):
         mirror = UrlMirror('https://httpbin.org')
         with mirror.open('get') as f:
@@ -100,7 +100,7 @@ class TestCachedUrlMirror(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             mirror = CachedUrlMirror('something', temp)
             self.assertEqual(mirror.filename('file'), os.path.join(temp, 'file'))
-    
+
     def test_open(self):
         with tempfile.TemporaryDirectory() as temp:
             mirror = CachedUrlMirror('something', temp)
@@ -108,7 +108,7 @@ class TestCachedUrlMirror(unittest.TestCase):
                 f.write(b'some content')
             with mirror.open('some_file') as f:
                 self.assertEqual(f.read(), b'some content')
-    
+
     def test_del(self):
         mirror = CachedUrlMirror('something')
         temp_dir = mirror._cache_dir
@@ -133,7 +133,7 @@ class TestCachedUrlMirror(unittest.TestCase):
 
         with self.assertRaises(PathsDoNotExistError):
             mirror.prepare(["this is a bad url"])
-        
+
         with self.assertRaises(PathsDoNotExistError):
             mirror.prepare(["status/404"])
             self.assertFalse(os.path.exists(mirror.filename('status/404')))

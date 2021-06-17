@@ -24,18 +24,18 @@ class IndexFile:
         self._limit = limit
         self._cached_len = None
         self._fresh = True
-    
+
     def filter(self, *args):
         new_filters = list(self._filters) + list(args)
         return IndexFile(self._src, new_filters, self._skip, self._limit)
-    
+
     def is_valid(self):
         try:
             self.validate()
             return True
         except ValueError:
             return False
-    
+
     def validate(self) -> None:
         for i, f in enumerate(self._filters):
             if not callable(f):
@@ -87,7 +87,7 @@ class IndexFile:
             # take this opportunity to cache the length
             if self._cached_len is None:
                 self._cached_len = n
-            
+
             raise IndexError(f"Can't extract item {k} from Index of length {n}")
         else:
             raise ValueError(f"Can't subset Index with object of type '{type(k).__name__}'")
@@ -98,16 +98,16 @@ class IndexFile:
             deque(zip(self, counter), maxlen=0)
             self._cached_len = next(counter)
         return self._cached_len
-    
+
     def __iter__(self):
         if self._limit is not None and self._limit <= 0:
             return
-        
+
         with self._open() as f:
             if not self._fresh:
                 f.seek(0)
             self._fresh = False
-            
+
             names = None
             length = -1
             size = 0
@@ -126,11 +126,11 @@ class IndexFile:
                 if length < self._skip:
                     continue
                 yield item
-                
+
                 size += 1
                 if size == self._limit:
                     break
-    
+
     def _open(self):
         if isinstance(self._src, str) and self._src.endswith('.gz'):
             return gzip.open(self._src)

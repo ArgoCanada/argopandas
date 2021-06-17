@@ -18,19 +18,19 @@ class TestGlobalMirrorInterface(unittest.TestCase):
         self.assertTrue(
             list(argo.url(['some_value'])) == [argo.url('some_value')]
         )
-    
+
     def test_filename(self):
         actual_file = 'ar_index_global_meta.txt.gz'
         self.assertRegex(argo.filename(actual_file), f'{actual_file}$')
         self.assertTrue(
             list(argo.filename([actual_file])) == [argo.filename(actual_file)]
         )
-    
+
     def test_filename(self):
         actual_file = 'ar_index_global_meta.txt.gz'
         with argo.file(actual_file) as f:
             self.assertIsInstance(f.read(6), bytes)
-        
+
         with argo.file(actual_file) as f:
             first_bytes = f.read(6)
             for fiter in argo.file([actual_file]):

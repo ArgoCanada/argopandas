@@ -21,13 +21,13 @@ class Mirror:
 
     def open(self, path) -> BinaryIO:
         raise NotImplementedError()
-    
+
     def filename(self, path) -> str:
         raise NotImplementedError()
-    
+
     def prepare(self, path_iter):
         raise NotImplementedError()
-    
+
     def url(self, path):
         raise NotImplementedError()
 
@@ -38,16 +38,16 @@ class FileMirror(Mirror):
         if not os.path.isdir(root):
             raise ValueError(f"'{root}' is not a directory")
         self._root = root
-    
+
     def __repr__(self) -> str:
         return f"argo.FileMirror({repr(self._root)})"
 
     def open(self, path) -> BinaryIO:
         return open(os.path.join(self._root, path), mode='rb')
-    
+
     def filename(self, path) -> str:
         return os.path.join(self._root, path)
-    
+
     def url(self, path) -> str:
         abspath = os.path.abspath(self.filename(path))
         return 'file://' + abspath.replace('\\', '/')
@@ -58,7 +58,7 @@ class FileMirror(Mirror):
             abs_path = os.path.join(self._root, path)
             if not os.path.isfile(abs_path):
                 bad_paths.append(path)
-        
+
         if bad_paths:
             raise PathsDoNotExistError(bad_paths)
 
@@ -70,16 +70,16 @@ class UrlMirror(Mirror):
         if root.endswith('/'):
             root = root[:-1]
         self._root = root
-    
+
     def __repr__(self) -> str:
         return f"argo.UrlMirror({repr(self._root)})"
-    
+
     def open(self, path) -> BinaryIO:
         return urllib.request.urlopen(self.url(path))
-    
+
     def filename(self, path) -> str:
         raise NotImplementedError()
-    
+
     def url(self, path) -> str:
         if path.startswith('/'):
             path = path[1:]
@@ -101,7 +101,7 @@ class CachedUrlMirror(UrlMirror):
                 raise ValueError(f"'{cache_dir}' is not a directory")
             self._cache_dir = cache_dir
             self._temp_dir = None
-    
+
     def __del__(self):
         if self._temp_dir is not None:
             self._temp_dir.cleanup()
@@ -117,7 +117,7 @@ class CachedUrlMirror(UrlMirror):
 
     def filename(self, path) -> str:
         return os.path.join(self._cache_dir, path)
-    
+
     def prepare(self, path_iter):
         # download all the files! in the future, do the parallel thing
         bad_paths = []
@@ -132,8 +132,8 @@ class CachedUrlMirror(UrlMirror):
             except (URLError, InvalidURL) as e:
                 bad_paths.append(path)
                 errors.append(str(e))
-        
+
         if bad_paths:
             raise PathsDoNotExistError(bad_paths, errors)
-        
+
         return self
