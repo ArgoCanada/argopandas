@@ -6,11 +6,13 @@ import os
 from argodata.mirror import PathsDoNotExistError, Mirror, \
     FileMirror, UrlMirror, CachedUrlMirror
 
+
 class TestPathsDoNotExistError(unittest.TestCase):
 
     def test_error(self):
         self.assertEqual(PathsDoNotExistError(["some file"]).bad_paths, ["some file"])
         self.assertRegex(str(PathsDoNotExistError(["some file"] * 21)), r'\.\.\.and 1 more')
+
 
 class TestAbstractMirror(unittest.TestCase):
 
@@ -21,6 +23,9 @@ class TestAbstractMirror(unittest.TestCase):
             Mirror().prepare(["file", ])
         with self.assertRaises(NotImplementedError):
             Mirror().filename("file")
+        with self.assertRaises(NotImplementedError):
+            Mirror().url("file")
+
 
 class TestFileMirror(unittest.TestCase):
 
@@ -56,6 +61,7 @@ class TestFileMirror(unittest.TestCase):
         self.assertIs(mirror.prepare(['ar_index_global_meta.txt.gz']), mirror)
         with self.assertRaises(PathsDoNotExistError):
             mirror.prepare(["not a file"])
+
 
 class TestUrlMirror(unittest.TestCase):
 

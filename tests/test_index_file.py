@@ -1,4 +1,5 @@
 
+from typing import Type
 import unittest
 import os
 
@@ -63,7 +64,7 @@ class TestIndexFile(unittest.TestCase):
         )
 
     def test_getitem(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             IndexFile("dummy")[list()]
 
     def test_slice(self):
@@ -95,15 +96,6 @@ class TestIndexFile(unittest.TestCase):
         self.assertEqual(len(ind[0:-1]), 0)
         self.assertEqual(len(ind[-2:-1]), 0)
         self.assertEqual(len(ind[-1:]), 0)
-
-    def test_extract(self):
-        ind = IndexFile(self.index_file)
-        with self.assertRaises(IndexError):
-            ind[2]
-        self.assertEqual(ind[0]["file"], "csio/2900313/2900313_meta.nc")
-        self.assertEqual(ind[1]["file"], "csio/2902746/2902746_meta.nc")
-        self.assertEqual(ind[-1], ind[1])
-        self.assertEqual(ind[-2], ind[0])
 
 
 if __name__ == '__main__':

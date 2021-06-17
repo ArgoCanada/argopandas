@@ -49,49 +49,33 @@ class IndexFile:
             raise ValueError(f"Failed to open '{ self._src }': { str(e) }")
 
     def __getitem__(self, k):
-        if isinstance(k, slice):
-            k_start = k.start
-            k_stop = k.stop
-            if k.step is not None:
-                raise ValueError("Can't subset Index with stepped slice")
+        if not isinstance(k, slice):
+            raise TypeError(f"Can't subset Index with object of type '{type(k).__name__}'")
 
-            if k_start is None and k_stop is None:
-                return self
+        k_start = k.start
+        k_stop = k.stop
+        if k.step is not None:
+            raise ValueError("Can't subset Index with stepped slice")
 
-            if k_start is None:
-                k_start = 0
+        if k_start is None and k_stop is None:
+            return self
 
-            # a common case where we can avoid calculating the length
-            if k_stop is None and self._limit is None and k_start >= 0:
-                return IndexFile(self._src, filters=self._filters, skip=self._skip + k_start)
+        if k_start is None:
+            k_start = 0
 
-            if k_start < 0 or k_stop is None or k_stop < 0:
-                this_len = len(self)
-                k_stop = this_len if k_stop is None else k_stop
-                k_start = this_len + k_start if k_start < 0 else k_start
-                k_stop = this_len + k_stop if k_stop < 0 else k_stop
+        # a common case where we can avoid calculating the length
+        if k_stop is None and self._limit is None and k_start >= 0:
+            return IndexFile(self._src, filters=self._filters, skip=self._skip + k_start)
 
-            new_skip = self._skip + k_start
-            new_limit = k_stop - k_start
-            return IndexFile(self._src, filters=self._filters, skip=new_skip, limit=new_limit)
+        if k_start < 0 or k_stop is None or k_stop < 0:
+            this_len = len(self)
+            k_stop = this_len if k_stop is None else k_stop
+            k_start = this_len + k_start if k_start < 0 else k_start
+            k_stop = this_len + k_stop if k_stop < 0 else k_stop
 
-        elif isinstance(k, int):
-            if k < 0:
-                k = len(self) + k
-
-            n = 0
-            for item in self:
-                if n == k:
-                    return item
-                n += 1
-
-            # take this opportunity to cache the length
-            if self._cached_len is None:
-                self._cached_len = n
-
-            raise IndexError(f"Can't extract item {k} from Index of length {n}")
-        else:
-            raise ValueError(f"Can't subset Index with object of type '{type(k).__name__}'")
+        new_skip = self._skip + k_start
+        new_limit = k_stop - k_start
+        return IndexFile(self._src, filters=self._filters, skip=new_skip, limit=new_limit)
 
     def __len__(self):
         if self._cached_len is None:
