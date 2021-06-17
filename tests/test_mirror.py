@@ -1,8 +1,10 @@
 
 import unittest
+import tempfile
 import os
 
-from argodata.mirror import Mirror, FileMirror, PathsDoNotExistError, UrlMirror
+from argodata.mirror import PathsDoNotExistError, Mirror, \
+    FileMirror, UrlMirror, CachedUrlMirror
 
 class TestPathsDoNotExistError(unittest.TestCase):
 
@@ -74,3 +76,60 @@ class TestUrlMirror(unittest.TestCase):
         mirror = UrlMirror('https://httpbin.org')
         with mirror.open('get') as f:
             self.assertTrue(hasattr(f, 'read'))
+
+
+class TestCachedUrlMirror(unittest.TestCase):
+
+    def test_repr(self):
+        self.assertEqual(
+            repr(CachedUrlMirror('something')),
+             "argo.CachedUrlMirror('something')"
+        )
+
+        with tempfile.TemporaryDirectory() as temp:
+            self.assertEqual(
+                repr(CachedUrlMirror('something', temp)),
+                f"argo.CachedUrlMirror('something', {repr(temp)})"
+            )
+
+    def test_filename(self):
+        with tempfile.TemporaryDirectory() as temp:
+            mirror = CachedUrlMirror('something', temp)
+            self.assertEqual(mirror.filename('file'), os.path.join(temp, 'file'))
+    
+    def test_open(self):
+        with tempfile.TemporaryDirectory() as temp:
+            mirror = CachedUrlMirror('something', temp)
+            with open(os.path.join(temp, 'some_file'), 'wb') as f:
+                f.write(b'some content')
+            with mirror.open('some_file') as f:
+                self.assertEqual(f.read(), b'some content')
+    
+    def test_del(self):
+        mirror = CachedUrlMirror('something')
+        temp_dir = mirror._cache_dir
+        self.assertTrue(os.path.isdir(temp_dir))
+        del mirror
+        self.assertFalse(os.path.exists(temp_dir))
+
+    def test_prepare(self):
+        mirror = CachedUrlMirror('https://httpbin.org')
+
+        # regular file
+        import json
+        mirror.prepare(['get'])
+        self.assertTrue(os.path.isfile(mirror.filename('get')))
+        with mirror.open('get') as f:
+            obj = json.load(f)
+            self.assertEqual(obj['url'], 'https://httpbin.org/get')
+
+        # file in a nested directory
+        mirror.prepare(['status/200'])
+        self.assertTrue(os.path.isfile(mirror.filename('status/200')))
+
+        with self.assertRaises(PathsDoNotExistError):
+            mirror.prepare(["this is a bad url"])
+        
+        with self.assertRaises(PathsDoNotExistError):
+            mirror.prepare(["status/404"])
+            self.assertFalse(os.path.exists(mirror.filename('status/404')))

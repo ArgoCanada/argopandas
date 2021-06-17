@@ -1,6 +1,8 @@
 
 import os
 import urllib.request
+from urllib.error import URLError
+from http.client import InvalidURL
 import shutil
 import tempfile
 from typing import BinaryIO
@@ -104,7 +106,7 @@ class CachedUrlMirror(UrlMirror):
             return f"argo.CachedUrlMirror({repr(self._root)})"
 
     def open(self, path) -> BinaryIO:
-        return open(os.path.join(self._cache_dir, path), 'rb')
+        return open(self.filename(path), 'rb')
 
     def filename(self, path) -> str:
         return os.path.join(self._cache_dir, path)
@@ -115,10 +117,12 @@ class CachedUrlMirror(UrlMirror):
         errors = []
         for path in path_iter:
             try:
+                dest_file = self.filename(path)
+                os.makedirs(os.path.dirname(dest_file), exist_ok=True)
                 with super().open(path) as src:
-                    with open(self.filename(path), 'wb') as dst:
+                    with open(dest_file, 'wb') as dst:
                         shutil.copyfileobj(src, dst)
-            except IOError as e:
+            except (URLError, InvalidURL) as e:
                 bad_paths.append(path)
                 errors.append(str(e))
         
@@ -126,5 +130,3 @@ class CachedUrlMirror(UrlMirror):
             raise PathsDoNotExistError(bad_paths, errors)
         
         return self
-
-
