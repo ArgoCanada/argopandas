@@ -1,9 +1,9 @@
 
-from typing import Type
 import unittest
 import os
 
 from argodata.index_file import IndexFile
+
 
 def filter_true(x):
     return True
