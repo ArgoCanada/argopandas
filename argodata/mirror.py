@@ -1,11 +1,15 @@
 
 import os
+import urllib.request
+import shutil
+import tempfile
 from typing import BinaryIO
 
 class PathsDoNotExistError(Exception):
 
-    def __init__(self, bad_paths):
+    def __init__(self, bad_paths, errors=None):
         self.bad_paths = bad_paths
+        self.errors = errors
         path_summary = "\n".join("'" + path + "'" for path in bad_paths[:20])
         if len(bad_paths) > 20:
             path_summary = path_summary + f'\n...and {len(bad_paths) - 20} more'
@@ -50,3 +54,77 @@ class FileMirror(Mirror):
             raise PathsDoNotExistError(bad_paths)
 
         return self
+
+class UrlMirror(Mirror):
+
+    def __init__(self, root):
+        if root.endswith('/'):
+            root = root[:-1]
+        self._root = root
+    
+    def __repr__(self) -> str:
+        return f"argo.UrlMirror({repr(self._root)})"
+    
+    def open(self, path) -> BinaryIO:
+        return urllib.request.urlopen(self.url(path))
+    
+    def filename(self, path) -> str:
+        raise NotImplementedError()
+    
+    def url(self, path) -> str:
+        if path.startswith('/'):
+            path = path[1:]
+        return '/'.join((self._root, path))
+
+    def prepare(self, path_iter):
+        return self
+
+class CachedUrlMirror(UrlMirror):
+
+    def __init__(self, root, cache_dir=None):
+        super().__init__(root)
+
+        if cache_dir is None:
+            self._temp_dir = tempfile.TemporaryDirectory()
+            self._cache_dir = self._temp_dir.name
+        else:
+            if not os.path.isdir(cache_dir):
+                raise ValueError(f"'{cache_dir}' is not a directory")
+            self._cache_dir = cache_dir
+            self._temp_dir = None
+    
+    def __del__(self):
+        if self._temp_dir is not None:
+            self._temp_dir.cleanup()
+
+    def __repr__(self) -> str:
+        if self._temp_dir is None:
+            return f"argo.CachedUrlMirror({repr(self._root)}, {repr(self._cache_dir)})"
+        else:
+            return f"argo.CachedUrlMirror({repr(self._root)})"
+
+    def open(self, path) -> BinaryIO:
+        return open(os.path.join(self._cache_dir, path), 'rb')
+
+    def filename(self, path) -> str:
+        return os.path.join(self._cache_dir, path)
+    
+    def prepare(self, path_iter):
+        # download all the files! in the future, do the parallel thing
+        bad_paths = []
+        errors = []
+        for path in path_iter:
+            try:
+                with super().open(path) as src:
+                    with open(self.filename(path), 'wb') as dst:
+                        shutil.copyfileobj(src, dst)
+            except IOError as e:
+                bad_paths.append(path)
+                errors.append(str(e))
+        
+        if bad_paths:
+            raise PathsDoNotExistError(bad_paths, errors)
+        
+        return self
+
+
