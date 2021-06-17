@@ -7,6 +7,7 @@ import shutil
 import tempfile
 from typing import BinaryIO
 
+
 class PathsDoNotExistError(Exception):
 
     def __init__(self, bad_paths, errors=None):
@@ -16,6 +17,7 @@ class PathsDoNotExistError(Exception):
         if len(bad_paths) > 20:
             path_summary = path_summary + f'\n...and {len(bad_paths) - 20} more'
         super().__init__(path_summary)
+
 
 class Mirror:
 
@@ -64,6 +66,7 @@ class FileMirror(Mirror):
 
         return self
 
+
 class UrlMirror(Mirror):
 
     def __init__(self, root):
@@ -87,6 +90,7 @@ class UrlMirror(Mirror):
 
     def prepare(self, path_iter):
         return self
+
 
 class CachedUrlMirror(UrlMirror):
 

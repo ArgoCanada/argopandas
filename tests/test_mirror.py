@@ -87,7 +87,7 @@ class TestCachedUrlMirror(unittest.TestCase):
     def test_repr(self):
         self.assertEqual(
             repr(CachedUrlMirror('something')),
-             "argo.CachedUrlMirror('something')"
+            "argo.CachedUrlMirror('something')"
         )
 
         with tempfile.TemporaryDirectory() as temp:

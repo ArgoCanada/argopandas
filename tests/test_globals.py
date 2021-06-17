@@ -1,7 +1,8 @@
 
-from argodata.mirror import FileMirror, UrlMirror
+from argodata.mirror import UrlMirror
 import unittest
 from argodata import globals
+
 
 class TestGlobalMirrors(unittest.TestCase):
 
@@ -13,6 +14,7 @@ class TestGlobalMirrors(unittest.TestCase):
         self.assertIs(globals.get_default_mirror(), globals._default_mirror_if_none)
         self.assertIs(globals.set_default_mirror(prev_mirror), globals._default_mirror_if_none)
         self.assertIs(globals.get_default_mirror(), prev_mirror)
+
 
 if __name__ == '__main__':
     unittest.main()

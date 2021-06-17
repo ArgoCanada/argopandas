@@ -4,6 +4,7 @@ import itertools
 from contextlib import AbstractContextManager
 from collections import deque
 
+
 # needed to support Python 3.6 (contextlib.nullcontext was added in 3.7)
 class nullcontext(AbstractContextManager):
     def __init__(self, enter_result=None):
@@ -137,7 +138,7 @@ class IndexFile:
         elif isinstance(self._src, str):
             return open(self._src, 'rb')
         elif hasattr(self._src, 'readline') and callable(self._src.readline):
-           return nullcontext(self._src)
+            return nullcontext(self._src)
         else:
             raise ValueError("src must be a filename or file-like object")
 

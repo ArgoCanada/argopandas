@@ -4,6 +4,7 @@ import os
 import argodata as argo
 from argodata.mirror import FileMirror
 
+
 class TestGlobalMirrorInterface(unittest.TestCase):
 
     def setUp(self):
@@ -26,7 +27,7 @@ class TestGlobalMirrorInterface(unittest.TestCase):
             list(argo.filename([actual_file])) == [argo.filename(actual_file)]
         )
 
-    def test_filename(self):
+    def test_file(self):
         actual_file = 'ar_index_global_meta.txt.gz'
         with argo.file(actual_file) as f:
             self.assertIsInstance(f.read(6), bytes)

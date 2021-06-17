@@ -4,6 +4,14 @@ import os
 
 from argodata.index_file import IndexFile
 
+def filter_true(x):
+    return True
+
+
+def filter_false(x):
+    return False
+
+
 class TestIndexFile(unittest.TestCase):
 
     def setUp(self):
@@ -48,8 +56,6 @@ class TestIndexFile(unittest.TestCase):
         self.assertEqual(count, 0)
 
     def test_filter(self):
-        filter_true = lambda x: True
-        filter_false = lambda x: False
         self.assertEqual(len(IndexFile(self.index_file).filter(filter_false)), 0)
         self.assertEqual(
             list(IndexFile(self.index_file)),
@@ -72,9 +78,6 @@ class TestIndexFile(unittest.TestCase):
             ind[1:2:3]
 
     def test_slice_filtered(self):
-        filter_true = lambda x: True
-        filter_false = lambda x: False
-
         ind = IndexFile(self.index_file, [filter_true, ])
         self.assertEqual(len(ind), 2)
         self.assertIs(ind[:], ind)
@@ -101,6 +104,7 @@ class TestIndexFile(unittest.TestCase):
         self.assertEqual(ind[1]["file"], "csio/2902746/2902746_meta.nc")
         self.assertEqual(ind[-1], ind[1])
         self.assertEqual(ind[-2], ind[0])
+
 
 if __name__ == '__main__':
     unittest.main()
