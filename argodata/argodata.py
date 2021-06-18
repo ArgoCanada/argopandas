@@ -20,14 +20,15 @@ _index_all = (meta, tech, traj, prof, bio_traj, bio_prof, synthetic_prof)
 
 _default_mirror = None
 
+
 def set_default_mirror(mirror: Mirror) -> Mirror:
     global _default_mirror
     previous = _default_mirror
     _default_mirror = mirror
 
     # update mirror for globals
-    for global_index in _index_all:
-        global_index._set_mirror(mirror)
+    for index in _index_all:
+        index._set_mirror(mirror)
 
     return previous
 
@@ -121,8 +122,6 @@ def url(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
         return mirror.url(path)
     else:
         return _url_iter(path, mirror)
-
-
 
 
 # don't include 'open' in * because it shadows the builtin open()

@@ -1,8 +1,10 @@
 
 import gzip
 import itertools
+import sqlite3
 from contextlib import AbstractContextManager
 from collections import deque
+from typing import Tuple, Iterable
 
 
 # needed to support Python 3.6 (contextlib.nullcontext was added in 3.7)
@@ -15,10 +17,6 @@ class nullcontext(AbstractContextManager):
 
     def __exit__(self, *excinfo):
         pass
-
-
-import sqlite3
-from typing import Tuple, Iterable
 
 
 class SQLiteIndex:
