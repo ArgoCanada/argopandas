@@ -33,7 +33,6 @@ class GlobalIndex:
 
 
 class GlobalMeta(GlobalIndex):
-
     def __init__(self):
         super().__init__(
             'ar_index_global_meta.txt.gz',
@@ -41,25 +40,58 @@ class GlobalMeta(GlobalIndex):
         )
 
 
-class GlobalTech:
-    pass
+class GlobalTech(GlobalIndex):
+    def __init__(self):
+        super().__init__(
+            'ar_index_global_tech.txt.gz',
+            ('file', 'institution', 'date_update')
+        )
 
 
-class GlobalTraj:
-    pass
+class GlobalTraj(GlobalIndex):
+    def __init__(self):
+        super().__init__(
+            'ar_index_global_traj.txt.gz',
+            ('file', 'latitude_max', 'latitude_min',
+             'longitude_max', 'longitude_min', 'profiler_type'
+             'institution', 'date_update')
+        )
 
 
-class GlobalProf:
-    pass
+class GlobalProf(GlobalIndex):
+    def __init__(self):
+        super().__init__(
+            'ar_index_global_prof.txt.gz',
+            ('file', 'date', 'longitude', 'latitude', 'ocean',
+             'profiler_type', 'institution', 'date_update')
+        )
 
 
-class GlobalBioTraj(GlobalTraj):
-    pass
+class GlobalBioTraj(GlobalIndex):
+    def __init__(self):
+        super().__init__(
+            'argo_bio-traj_index.txt.gz',
+            ('file', 'latitude_max', 'latitude_min',
+             'longitude_max', 'longitude_min', 'profiler_type'
+             'parameters', 'institution', 'date_update')
+        )
 
 
-class GlobalBioProf(GlobalProf):
-    pass
+class GlobalBioProf(GlobalIndex):
+    def __init__(self):
+        super().__init__(
+            'argo_bio-profile_index.txt.gz',
+            ('file', 'date', 'longitude', 'latitude', 'ocean',
+             'profiler_type', 'institution', 'parameters',
+             'parameter_data_mode' 'date_update')
+        )
 
 
-class GlobalSyntheticProf(GlobalBioProf):
-    pass
+class GlobalSyntheticProf(GlobalIndex):
+    def __init__(self):
+        super().__init__(
+            'argo_synthetic-profile_index.txt.gz',
+            ('file', 'date', 'longitude', 'latitude', 'ocean',
+             'profiler_type', 'institution', 'parameters',
+             'parameter_data_mode' 'date_update')
+        )

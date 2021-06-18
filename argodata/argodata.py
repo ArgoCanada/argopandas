@@ -1,12 +1,19 @@
 
 from typing import Union, Iterator, BinaryIO
 from .mirror import CachedUrlMirror, Mirror
-from .global_index import GlobalMeta
+from . import global_index
 
 # --- global index interface ----
 
-meta = GlobalMeta()
+meta = global_index.GlobalMeta()
+tech = global_index.GlobalTech()
+traj = global_index.GlobalTraj()
+prof = global_index.GlobalProf()
+bio_traj = global_index.GlobalBioTraj()
+bio_prof = global_index.GlobalBioProf()
+synthetic_prof = global_index.GlobalSyntheticProf()
 
+_index_all = (meta, tech, traj, prof, bio_traj, bio_prof, synthetic_prof)
 
 # --- global mirror preference ----
 
@@ -18,7 +25,7 @@ def set_default_mirror(mirror: Mirror) -> Mirror:
     _default_mirror = mirror
 
     # update mirror for globals
-    for global_index in (meta, ):
+    for global_index in _index_all:
         global_index._set_mirror(mirror)
 
     return previous
@@ -78,4 +85,8 @@ def url(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
 
 
 # don't include 'open' in * because it shadows the builtin open()
-__all__ = ('filename', 'url', 'default_mirror', 'set_default_mirror', 'meta')
+__all__ = (
+    'filename', 'url', 'default_mirror', 'set_default_mirror',
+    'meta', 'tech', 'traj', 'prof', 'bio_traj', 'bio_prof',
+    'synthetic_prof'
+)
