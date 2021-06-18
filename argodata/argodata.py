@@ -1,27 +1,34 @@
 
 from typing import Union, Iterator, BinaryIO
 from .mirror import CachedUrlMirror, Mirror
+from .global_index import GlobalMeta
+
+# --- global index interface ----
+
+meta = GlobalMeta()
+
 
 # --- global mirror preference ----
 
-_default_mirror_if_none = CachedUrlMirror('https://data-argo.ifremer.fr')
 _default_mirror = None
-
 
 def set_default_mirror(mirror: Mirror) -> Mirror:
     global _default_mirror
-    if _default_mirror is None:
-        _default_mirror = _default_mirror_if_none
     previous = _default_mirror
     _default_mirror = mirror
+
+    # update mirror for globals
+    for global_index in (meta, ):
+        global_index._set_mirror(mirror)
+
     return previous
 
 
-def default_mirror():
-    if _default_mirror is None:
-        set_default_mirror(_default_mirror_if_none)
+def default_mirror() -> Mirror:
     return _default_mirror
 
+
+set_default_mirror(CachedUrlMirror('https://data-argo.ifremer.fr'))
 
 # ---- global mirror shortcuts ----
 
@@ -71,4 +78,4 @@ def url(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
 
 
 # don't include 'open' in * because it shadows the builtin open()
-__all__ = ('filename', 'url', 'default_mirror', 'set_default_mirror')
+__all__ = ('filename', 'url', 'default_mirror', 'set_default_mirror', 'meta')
