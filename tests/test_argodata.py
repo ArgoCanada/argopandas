@@ -2,7 +2,20 @@
 import unittest
 import os
 import argodata as argo
-from argodata.mirror import FileMirror
+from argodata.mirror import FileMirror, UrlMirror
+
+
+class TestGlobalMirrors(unittest.TestCase):
+
+    def test_global_mirror(self):
+        import argodata.argodata as argodata_mod
+        mirror = UrlMirror('something')
+        prev_mirror = argodata_mod.set_default_mirror(mirror)
+        self.assertIs(argodata_mod.get_default_mirror(), mirror)
+        argodata_mod._default_mirror = None
+        self.assertIs(argodata_mod.get_default_mirror(), argodata_mod._default_mirror_if_none)
+        self.assertIs(argodata_mod.set_default_mirror(prev_mirror), argodata_mod._default_mirror_if_none)
+        self.assertIs(argodata_mod.get_default_mirror(), prev_mirror)
 
 
 class TestGlobalMirrorInterface(unittest.TestCase):
