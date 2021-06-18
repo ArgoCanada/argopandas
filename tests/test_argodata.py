@@ -12,9 +12,7 @@ class TestGlobalMirrors(unittest.TestCase):
         mirror = UrlMirror('something')
         prev_mirror = argodata_mod.set_default_mirror(mirror)
         self.assertIs(argodata_mod.default_mirror(), mirror)
-        argodata_mod._default_mirror = None
-        self.assertIs(argodata_mod.default_mirror(), argodata_mod._default_mirror_if_none)
-        self.assertIs(argodata_mod.set_default_mirror(prev_mirror), argodata_mod._default_mirror_if_none)
+        self.assertIs(argodata_mod.set_default_mirror(prev_mirror), mirror)
         self.assertIs(argodata_mod.default_mirror(), prev_mirror)
 
 
