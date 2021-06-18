@@ -11,11 +11,11 @@ class TestGlobalMirrors(unittest.TestCase):
         import argodata.argodata as argodata_mod
         mirror = UrlMirror('something')
         prev_mirror = argodata_mod.set_default_mirror(mirror)
-        self.assertIs(argodata_mod.get_default_mirror(), mirror)
+        self.assertIs(argodata_mod.default_mirror(), mirror)
         argodata_mod._default_mirror = None
-        self.assertIs(argodata_mod.get_default_mirror(), argodata_mod._default_mirror_if_none)
+        self.assertIs(argodata_mod.default_mirror(), argodata_mod._default_mirror_if_none)
         self.assertIs(argodata_mod.set_default_mirror(prev_mirror), argodata_mod._default_mirror_if_none)
-        self.assertIs(argodata_mod.get_default_mirror(), prev_mirror)
+        self.assertIs(argodata_mod.default_mirror(), prev_mirror)
 
 
 class TestGlobalMirrorInterface(unittest.TestCase):
@@ -42,12 +42,12 @@ class TestGlobalMirrorInterface(unittest.TestCase):
 
     def test_file(self):
         actual_file = 'ar_index_global_meta.txt.gz'
-        with argo.file(actual_file) as f:
+        with argo.open(actual_file) as f:
             self.assertIsInstance(f.read(6), bytes)
 
-        with argo.file(actual_file) as f:
+        with argo.open(actual_file) as f:
             first_bytes = f.read(6)
-            for fiter in argo.file([actual_file]):
+            for fiter in argo.open([actual_file]):
                 self.assertEqual(fiter.read(6), first_bytes)
 
 

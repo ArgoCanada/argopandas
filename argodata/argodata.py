@@ -2,6 +2,8 @@
 from typing import Union, Iterator, BinaryIO
 from .mirror import CachedUrlMirror, Mirror
 
+# --- global mirror preference ----
+
 _default_mirror_if_none = CachedUrlMirror('https://data-argo.ifremer.fr')
 _default_mirror = None
 
@@ -15,13 +17,15 @@ def set_default_mirror(mirror: Mirror) -> Mirror:
     return previous
 
 
-def get_default_mirror():
+def default_mirror():
     if _default_mirror is None:
         set_default_mirror(_default_mirror_if_none)
     return _default_mirror
 
 
-def _file_iter(path, mirror):
+# ---- global mirror shortcuts ----
+
+def _open_iter(path, mirror):
     mirror.prepare(path)
     for p in path:
         with mirror.open(p) as f:
@@ -39,16 +43,16 @@ def _url_iter(path, mirror):
         yield mirror.url(p)
 
 
-def file(path: Union[str, Iterator[str]]) -> Union[str, Iterator[BinaryIO]]:
-    mirror = get_default_mirror()
+def open(path: Union[str, Iterator[str]]) -> Union[str, Iterator[BinaryIO]]:
+    mirror = default_mirror()
     if isinstance(path, str):
         return mirror.prepare([path]).open(path)
     else:
-        return _file_iter(path, mirror)
+        return _open_iter(path, mirror)
 
 
 def filename(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
-    mirror = get_default_mirror()
+    mirror = default_mirror()
 
     if isinstance(path, str):
         return mirror.prepare([path]).filename(path)
@@ -57,11 +61,14 @@ def filename(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
 
 
 def url(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
-    mirror = get_default_mirror()
+    mirror = default_mirror()
     if isinstance(path, str):
         return mirror.url(path)
     else:
         return _url_iter(path, mirror)
 
 
-__all__ = ('file', 'filename', 'url', 'get_default_mirror', 'set_default_mirror')
+
+
+# don't include 'open' in * because it shadows the builtin open()
+__all__ = ('filename', 'url', 'default_mirror', 'set_default_mirror')
