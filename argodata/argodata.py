@@ -1,6 +1,7 @@
 
+from contextlib import AbstractContextManager
 from typing import Union, Iterator, BinaryIO
-from .mirror import CachedUrlMirror, Mirror
+from .mirror import CachedUrlMirror, FileMirror, Mirror, UrlMirror
 from . import global_index
 
 # --- global index interface ----
@@ -36,6 +37,46 @@ def default_mirror() -> Mirror:
 
 
 set_default_mirror(CachedUrlMirror('https://data-argo.ifremer.fr'))
+
+
+# ---- mirror wrappers that support the get/set default mirror ----
+
+class MirrorContext(AbstractContextManager, Mirror):
+
+    def __init__(self, mirror: Mirror):
+        self._mirror = mirror
+        self._prev_mirror = None
+
+    def __enter__(self) -> Mirror:
+        self._prev_mirror = set_default_mirror(self._mirror)
+        return self._mirror
+
+    def __exit__(self, *excinfo):
+        set_default_mirror(self._prev_mirror)
+
+    def open(self, path) -> BinaryIO:
+        return self._mirror.open(path)
+
+    def filename(self, path) -> str:
+        return self._mirror.filename(path)
+
+    def prepare(self, path_iter):
+        self._mirror.prepare(path_iter)
+        return self
+
+    def url(self, path):
+        return self._mirror.url(path)
+
+
+def url_mirror(root, cache_dir=None, cached=True) -> MirrorContext:
+    if cached:
+        return MirrorContext(CachedUrlMirror(root, cache_dir))
+    else:
+        return MirrorContext(UrlMirror)
+
+
+def file_mirror(root) -> MirrorContext:
+    return MirrorContext(FileMirror(root))
 
 # ---- global mirror shortcuts ----
 

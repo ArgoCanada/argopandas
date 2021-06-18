@@ -1,4 +1,6 @@
 
+import tempfile
+from argodata.argodata import MirrorContext, default_mirror, file_mirror, url_mirror
 from argodata.index import FileIndex
 import unittest
 import os
@@ -73,6 +75,40 @@ class TestGlobalMirrors(unittest.TestCase):
         self.assertIs(argodata_mod.default_mirror(), mirror)
         self.assertIs(argodata_mod.set_default_mirror(prev_mirror), mirror)
         self.assertIs(argodata_mod.default_mirror(), prev_mirror)
+
+
+class TestMirrorContext(unittest.TestCase):
+
+    def setUp(self):
+        self.test_dir = os.path.join(os.path.dirname(__file__), "argo-test-mirror")
+        self.mirror = FileMirror(self.test_dir)
+
+    def test_mirror_context(self):
+        prev_mirror = argo.default_mirror()
+        with MirrorContext(self.mirror) as m:
+            self.assertIs(argo.default_mirror(), m)
+            self.assertTrue(os.path.exists(m.filename('ar_index_global_meta.txt.gz')))
+            with m.open('ar_index_global_meta.txt.gz') as f:
+                self.assertTrue(hasattr(f, 'read'))
+            self.assertRegex(m.url('ar_index_global_meta.txt.gz'), r'^file://')
+            self.assertIs(m.prepare([]), m)
+
+        self.assertIs(argo.default_mirror(), prev_mirror)
+
+
+    def test_url_mirror(self):
+        with url_mirror('some_root') as m:
+            self.assertEqual(m.url('something'), 'some_root/something')
+            self.assertIs(argo.default_mirror(), m)
+
+    def test_file_mirror(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            with file_mirror(temp_dir) as m:
+                self.assertEqual(
+                    m.filename('something'),
+                    os.path.join(temp_dir, 'something')
+                )
+                self.assertIs(argo.default_mirror(), m)
 
 
 class TestGlobalMirrorInterface(unittest.TestCase):
