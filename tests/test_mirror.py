@@ -90,6 +90,10 @@ class TestUrlMirror(unittest.TestCase):
 
 class TestCachedUrlMirror(unittest.TestCase):
 
+    def test_init(self):
+        with self.assertRaises(ValueError):
+            CachedUrlMirror('some_url', 'not a directory')
+
     def test_repr(self):
         self.assertEqual(
             repr(CachedUrlMirror('something')),

@@ -96,6 +96,7 @@ class CachedUrlMirror(UrlMirror):
 
     def __init__(self, root, cache_dir=None):
         super().__init__(root)
+        self._temp_dir = None
 
         if cache_dir is None:
             self._temp_dir = tempfile.TemporaryDirectory()
@@ -104,7 +105,6 @@ class CachedUrlMirror(UrlMirror):
             if not os.path.isdir(cache_dir):
                 raise ValueError(f"'{cache_dir}' is not a directory")
             self._cache_dir = cache_dir
-            self._temp_dir = None
 
     def __del__(self):
         if self._temp_dir is not None:

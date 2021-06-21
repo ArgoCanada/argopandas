@@ -122,7 +122,7 @@ class GlobalBioProf(GlobalIndexRoot):
             'argo_bio-profile_index.txt.gz',
             ('file', 'date', 'longitude', 'latitude', 'ocean',
              'profiler_type', 'institution', 'parameters',
-             'parameter_data_mode' 'date_update')
+             'parameter_data_mode', 'date_update')
         )
 
 
@@ -132,5 +132,5 @@ class GlobalSyntheticProf(GlobalIndexRoot):
             'argo_synthetic-profile_index.txt.gz',
             ('file', 'date', 'longitude', 'latitude', 'ocean',
              'profiler_type', 'institution', 'parameters',
-             'parameter_data_mode' 'date_update')
+             'parameter_data_mode', 'date_update')
         )

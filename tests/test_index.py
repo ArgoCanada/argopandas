@@ -60,6 +60,8 @@ class TestFileIndex(unittest.TestCase):
         with self.assertRaises(ValueError):
             FileIndex("not a file")
         with self.assertRaises(ValueError):
+            FileIndex(None)
+        with self.assertRaises(ValueError):
             FileIndex(self.index_file, [None, ])
 
     def test_existing_file_object(self):

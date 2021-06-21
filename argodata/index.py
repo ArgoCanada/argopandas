@@ -36,13 +36,13 @@ class Index:
         return repr(self)
 
     def names(self) -> Tuple[str]:
-        raise NotImplementedError()
+        raise NotImplementedError() # nocov
 
     def __iter__(self) -> Iterable[dict]:
-        raise NotImplementedError()
+        raise NotImplementedError() # nocov
 
     def __len__(self):
-        raise NotImplementedError()
+        raise NotImplementedError() # nocov
 
 
 class ListIndex(Index):
