@@ -1,10 +1,9 @@
 
 import gzip
 import itertools
-import sqlite3
 from contextlib import AbstractContextManager
 from collections import deque
-from typing import Iterable
+from typing import Iterable, Tuple, Type
 
 
 # needed to support Python 3.6 (contextlib.nullcontext was added in 3.7)
@@ -21,31 +20,32 @@ class nullcontext(AbstractContextManager):
 
 class Index:
 
+    def __init__(self, src, filters=None):
+        self._src = src
+        self._filters = () if filters is None else tuple(filters)
+
+    def filter(self, *args):
+        new_filters = self._filters + tuple(args)
+        return type(self)(self._src, new_filters)
+
+    def names(self) -> Tuple[str]:
+        raise NotImplementedError()
+
     def __iter__(self) -> Iterable[dict]:
         raise NotImplementedError()
 
-
-class SQLiteIndex:
-
-    def __init__(self, src=':memory:'):
-        self._con = sqlite3.connect(src)
-
-    def __del__(self):
-        self._con.close()
+    def __len__(self):
+        raise NotImplementedError()
 
 
 class FileIndex(Index):
 
     def __init__(self, src, filters=None):
-        self._src = src
-        self._filters = [] if filters is None else list(filters)
+        super().__init__(src, filters)
         self._cached_len = None
         self._fresh = True
+        self._names = None
         self._validate()
-
-    def filter(self, *args) -> Index:
-        new_filters = list(self._filters) + list(args)
-        return FileIndex(self._src, new_filters)
 
     def _validate(self) -> None:
         for i, f in enumerate(self._filters):
@@ -57,6 +57,12 @@ class FileIndex(Index):
                 pass
         except Exception as e:
             raise ValueError(f"Failed to open {repr(self._src)}': {str(e)}")
+
+    def names(self):
+        if self._names is None:
+            for item in self:
+                break
+        return self._names
 
     def __len__(self):
         if self._cached_len is None:
@@ -77,6 +83,7 @@ class FileIndex(Index):
                     continue
                 elif names is None and line.startswith(b'file,'):
                     names = line[:-1].decode('UTF-8').split(',')
+                    self._names = names
                     continue
 
                 item = {k: v for k, v in zip(names, line[:-1].decode('UTF-8').split(','))}
@@ -84,6 +91,9 @@ class FileIndex(Index):
                     continue
 
                 yield item
+
+            if names is None:
+                raise ValueError('Header line not found. Is this a valid index file?')
 
 
     def _open(self):

@@ -22,10 +22,10 @@ class TestFileIndex(unittest.TestCase):
         self.index_file = os.path.join(this_file, mirror_dir, index_file)
 
     def test_repr(self):
-        self.assertRegex(str(FileIndex(self.index_file)), r"Index\('.*?', \[\]\)")
+        self.assertRegex(str(FileIndex(self.index_file)), r"Index\('.*?', \(\)\)")
 
     def test_str(self):
-        self.assertRegex(str(FileIndex(self.index_file)), r"Index\('.*?', \[\]\)")
+        self.assertRegex(str(FileIndex(self.index_file)), r"Index\('.*?', \(\)\)")
 
     def test_invalid(self):
         with self.assertRaises(ValueError):
