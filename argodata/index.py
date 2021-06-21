@@ -4,7 +4,7 @@ import itertools
 import sqlite3
 from contextlib import AbstractContextManager
 from collections import deque
-from typing import Tuple, Iterable
+from typing import Iterable
 
 
 # needed to support Python 3.6 (contextlib.nullcontext was added in 3.7)
@@ -19,43 +19,35 @@ class nullcontext(AbstractContextManager):
         pass
 
 
+class Index:
+
+    def __iter__(self) -> Iterable[dict]:
+        raise NotImplementedError()
+
+
 class SQLiteIndex:
 
-    def __init__(self, names: Iterable[str], values=None):
-        self._con = sqlite3.connect(':memory:')
-        self._names = tuple(names)
-        if values is not None:
-            pass
+    def __init__(self, src=':memory:'):
+        self._con = sqlite3.connect(src)
 
     def __del__(self):
         self._con.close()
 
-    def names(self) -> Tuple[str]:
-        return self._names
 
+class FileIndex(Index):
 
-class FileIndex:
-
-    def __init__(self, src, filters=None, skip=0, limit=None):
+    def __init__(self, src, filters=None):
         self._src = src
         self._filters = [] if filters is None else list(filters)
-        self._skip = int(skip)
-        self._limit = limit
         self._cached_len = None
         self._fresh = True
+        self._validate()
 
-    def filter(self, *args):
+    def filter(self, *args) -> Index:
         new_filters = list(self._filters) + list(args)
-        return FileIndex(self._src, new_filters, self._skip, self._limit)
+        return FileIndex(self._src, new_filters)
 
-    def is_valid(self):
-        try:
-            self.validate()
-            return True
-        except ValueError:
-            return False
-
-    def validate(self) -> None:
+    def _validate(self) -> None:
         for i, f in enumerate(self._filters):
             if not callable(f):
                 raise ValueError(f"filter {i} is not callable")
@@ -64,36 +56,7 @@ class FileIndex:
             with self._open() as f:
                 pass
         except Exception as e:
-            raise ValueError(f"Failed to open '{ self._src }': { str(e) }")
-
-    def __getitem__(self, k):
-        if not isinstance(k, slice):
-            raise TypeError(f"Can't subset Index with object of type '{type(k).__name__}'")
-
-        k_start = k.start
-        k_stop = k.stop
-        if k.step is not None:
-            raise ValueError("Can't subset Index with stepped slice")
-
-        if k_start is None and k_stop is None:
-            return self
-
-        if k_start is None:
-            k_start = 0
-
-        # a common case where we can avoid calculating the length
-        if k_stop is None and self._limit is None and k_start >= 0:
-            return FileIndex(self._src, filters=self._filters, skip=self._skip + k_start)
-
-        if k_start < 0 or k_stop is None or k_stop < 0:
-            this_len = len(self)
-            k_stop = this_len if k_stop is None else k_stop
-            k_start = this_len + k_start if k_start < 0 else k_start
-            k_stop = this_len + k_stop if k_stop < 0 else k_stop
-
-        new_skip = self._skip + k_start
-        new_limit = k_stop - k_start
-        return FileIndex(self._src, filters=self._filters, skip=new_skip, limit=new_limit)
+            raise ValueError(f"Failed to open {repr(self._src)}': {str(e)}")
 
     def __len__(self):
         if self._cached_len is None:
@@ -103,17 +66,12 @@ class FileIndex:
         return self._cached_len
 
     def __iter__(self):
-        if self._limit is not None and self._limit <= 0:
-            return
-
         with self._open() as f:
             if not self._fresh:
                 f.seek(0)
             self._fresh = False
 
             names = None
-            length = -1
-            size = 0
             for line in f:
                 if not line or line.startswith(b'#'):
                     continue
@@ -125,14 +83,8 @@ class FileIndex:
                 if any(not f(item) for f in self._filters):
                     continue
 
-                length += 1
-                if length < self._skip:
-                    continue
                 yield item
 
-                size += 1
-                if size == self._limit:
-                    break
 
     def _open(self):
         if isinstance(self._src, str) and self._src.endswith('.gz'):
@@ -146,7 +98,7 @@ class FileIndex:
 
     def __repr__(self) -> str:
         filter_repr = repr(self._filters)
-        return f"Index({repr(self._src)}, {filter_repr}, {self._skip}, {self._limit})"
+        return f"Index({repr(self._src)}, {filter_repr})"
 
     def __str__(self) -> str:
         return repr(self)

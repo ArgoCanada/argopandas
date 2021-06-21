@@ -22,24 +22,21 @@ class TestFileIndex(unittest.TestCase):
         self.index_file = os.path.join(this_file, mirror_dir, index_file)
 
     def test_repr(self):
-        self.assertEqual(repr(FileIndex('src', None, 0, 1)), """Index('src', [], 0, 1)""")
-        self.assertEqual(repr(FileIndex('src')), """Index('src', [], 0, None)""")
+        self.assertRegex(str(FileIndex(self.index_file)), r"Index\('.*?', \[\]\)")
 
     def test_str(self):
-        self.assertEqual(str(FileIndex('src', None, 0, 1)), """Index('src', [], 0, 1)""")
-        self.assertEqual(str(FileIndex('src')), """Index('src', [], 0, None)""")
+        self.assertRegex(str(FileIndex(self.index_file)), r"Index\('.*?', \[\]\)")
 
-    def test_valid(self):
-        self.assertFalse(FileIndex("not a file").is_valid())
-        self.assertTrue(FileIndex(self.index_file).is_valid())
-        self.assertFalse(FileIndex(self.index_file, [None, ]).is_valid())
-        self.assertTrue(FileIndex(self.index_file, [lambda x: True, ]).is_valid())
+    def test_invalid(self):
+        with self.assertRaises(ValueError):
+            FileIndex("not a file")
+        with self.assertRaises(ValueError):
+            FileIndex(self.index_file, [None, ])
 
     def test_existing_file_object(self):
         import gzip
         with gzip.open(self.index_file, 'rb') as f:
             ind = FileIndex(f)
-            self.assertTrue(ind.is_valid())
             # check twice because the file object needs to be reset for each iterator
             self.assertEqual(list(ind), list(ind))
 
@@ -51,51 +48,12 @@ class TestFileIndex(unittest.TestCase):
             self.assertIn('file', item.keys())
             self.assertRegex(item['file'], '_meta.nc$')
 
-        count = 0
-        for item in FileIndex(self.index_file, limit=0):
-            count += 1
-        self.assertEqual(count, 0)
-
     def test_filter(self):
         self.assertEqual(len(FileIndex(self.index_file).filter(filter_false)), 0)
         self.assertEqual(
             list(FileIndex(self.index_file)),
             list(FileIndex(self.index_file).filter(filter_true))
         )
-
-    def test_getitem(self):
-        with self.assertRaises(TypeError):
-            FileIndex("dummy")[list()]
-
-    def test_slice(self):
-        ind = FileIndex(self.index_file)
-        self.assertIs(ind[:], ind)
-        self.assertEqual(len(ind[:1]), 1)
-        self.assertEqual(len(ind[1:]), 1)
-        self.assertEqual(len(ind[0:-1]), 1)
-        self.assertEqual(len(ind[-2:-1]), 1)
-        self.assertEqual(len(ind[-1:]), 1)
-        with self.assertRaises(ValueError):
-            ind[1:2:3]
-
-    def test_slice_filtered(self):
-        ind = FileIndex(self.index_file, [filter_true, ])
-        self.assertEqual(len(ind), 2)
-        self.assertIs(ind[:], ind)
-        self.assertEqual(len(ind[:1]), 1)
-        self.assertEqual(len(ind[1:]), 1)
-        self.assertEqual(len(ind[0:-1]), 1)
-        self.assertEqual(len(ind[-2:-1]), 1)
-        self.assertEqual(len(ind[-1:]), 1)
-
-        ind = FileIndex(self.index_file, [filter_false, ])
-        self.assertEqual(len(ind), 0)
-        self.assertIs(ind[:], ind)
-        self.assertEqual(len(ind[:1]), 0)
-        self.assertEqual(len(ind[1:]), 0)
-        self.assertEqual(len(ind[0:-1]), 0)
-        self.assertEqual(len(ind[-2:-1]), 0)
-        self.assertEqual(len(ind[-1:]), 0)
 
 
 if __name__ == '__main__':
