@@ -2,7 +2,7 @@
 import unittest
 import os
 
-from argodata.index import FileIndex
+from argodata.index import FileIndex, ListIndex
 
 
 def filter_true(x):
@@ -11,6 +11,29 @@ def filter_true(x):
 
 def filter_false(x):
     return False
+
+
+class TestListIndex(unittest.TestCase):
+
+    def test_repr(self):
+        self.assertRegex(repr(ListIndex([])), r"ListIndex\(\[\], \(\), \(\)\)")
+
+    def test_names(self):
+        self.assertEqual(ListIndex([]).names(), ())
+        self.assertEqual(ListIndex([], names=('fish', )).names(), ('fish', ))
+        self.assertEqual(ListIndex([{'key': 'value'}]).names(), ('key', ))
+
+    def test_len(self):
+        self.assertEqual(len(ListIndex([])), 0)
+
+    def test_iter(self):
+        self.assertEqual(list(ListIndex([])), [])
+
+    def test_filter(self):
+        index = ListIndex([{'key': 'value'}])
+        self.assertEqual(list(index.filter(filter_false)), [])
+        self.assertEqual(list(index.filter()), [{'key': 'value'}])
+        self.assertEqual(list(index.filter(filter_true)), [{'key': 'value'}])
 
 
 class TestFileIndex(unittest.TestCase):

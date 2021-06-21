@@ -3,7 +3,7 @@ import gzip
 import itertools
 from contextlib import AbstractContextManager
 from collections import deque
-from typing import Iterable, Tuple, Type
+from typing import Iterable, List, Tuple, Type
 
 
 # needed to support Python 3.6 (contextlib.nullcontext was added in 3.7)
@@ -28,6 +28,13 @@ class Index:
         new_filters = self._filters + tuple(args)
         return type(self)(self._src, new_filters)
 
+    def __repr__(self) -> str:
+        filter_repr = repr(self._filters)
+        return f"{type(self).__name__}({repr(self._src)}, {filter_repr})"
+
+    def __str__(self) -> str:
+        return repr(self)
+
     def names(self) -> Tuple[str]:
         raise NotImplementedError()
 
@@ -36,6 +43,37 @@ class Index:
 
     def __len__(self):
         raise NotImplementedError()
+
+
+class ListIndex(Index):
+
+    def __init__(self, src, filters=None, names=None):
+        super().__init__(list(src), filters)
+        if names is None and self._src:
+            self._names = tuple(self._src[0].keys())
+        elif names is None:
+            self._names = ()
+        else:
+            self._names = names
+
+    def filter(self, *args):
+        new_filters = self._filters + tuple(args)
+        return ListIndex(self._src, new_filters, self._names)
+
+    def names(self):
+        return self._names
+
+    def __iter__(self):
+        for item in self._src:
+            if any(not f(item) for f in self._filters):
+                continue
+            yield item
+
+    def __len__(self):
+        return len(self._src)
+
+    def __repr__(self):
+        return f"ListIndex({repr(self._src)}, {repr(self._filters)}, {repr(self._names)})"
 
 
 class FileIndex(Index):
@@ -105,10 +143,3 @@ class FileIndex(Index):
             return nullcontext(self._src)
         else:
             raise ValueError("src must be a filename or file-like object")
-
-    def __repr__(self) -> str:
-        filter_repr = repr(self._filters)
-        return f"Index({repr(self._src)}, {filter_repr})"
-
-    def __str__(self) -> str:
-        return repr(self)
