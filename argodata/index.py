@@ -58,7 +58,7 @@ class ListIndex(Index):
 
     def filter(self, *args):
         new_filters = self._filters + tuple(args)
-        return ListIndex(self._src, new_filters, self._names)
+        return type(self)(self._src, new_filters, self._names)
 
     def names(self):
         return self._names

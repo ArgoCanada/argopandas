@@ -18,49 +18,49 @@ class TestGlobalIndexInterface(unittest.TestCase):
         argo.set_default_mirror(self.previous_mirror)
 
     def test_global_meta(self):
-        self.assertEqual(len(argo.meta.index()), 2)
+        self.assertEqual(len(argo.meta), 2)
         self.assertEqual(
             list(argo.meta),
             list(FileIndex(os.path.join(self.test_dir, 'ar_index_global_meta.txt.gz')))
         )
 
     def test_global_tech(self):
-        self.assertEqual(len(argo.tech.index()), 2)
+        self.assertEqual(len(argo.tech), 2)
         self.assertEqual(
             list(argo.tech),
             list(FileIndex(os.path.join(self.test_dir, 'ar_index_global_tech.txt.gz')))
         )
 
     def test_global_traj(self):
-        self.assertEqual(len(argo.traj.index()), 2)
+        self.assertEqual(len(argo.traj), 2)
         self.assertEqual(
             list(argo.traj),
             list(FileIndex(os.path.join(self.test_dir, 'ar_index_global_traj.txt.gz')))
         )
 
     def test_global_prof(self):
-        self.assertEqual(len(argo.prof.index()), 11)
+        self.assertEqual(len(argo.prof), 11)
         self.assertEqual(
             list(argo.prof),
             list(FileIndex(os.path.join(self.test_dir, 'ar_index_global_prof.txt.gz')))
         )
 
     def test_global_bio_traj(self):
-        self.assertEqual(len(argo.bio_traj.index()), 1)
+        self.assertEqual(len(argo.bio_traj), 1)
         self.assertEqual(
             list(argo.bio_traj),
             list(FileIndex(os.path.join(self.test_dir, 'argo_bio-traj_index.txt.gz')))
         )
 
     def test_global_bio_prof(self):
-        self.assertEqual(len(argo.bio_prof.index()), 5)
+        self.assertEqual(len(argo.bio_prof), 5)
         self.assertEqual(
             list(argo.bio_prof),
             list(FileIndex(os.path.join(self.test_dir, 'argo_bio-profile_index.txt.gz')))
         )
 
     def test_global_synthetic_prof(self):
-        self.assertEqual(len(argo.synthetic_prof.index()), 5)
+        self.assertEqual(len(argo.synthetic_prof), 5)
         self.assertEqual(
             list(argo.synthetic_prof),
             list(FileIndex(os.path.join(self.test_dir, 'argo_synthetic-profile_index.txt.gz')))

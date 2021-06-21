@@ -1,38 +1,70 @@
 
 from typing import Iterable, Union
-from .index import FileIndex
+import gzip
+from .index import FileIndex, Index, ListIndex
 from .mirror import Mirror
 
-class GlobalIndex:
+
+class GlobalIndex(ListIndex):
+
+    def __init__(self, src, filters=None, names=None):
+        if filters is not None:
+            src = list(ListIndex(src, filters, names))
+        super().__init__(src, filters=filters, names=names)
+
+    def _make_item(self, item):
+        return item
+
+    def __iter__(self):
+        constructor = self._make_item
+        for item in self._src:
+            yield constructor(item)
+
+
+class GlobalIndexRoot(Index):
 
     def __init__(self,
                  path: str,
                  names: Iterable[str],
                  mirror: Union[Mirror, None]=None):
+        super().__init__(None, None)
         self._path = path
-        self._names = tuple(names)
         self._mirror = Mirror() if mirror is None else mirror
-        self._index = None
+        self._names = tuple(names)
 
-    def index(self):
-        if self._index is None:
+    def _index(self):
+        if self._cached_index is None:
             self._load_index()
-        return self._index
+        return self._cached_index
 
     def _set_mirror(self, mirror):
         if mirror is not self._mirror:
             self._mirror = mirror
-            self._index = None
+            self._cached_index = None
 
     def _load_index(self):
         self._mirror.prepare([self._path])
-        self._index = FileIndex(self._mirror.filename(self._path))
+        with self._mirror.open(self._path) as fg:
+            with gzip.open(fg) as f:
+                self._cached_index = GlobalIndex(FileIndex(f), names=self._names)
 
-    def __iter__(self) -> Iterable[dict]:
-        return iter(self.index())
+    def filter(self, *args) -> GlobalIndex:
+        return self._index().filter(*args)
+
+    def names(self):
+        return self._names
+
+    def __iter__(self):
+        return iter(self._index())
+
+    def __len__(self):
+        return len(self._index())
+
+    def __repr__(self):
+        return f"GlobalIndex({repr(self._path)}, {repr(self._names)}, {repr(self._mirror)})"
 
 
-class GlobalMeta(GlobalIndex):
+class GlobalMeta(GlobalIndexRoot):
     def __init__(self):
         super().__init__(
             'ar_index_global_meta.txt.gz',
@@ -40,7 +72,7 @@ class GlobalMeta(GlobalIndex):
         )
 
 
-class GlobalTech(GlobalIndex):
+class GlobalTech(GlobalIndexRoot):
     def __init__(self):
         super().__init__(
             'ar_index_global_tech.txt.gz',
@@ -48,7 +80,7 @@ class GlobalTech(GlobalIndex):
         )
 
 
-class GlobalTraj(GlobalIndex):
+class GlobalTraj(GlobalIndexRoot):
     def __init__(self):
         super().__init__(
             'ar_index_global_traj.txt.gz',
@@ -58,7 +90,7 @@ class GlobalTraj(GlobalIndex):
         )
 
 
-class GlobalProf(GlobalIndex):
+class GlobalProf(GlobalIndexRoot):
     def __init__(self):
         super().__init__(
             'ar_index_global_prof.txt.gz',
@@ -67,7 +99,7 @@ class GlobalProf(GlobalIndex):
         )
 
 
-class GlobalBioTraj(GlobalIndex):
+class GlobalBioTraj(GlobalIndexRoot):
     def __init__(self):
         super().__init__(
             'argo_bio-traj_index.txt.gz',
@@ -77,7 +109,7 @@ class GlobalBioTraj(GlobalIndex):
         )
 
 
-class GlobalBioProf(GlobalIndex):
+class GlobalBioProf(GlobalIndexRoot):
     def __init__(self):
         super().__init__(
             'argo_bio-profile_index.txt.gz',
@@ -87,7 +119,7 @@ class GlobalBioProf(GlobalIndex):
         )
 
 
-class GlobalSyntheticProf(GlobalIndex):
+class GlobalSyntheticProf(GlobalIndexRoot):
     def __init__(self):
         super().__init__(
             'argo_synthetic-profile_index.txt.gz',
