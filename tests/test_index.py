@@ -27,6 +27,12 @@ class TestFileIndex(unittest.TestCase):
     def test_str(self):
         self.assertRegex(str(FileIndex(self.index_file)), r"Index\('.*?', \(\)\)")
 
+    def test_names(self):
+        self.assertEqual(
+            FileIndex(self.index_file).names(),
+            ('file', 'profiler_type', 'institution', 'date_update')
+        )
+
     def test_invalid(self):
         with self.assertRaises(ValueError):
             FileIndex("not a file")

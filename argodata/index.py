@@ -83,7 +83,7 @@ class FileIndex(Index):
                     continue
                 elif names is None and line.startswith(b'file,'):
                     names = line[:-1].decode('UTF-8').split(',')
-                    self._names = names
+                    self._names = tuple(names)
                     continue
 
                 item = {k: v for k, v in zip(names, line[:-1].decode('UTF-8').split(','))}
