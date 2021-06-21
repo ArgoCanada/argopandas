@@ -73,7 +73,7 @@ def url_mirror(root, cache_dir=None, cached=True) -> MirrorContext:
     if cached:
         return MirrorContext(CachedUrlMirror(root, cache_dir))
     else:
-        return MirrorContext(UrlMirror)
+        return MirrorContext(UrlMirror(root))
 
 
 def file_mirror(root) -> MirrorContext:
