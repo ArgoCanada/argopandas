@@ -3,7 +3,7 @@ import gzip
 import itertools
 from contextlib import AbstractContextManager
 from collections import deque
-from typing import Iterable, List, Tuple, Type
+from typing import Iterable, Tuple
 
 
 # needed to support Python 3.6 (contextlib.nullcontext was added in 3.7)
@@ -47,7 +47,7 @@ class Index:
 
 class ListIndex(Index):
 
-    def __init__(self, src, filters=None, names=None):
+    def __init__(self, src: Iterable[dict], filters=None, names=None):
         super().__init__(list(src), filters)
         if names is None and self._src:
             self._names = tuple(self._src[0].keys())
