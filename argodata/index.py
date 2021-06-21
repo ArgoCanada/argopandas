@@ -36,13 +36,13 @@ class Index:
         return repr(self)
 
     def names(self) -> Tuple[str]:
-        raise NotImplementedError() # nocov
+        raise NotImplementedError() # pragma: no cover
 
     def __iter__(self) -> Iterable[dict]:
-        raise NotImplementedError() # nocov
+        raise NotImplementedError() # pragma: no cover
 
     def __len__(self):
-        raise NotImplementedError() # nocov
+        raise NotImplementedError() # pragma: no cover
 
 
 class ListIndex(Index):
