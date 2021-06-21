@@ -36,13 +36,13 @@ class Index:
         return repr(self)
 
     def names(self) -> Tuple[str]:
-        raise NotImplementedError() # pragma: no cover
+        raise NotImplementedError()  # pragma: no cover
 
     def __iter__(self) -> Iterable[dict]:
-        raise NotImplementedError() # pragma: no cover
+        raise NotImplementedError()  # pragma: no cover
 
     def __len__(self):
-        raise NotImplementedError() # pragma: no cover
+        raise NotImplementedError()  # pragma: no cover
 
 
 class ListIndex(Index):
@@ -132,7 +132,6 @@ class FileIndex(Index):
 
             if names is None:
                 raise ValueError('Header line not found. Is this a valid index file?')
-
 
     def _open(self):
         if isinstance(self._src, str) and self._src.endswith('.gz'):

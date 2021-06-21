@@ -33,7 +33,7 @@ class GlobalIndexRoot(Index):
     def __init__(self,
                  path: str,
                  names: Iterable[str],
-                 mirror: Union[Mirror, None]=None):
+                 mirror=None):
         super().__init__(None, None)
         self._path = path
         self._mirror = Mirror() if mirror is None else mirror

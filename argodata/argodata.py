@@ -81,6 +81,7 @@ def file_mirror(root) -> MirrorContext:
 
 # ---- global mirror shortcuts ----
 
+
 def _open_iter(path, mirror):
     mirror.prepare(path)
     for p in path:
