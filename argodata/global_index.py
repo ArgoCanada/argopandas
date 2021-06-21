@@ -1,6 +1,8 @@
 
 from typing import Iterable, Union
 import gzip
+import reprlib
+
 from .index import FileIndex, Index, ListIndex
 from .mirror import Mirror
 
@@ -19,6 +21,11 @@ class GlobalIndex(ListIndex):
         constructor = self._make_item
         for item in self._src:
             yield constructor(item)
+
+    def __repr__(self):
+        # reprlib abbreviates lists so that these are readable in
+        # interactive output
+        return f"GlobalIndex({reprlib.repr(self._src)})"
 
 
 class GlobalIndexRoot(Index):
@@ -61,7 +68,7 @@ class GlobalIndexRoot(Index):
         return len(self._index())
 
     def __repr__(self):
-        return f"GlobalIndex({repr(self._path)}, {repr(self._names)}, {repr(self._mirror)})"
+        return f"GlobalIndexRoot({repr(self._path)}, {repr(self._names)}, {repr(self._mirror)})"
 
 
 class GlobalMeta(GlobalIndexRoot):
