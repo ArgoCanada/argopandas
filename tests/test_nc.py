@@ -39,6 +39,31 @@ class TestNetCDFFile(unittest.TestCase):
         nc = NetCDFFile(self.test_file)
         self.assertIsInstance(nc['PRES'], Variable)
 
+    def test_ndarray(self):
+        import numpy as np
+        nc = NetCDFFile(self.test_file)
+        self.assertEqual(np.shape(nc._ndarray('PRES')), (1, 70))
+
+    def test_vars_along(self):
+        nc = NetCDFFile(self.test_file)
+        prof_vars = nc._var_names_along(('N_PROF', ))
+        self.assertIn('PLATFORM_NUMBER', prof_vars)
+        self.assertIn('CYCLE_NUMBER', prof_vars)
+
+    def test_data_frame_along(self):
+        nc = NetCDFFile(self.test_file)
+        levels = nc._data_frame_along(('N_PROF', 'N_LEVELS'))
+        self.assertSetEqual(
+            set(levels.keys()),
+            set(nc._var_names_along(('N_PROF', 'N_LEVELS')))
+        )
+
+        # zero variables
+        self.assertEqual(list(nc._data_frame_along(['not a dim']).keys()), [])
+
+        # scalar dimensions
+        self.assertIn('DATA_TYPE', nc._data_frame_along([]).keys())
+
 
 if __name__ == '__main__':
     unittest.main()
