@@ -1,11 +1,10 @@
 
 import unittest
-import tempfile
 import os
 
 from netCDF4 import Dataset
 
-from argodata.ncfile import NetCDFFile
+from argodata.nc import NetCDFFile
 from argodata.mirror import FileMirror, UrlMirror
 
 
