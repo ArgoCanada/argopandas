@@ -1,8 +1,10 @@
 
 from contextlib import AbstractContextManager
 from typing import Union, Iterator, BinaryIO
+
 from .mirror import CachedUrlMirror, FileMirror, NullMirror, UrlMirror
 from . import global_index
+from .nc import NetCDFFile
 
 # --- global index interface ----
 
@@ -100,6 +102,13 @@ def _url_iter(path, mirror):
         yield mirror.url(p)
 
 
+def _nc_iter(path, mirror):
+    mirror.prepare(path)
+    for p in path:
+        with mirror.open(p) as f:
+            yield NetCDFFile(f.read())
+
+
 def open(path: Union[str, Iterator[str]]) -> Union[str, Iterator[BinaryIO]]:
     mirror = default_mirror()
     if isinstance(path, str):
@@ -123,6 +132,15 @@ def url(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
         return mirror.url(path)
     else:
         return _url_iter(path, mirror)
+
+
+def nc(path: Union[str, Iterator[str]]) -> Union[str, Iterator[NetCDFFile]]:
+    mirror = default_mirror()
+    if isinstance(path, str):
+        with mirror.open(path) as f:
+            return NetCDFFile(f.read())
+    else:
+        return _nc_iter(path, mirror)
 
 
 # don't include 'open' in * because it shadows the builtin open()
