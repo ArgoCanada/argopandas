@@ -1,5 +1,5 @@
 
-from typing import Iterable, Union
+from typing import Iterable
 import gzip
 import reprlib
 

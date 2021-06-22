@@ -1,11 +1,11 @@
 
 import tempfile
-from argodata.argodata import MirrorContext, file_mirror, url_mirror
+from argodata.interactive import MirrorContext, file_mirror, url_mirror
 from argodata.index import FileIndex
 from argodata.global_index import GlobalIndex
 import unittest
 import os
-import argodata as argo
+import argodata.interactive as argo
 from argodata.mirror import FileMirror, UrlMirror
 
 
@@ -92,7 +92,7 @@ class TestGlobalIndexInterface(unittest.TestCase):
 class TestGlobalMirrors(unittest.TestCase):
 
     def test_global_mirror(self):
-        import argodata.argodata as argodata_mod
+        import argodata.interactive as argodata_mod
         mirror = UrlMirror('something')
         prev_mirror = argodata_mod.set_default_mirror(mirror)
         self.assertIs(argodata_mod.default_mirror(), mirror)
