@@ -88,7 +88,7 @@ class NetCDFFile:
     def _load_dataset(self):
         if isinstance(self._src, Dataset):
             self._dataset = self._src
-        elif os.path.exists(self._src):
+        elif isinstance(self._src, str) and os.path.exists(self._src):
             self._dataset = Dataset(self._src)
         elif isinstance(self._src, bytes):
             self._dataset = Dataset('in-mem-file', mode='r', memory=self._src)

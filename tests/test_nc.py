@@ -35,6 +35,10 @@ class TestNetCDFFile(unittest.TestCase):
         ds = Dataset(self.test_file)
         self.assertIs(NetCDFFile(ds).dataset(), ds)
 
+    def test_dataset_unknown(self):
+        with self.assertRaises(ValueError):
+            NetCDFFile('this is not anything').dataset()
+
     def test_getitem(self):
         nc = NetCDFFile(self.test_file)
         self.assertIsInstance(nc['PRES'], Variable)
