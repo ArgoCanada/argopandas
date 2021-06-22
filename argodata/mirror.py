@@ -19,7 +19,7 @@ class PathsDoNotExistError(Exception):
         super().__init__(path_summary)
 
 
-class Mirror:
+class NullMirror:
 
     def open(self, path) -> BinaryIO:
         raise NotImplementedError()
@@ -34,7 +34,7 @@ class Mirror:
         raise NotImplementedError()
 
 
-class FileMirror(Mirror):
+class FileMirror(NullMirror):
 
     def __init__(self, root):
         if not os.path.isdir(root):
@@ -67,7 +67,7 @@ class FileMirror(Mirror):
         return self
 
 
-class UrlMirror(Mirror):
+class UrlMirror(NullMirror):
 
     def __init__(self, root):
         if root.endswith('/'):
@@ -141,3 +141,6 @@ class CachedUrlMirror(UrlMirror):
             raise PathsDoNotExistError(bad_paths, errors)
 
         return self
+
+
+default_mirror = UrlMirror('https://data-argo.ifremer.fr')

@@ -3,7 +3,7 @@ import unittest
 import tempfile
 import os
 
-from argodata.mirror import PathsDoNotExistError, Mirror, \
+from argodata.mirror import PathsDoNotExistError, NullMirror, \
     FileMirror, UrlMirror, CachedUrlMirror
 
 
@@ -18,13 +18,13 @@ class TestAbstractMirror(unittest.TestCase):
 
     def test_abstract_mirror(self):
         with self.assertRaises(NotImplementedError):
-            Mirror().open("file")
+            NullMirror().open("file")
         with self.assertRaises(NotImplementedError):
-            Mirror().prepare(["file", ])
+            NullMirror().prepare(["file", ])
         with self.assertRaises(NotImplementedError):
-            Mirror().filename("file")
+            NullMirror().filename("file")
         with self.assertRaises(NotImplementedError):
-            Mirror().url("file")
+            NullMirror().url("file")
 
 
 class TestFileMirror(unittest.TestCase):

@@ -1,7 +1,7 @@
 
 from contextlib import AbstractContextManager
 from typing import Union, Iterator, BinaryIO
-from .mirror import CachedUrlMirror, FileMirror, Mirror, UrlMirror
+from .mirror import CachedUrlMirror, FileMirror, NullMirror, UrlMirror
 from . import global_index
 
 # --- global index interface ----
@@ -21,7 +21,7 @@ _index_all = (meta, tech, traj, prof, bio_traj, bio_prof, synthetic_prof)
 _default_mirror = None
 
 
-def set_default_mirror(mirror: Mirror) -> Mirror:
+def set_default_mirror(mirror: NullMirror) -> NullMirror:
     global _default_mirror
     previous = _default_mirror
     _default_mirror = mirror
@@ -33,7 +33,7 @@ def set_default_mirror(mirror: Mirror) -> Mirror:
     return previous
 
 
-def default_mirror() -> Mirror:
+def default_mirror() -> NullMirror:
     return _default_mirror
 
 
@@ -42,13 +42,13 @@ set_default_mirror(CachedUrlMirror('https://data-argo.ifremer.fr'))
 
 # ---- mirror wrappers that support the get/set default mirror ----
 
-class MirrorContext(AbstractContextManager, Mirror):
+class MirrorContext(AbstractContextManager, NullMirror):
 
-    def __init__(self, mirror: Mirror):
+    def __init__(self, mirror: NullMirror):
         self._mirror = mirror
         self._prev_mirror = None
 
-    def __enter__(self) -> Mirror:
+    def __enter__(self) -> NullMirror:
         self._prev_mirror = set_default_mirror(self._mirror)
         return self._mirror
 

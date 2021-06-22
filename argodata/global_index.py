@@ -4,7 +4,7 @@ import gzip
 import reprlib
 
 from .index import FileIndex, Index, ListIndex
-from .mirror import Mirror
+from .mirror import NullMirror
 
 
 class GlobalIndex(ListIndex):
@@ -36,7 +36,7 @@ class GlobalIndexRoot(Index):
                  mirror=None):
         super().__init__(None, None)
         self._path = path
-        self._mirror = Mirror() if mirror is None else mirror
+        self._mirror = NullMirror() if mirror is None else mirror
         self._names = tuple(names)
 
     def _index(self):
