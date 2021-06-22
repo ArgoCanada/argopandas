@@ -4,29 +4,8 @@ import io
 import shutil
 import urllib.request
 
-try:
-    from netCDF4 import Dataset, Variable, chartostring
-except ImportError:  # pragma: no cover
-    class Dataset:
-        def __init__(self, *args, **kwargs):
-            raise ImportError(
-                "Package 'netCDF4' must be installed to read NetCDF files"
-            )
-
-    class Variable:
-        pass
-
-try:
-    from pandas import DataFrame, MultiIndex
-except ImportError:  # pragma: no cover
-    class DataFrame:
-        def __init__(self, *args, **kwargs):
-            raise ImportError(
-                "Package 'pandas' must be installed to create DataFrame objects"
-            )
-
-    class MultiIndex:
-        pass
+from netCDF4 import Dataset, Variable, chartostring
+from pandas import DataFrame, MultiIndex
 
 
 def _is_string_dim(x):
