@@ -39,7 +39,7 @@ class NetCDFFile:
             self._dataset = self._src
         elif os.path.exists(self._src):
             # netCDF4 needs forward slashes here
-            self._dataset = Dataset(self._src).replace
+            self._dataset = Dataset(self._src)
         elif isinstance(self._src, bytes):
             self._dataset = Dataset('in-mem-file', mode='r', memory=self._src)
         elif self._src.startswith('http://') or self._src.startswith('https://') or self._src.startswith('ftp://'):
