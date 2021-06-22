@@ -1,4 +1,5 @@
 
+from typing import Type
 import unittest
 import os
 
@@ -14,6 +15,10 @@ class TestNetCDFFile(unittest.TestCase):
         test_dir = os.path.join(this_dir, 'argo-test-mirror')
         self.test_path = 'dac/csio/2900313/profiles/D2900313_002.nc'
         self.test_file = os.path.join(test_dir, self.test_path)
+
+    def test_init(self):
+        with self.assertRaises(TypeError):
+            NetCDFFile(None)
 
     def test_dataset_file(self):
         nc_abspath = NetCDFFile(os.path.abspath(self.test_file))
