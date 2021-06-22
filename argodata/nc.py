@@ -4,38 +4,42 @@ import io
 import shutil
 import urllib.request
 
-from .mirror import default_mirror
-
 
 try:
-    from netCDF4 import Dataset
-except ImportError as e:
-    class Dataset:  # pragma: no cover
-        def __init__(self, *args, **kwargs):  # pragma: no cover
-            raise ImportError(  # pragma: no cover
-                "Package 'netCDF4' must be installed to read NetCDF files"  # pragma: no cover
-            )  # pragma: no cover
+    from netCDF4 import Dataset, Variable
+except ImportError as e:  # pragma: no cover
+    class Dataset:
+        def __init__(self, *args, **kwargs):
+            raise ImportError(
+                "Package 'netCDF4' must be installed to read NetCDF files"
+            )
+
+    class Variable:
+        pass
 
 
 class NetCDFFile:
 
-    def __init__(self, src, data=None, mirror=None):
+    def __init__(self, src):
+        if not isinstance(src, (Dataset, bytes, str)):
+            raise TypeError('`src` must be a filename, url, bytes, or netCDF4.Dataset object')
         self._src = src
-        self._data = {} if data is None else data
-        self._mirror = default_mirror if mirror is None else mirror
         self._dataset = None
 
-    def __getitem__(self, k):
-        return self._data[k]
+    def __getitem__(self, k) -> Variable:
+        return self.dataset()[k]
 
-    def dataset(self):
+    def dataset(self) -> Dataset:
         if self._dataset is None:
             self._load_dataset()
         return self._dataset
 
     def _load_dataset(self):
-        if os.path.isabs(self._src):
-            self._dataset = Dataset(self._src)
+        if isinstance(self._src, Dataset):
+            self._dataset = self._src
+        elif os.path.exists(self._src):
+            # netCDF4 needs forward slashes here
+            self._dataset = Dataset(self._src).replace
         elif isinstance(self._src, bytes):
             self._dataset = Dataset('in-mem-file', mode='r', memory=self._src)
         elif self._src.startswith('http://') or self._src.startswith('https://') or self._src.startswith('ftp://'):
@@ -43,17 +47,5 @@ class NetCDFFile:
             with urllib.request.urlopen(self._src) as f:
                 shutil.copyfileobj(f, buf)
             self._dataset = Dataset('in-mem-file', mode='r', memory=buf.getvalue())
-        elif self._mirror is None:
-            self._dataset = Dataset(self._src)
         else:
-            try:
-                self._mirror.prepare([self._src])
-                self._dataset = Dataset(self._mirror.filename(self._src))
-                return
-            except NotImplementedError:
-                pass
-
-            buf = io.BytesIO()
-            with urllib.request.urlopen(self._mirror.url(self._src)) as f:
-                shutil.copyfileobj(f, buf)
-            self._dataset = Dataset('in-mem-file', mode='r', memory=buf.getvalue())
+            raise ValueError(f"Don't know how to open '{self._src}'\n.Is it a valid file or URL?")

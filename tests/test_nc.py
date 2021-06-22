@@ -2,10 +2,9 @@
 import unittest
 import os
 
-from netCDF4 import Dataset
+from netCDF4 import Dataset, Variable
 
 from argodata.nc import NetCDFFile
-from argodata.mirror import FileMirror, UrlMirror
 
 
 class TestNetCDFFile(unittest.TestCase):
@@ -13,27 +12,18 @@ class TestNetCDFFile(unittest.TestCase):
     def setUp(self) -> None:
         this_dir = os.path.dirname(__file__)
         test_dir = os.path.join(this_dir, 'argo-test-mirror')
-        self.mirror = FileMirror(test_dir)
-
-    def test_getitem(self):
-        nc = NetCDFFile(None, data={'key': 'value'})
-        self.assertEqual(nc['key'], 'value')
+        self.test_path = 'dac/csio/2900313/profiles/D2900313_002.nc'
+        self.test_file = os.path.join(test_dir, self.test_path)
 
     def test_dataset_file(self):
-        path = 'dac/csio/2900313/profiles/D2900313_002.nc'
-
-        nc_mirror = NetCDFFile(path, mirror=self.mirror)
-        self.assertIsInstance(nc_mirror.dataset(), Dataset)
-
-        nc_abspath = NetCDFFile(os.path.abspath(self.mirror.filename(path)))
+        nc_abspath = NetCDFFile(os.path.abspath(self.test_file))
         self.assertIsInstance(nc_abspath.dataset(), Dataset)
 
-        nc_relpath = NetCDFFile(self.mirror.filename(path))
+        nc_relpath = NetCDFFile(self.test_file)
         self.assertIsInstance(nc_relpath.dataset(), Dataset)
 
     def test_dataset_bytes(self):
-        path = 'dac/csio/2900313/profiles/D2900313_002.nc'
-        with self.mirror.open(path) as f:
+        with open(self.test_file, 'rb') as f:
             self.assertIsInstance(NetCDFFile(f.read()).dataset(), Dataset)
 
     def test_dataset_url(self):
@@ -41,10 +31,13 @@ class TestNetCDFFile(unittest.TestCase):
         url = 'https://data-argo.ifremer.fr/' + path
         self.assertIsInstance(NetCDFFile(url).dataset(), Dataset)
 
-        mirror = UrlMirror('https://data-argo.ifremer.fr')
-        nc_url_mirror = NetCDFFile(path, mirror=mirror)
-        self.assertIsInstance(nc_url_mirror.dataset(), Dataset)
+    def test_dataset_dataset(self):
+        ds = Dataset(self.test_file)
+        self.assertIs(NetCDFFile(ds).dataset(), ds)
 
+    def test_getitem(self):
+        nc = NetCDFFile(self.test_file)
+        self.assertIsInstance(nc['PRES'], Variable)
 
 
 if __name__ == '__main__':
