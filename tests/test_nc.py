@@ -78,6 +78,9 @@ class TestNetCDFWrapper(unittest.TestCase):
         # scalar dimensions
         self.assertIn('DATA_TYPE', nc._data_frame_along([]).keys())
 
+    def test_tables(self):
+        nc = NetCDFWrapper(self.test_file)
+        self.assertIn('DATA_TYPE', nc.info.keys())
 
 class TestProfileNetCDF(unittest.TestCase):
 
