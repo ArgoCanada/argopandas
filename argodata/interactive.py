@@ -4,7 +4,7 @@ from typing import Union, Iterator, BinaryIO
 
 from .mirror import CachedUrlMirror, FileMirror, NullMirror, UrlMirror
 from . import global_index
-from .nc import NetCDFFile
+from .nc import NetCDFWrapper
 
 # --- global index interface ----
 
@@ -106,7 +106,7 @@ def _nc_iter(path, mirror):
     mirror.prepare(path)
     for p in path:
         with mirror.open(p) as f:
-            yield NetCDFFile(f.read())
+            yield NetCDFWrapper(f.read())
 
 
 def open(path: Union[str, Iterator[str]]) -> Union[str, Iterator[BinaryIO]]:
@@ -134,11 +134,11 @@ def url(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
         return _url_iter(path, mirror)
 
 
-def nc(path: Union[str, Iterator[str]]) -> Union[str, Iterator[NetCDFFile]]:
+def nc(path: Union[str, Iterator[str]]) -> Union[str, Iterator[NetCDFWrapper]]:
     mirror = default_mirror()
     if isinstance(path, str):
         with mirror.open(path) as f:
-            return NetCDFFile(f.read())
+            return NetCDFWrapper(f.read())
     else:
         return _nc_iter(path, mirror)
 

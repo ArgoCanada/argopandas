@@ -22,7 +22,7 @@ def _dims_along_match(dims, target_dims):
         (len(dims) > 0 and _is_string_dim(dims[-1]) and dims[:-1] == target_dims)
 
 
-class NetCDFFile:
+class NetCDFWrapper:
 
     def __init__(self, src):
         if not isinstance(src, (Dataset, bytes, str)):
@@ -99,3 +99,6 @@ class NetCDFFile:
             self._dataset = Dataset('in-mem-file', mode='r', memory=buf.getvalue())
         else:
             raise ValueError(f"Don't know how to open '{self._src}'\n.Is it a valid file or URL?")
+
+
+

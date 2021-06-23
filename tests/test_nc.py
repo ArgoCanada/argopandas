@@ -5,10 +5,10 @@ import os
 
 from netCDF4 import Dataset, Variable
 
-from argodata.nc import NetCDFFile
+from argodata.nc import NetCDFWrapper
 
 
-class TestNetCDFFile(unittest.TestCase):
+class TestNetCDFWrapper(unittest.TestCase):
 
     def setUp(self) -> None:
         this_dir = os.path.dirname(__file__)
@@ -18,49 +18,49 @@ class TestNetCDFFile(unittest.TestCase):
 
     def test_init(self):
         with self.assertRaises(TypeError):
-            NetCDFFile(None)
+            NetCDFWrapper(None)
 
     def test_dataset_file(self):
-        nc_abspath = NetCDFFile(os.path.abspath(self.test_file))
+        nc_abspath = NetCDFWrapper(os.path.abspath(self.test_file))
         self.assertIsInstance(nc_abspath.dataset(), Dataset)
 
-        nc_relpath = NetCDFFile(self.test_file)
+        nc_relpath = NetCDFWrapper(self.test_file)
         self.assertIsInstance(nc_relpath.dataset(), Dataset)
 
     def test_dataset_bytes(self):
         with open(self.test_file, 'rb') as f:
-            self.assertIsInstance(NetCDFFile(f.read()).dataset(), Dataset)
+            self.assertIsInstance(NetCDFWrapper(f.read()).dataset(), Dataset)
 
     def test_dataset_url(self):
         path = 'dac/csio/2900313/profiles/D2900313_002.nc'
         url = 'https://data-argo.ifremer.fr/' + path
-        self.assertIsInstance(NetCDFFile(url).dataset(), Dataset)
+        self.assertIsInstance(NetCDFWrapper(url).dataset(), Dataset)
 
     def test_dataset_dataset(self):
         ds = Dataset(self.test_file)
-        self.assertIs(NetCDFFile(ds).dataset(), ds)
+        self.assertIs(NetCDFWrapper(ds).dataset(), ds)
 
     def test_dataset_unknown(self):
         with self.assertRaises(ValueError):
-            NetCDFFile('this is not anything').dataset()
+            NetCDFWrapper('this is not anything').dataset()
 
     def test_getitem(self):
-        nc = NetCDFFile(self.test_file)
+        nc = NetCDFWrapper(self.test_file)
         self.assertIsInstance(nc['PRES'], Variable)
 
     def test_ndarray(self):
         import numpy as np
-        nc = NetCDFFile(self.test_file)
+        nc = NetCDFWrapper(self.test_file)
         self.assertEqual(np.shape(nc._ndarray('PRES')), (1, 70))
 
     def test_vars_along(self):
-        nc = NetCDFFile(self.test_file)
+        nc = NetCDFWrapper(self.test_file)
         prof_vars = nc._var_names_along(('N_PROF', ))
         self.assertIn('PLATFORM_NUMBER', prof_vars)
         self.assertIn('CYCLE_NUMBER', prof_vars)
 
     def test_data_frame_along(self):
-        nc = NetCDFFile(self.test_file)
+        nc = NetCDFWrapper(self.test_file)
         levels = nc._data_frame_along(('N_PROF', 'N_LEVELS'))
         self.assertSetEqual(
             set(levels.keys()),

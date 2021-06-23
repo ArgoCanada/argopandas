@@ -1,5 +1,5 @@
 
-from argodata.nc import NetCDFFile
+from argodata.nc import NetCDFWrapper
 import tempfile
 from argodata.interactive import MirrorContext, file_mirror, url_mirror
 from argodata.index import FileIndex
@@ -179,9 +179,9 @@ class TestGlobalMirrorInterface(unittest.TestCase):
 
     def test_nc(self):
         actual_file = 'dac/csio/2900313/profiles/D2900313_002.nc'
-        self.assertIsInstance(argo.nc(actual_file), NetCDFFile)
+        self.assertIsInstance(argo.nc(actual_file), NetCDFWrapper)
         for fiter in argo.nc([actual_file]):
-            self.assertIsInstance(fiter, NetCDFFile)
+            self.assertIsInstance(fiter, NetCDFWrapper)
 
 
 if __name__ == '__main__':
