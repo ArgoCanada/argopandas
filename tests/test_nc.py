@@ -19,6 +19,12 @@ class TestNetCDFWrapper(unittest.TestCase):
         with self.assertRaises(TypeError):
             NetCDFWrapper(None)
 
+    def test_repr(self):
+        self.assertEqual(
+            repr(NetCDFWrapper('something')),
+            "NetCDFWrapper('something')"
+        )
+
     def test_dataset_file(self):
         nc_abspath = NetCDFWrapper(os.path.abspath(self.test_file))
         self.assertIsInstance(nc_abspath.dataset(), Dataset)
