@@ -137,7 +137,7 @@ def url(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
 def nc(path: Union[str, Iterator[str]]) -> Union[str, Iterator[NetCDFWrapper]]:
     mirror = default_mirror()
     if isinstance(path, str):
-        with mirror.open(path) as f:
+        with mirror.prepare([path]).open(path) as f:
             return NetCDFWrapper(f.read())
     else:
         return _nc_iter(path, mirror)
