@@ -1,11 +1,10 @@
 
-from typing import Type
 import unittest
 import os
 
 from netCDF4 import Dataset, Variable
 
-from argodata.nc import NetCDFWrapper
+from argodata.nc import NetCDFWrapper, ProfileNetCDF
 
 
 class TestNetCDFWrapper(unittest.TestCase):
@@ -72,6 +71,24 @@ class TestNetCDFWrapper(unittest.TestCase):
 
         # scalar dimensions
         self.assertIn('DATA_TYPE', nc._data_frame_along([]).keys())
+
+
+class TestProfileNetCDF(unittest.TestCase):
+
+    def setUp(self):
+        this_dir = os.path.dirname(__file__)
+        test_dir = os.path.join(this_dir, 'argo-test-mirror')
+        self.test_path = 'dac/csio/2900313/profiles/D2900313_002.nc'
+        self.test_file = os.path.join(test_dir, self.test_path)
+
+    def test_tables(self):
+        nc = ProfileNetCDF(self.test_file)
+        self.assertIn('PRES', nc.levels.keys())
+        self.assertIn('PLATFORM_NUMBER', nc.prof.keys())
+        self.assertIn('PARAMETER', nc.calib.keys())
+        self.assertIn('STATION_PARAMETERS', nc.param.keys())
+        self.assertIn('HISTORY_DATE', nc.history.keys())
+
 
 
 if __name__ == '__main__':

@@ -3,6 +3,7 @@ import os
 import io
 import shutil
 import urllib.request
+import reprlib
 
 from netCDF4 import Dataset, Variable, chartostring
 from pandas import DataFrame, MultiIndex
@@ -30,8 +31,15 @@ class NetCDFWrapper:
         self._src = src
         self._dataset = None
 
+    def __repr__(self):
+        return f"{type(self).__name__}({reprlib.repr(self._src)})"
+
     def __getitem__(self, k) -> Variable:
         return self.dataset()[k]
+
+    @property
+    def info(self):
+        return self._data_frame_along([])
 
     def dataset(self) -> Dataset:
         if self._dataset is None:
@@ -101,4 +109,27 @@ class NetCDFWrapper:
             raise ValueError(f"Don't know how to open '{self._src}'\n.Is it a valid file or URL?")
 
 
+class ProfileNetCDF(NetCDFWrapper):
 
+    def __init__(self, src):
+        super().__init__(src)
+
+    @property
+    def levels(self):
+        return self._data_frame_along(('N_PROF', 'N_LEVELS'))
+
+    @property
+    def prof(self):
+        return self._data_frame_along(('N_PROF', ))
+
+    @property
+    def calib(self):
+        return self._data_frame_along(('N_PROF', 'N_CALIB', 'N_PARAM'))
+
+    @property
+    def param(self):
+        return self._data_frame_along(('N_PROF', 'N_PARAM'))
+
+    @property
+    def history(self):
+        return self._data_frame_along(('N_HISTORY', 'N_PROF'))
