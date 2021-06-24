@@ -4,7 +4,7 @@ import os
 
 from netCDF4 import Dataset, Variable
 
-from argodata.nc import NetCDFWrapper, ProfileNetCDF
+from argodata.nc import NetCDFWrapper, ProfileNetCDF, TrajectoryNetCDF
 
 
 class TestNetCDFWrapper(unittest.TestCase):
@@ -98,6 +98,21 @@ class TestProfileNetCDF(unittest.TestCase):
         self.assertIn('STATION_PARAMETERS', nc.param.keys())
         self.assertIn('HISTORY_DATE', nc.history.keys())
 
+
+class TestTrajectoryNetCDF(unittest.TestCase):
+
+    def setUp(self):
+        this_dir = os.path.dirname(__file__)
+        test_dir = os.path.join(this_dir, 'argo-test-mirror')
+        self.test_path = 'dac/csio/2900313/2900313_Rtraj.nc'
+        self.test_file = os.path.join(test_dir, self.test_path)
+
+    def test_tables(self):
+        nc = TrajectoryNetCDF(self.test_file)
+        self.assertIn('LATITUDE', nc.measurement.keys())
+        self.assertIn('JULD_DESCENT_START', nc.cycle.keys())
+        self.assertIn('TRAJECTORY_PARAMETERS', nc.param.keys())
+        self.assertIn('HISTORY_DATE', nc.history.keys())
 
 
 if __name__ == '__main__':

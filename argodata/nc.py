@@ -133,3 +133,25 @@ class ProfileNetCDF(NetCDFWrapper):
     @property
     def history(self):
         return self._data_frame_along(('N_HISTORY', 'N_PROF'))
+
+
+class TrajectoryNetCDF(NetCDFWrapper):
+
+    def __init__(self, src):
+        super().__init__(src)
+
+    @property
+    def measurement(self):
+        return self._data_frame_along(('N_MEASUREMENT', ))
+
+    @property
+    def cycle(self):
+        return self._data_frame_along(('N_CYCLE', ))
+
+    @property
+    def param(self):
+        return self._data_frame_along(('N_PARAM', ))
+
+    @property
+    def history(self):
+        return self._data_frame_along(('N_HISTORY', ))
