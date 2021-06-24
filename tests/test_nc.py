@@ -4,7 +4,7 @@ import os
 
 from netCDF4 import Dataset, Variable
 
-from argodata.nc import NetCDFWrapper, ProfileNetCDF, TrajectoryNetCDF
+from argodata import nc
 
 
 class TestNetCDFWrapper(unittest.TestCase):
@@ -17,72 +17,72 @@ class TestNetCDFWrapper(unittest.TestCase):
 
     def test_init(self):
         with self.assertRaises(TypeError):
-            NetCDFWrapper(None)
+            nc.NetCDFWrapper(None)
 
     def test_repr(self):
         self.assertEqual(
-            repr(NetCDFWrapper('something')),
+            repr(nc.NetCDFWrapper('something')),
             "NetCDFWrapper('something')"
         )
 
     def test_dataset_file(self):
-        nc_abspath = NetCDFWrapper(os.path.abspath(self.test_file))
+        nc_abspath = nc.NetCDFWrapper(os.path.abspath(self.test_file))
         self.assertIsInstance(nc_abspath.dataset(), Dataset)
 
-        nc_relpath = NetCDFWrapper(self.test_file)
+        nc_relpath = nc.NetCDFWrapper(self.test_file)
         self.assertIsInstance(nc_relpath.dataset(), Dataset)
 
     def test_dataset_bytes(self):
         with open(self.test_file, 'rb') as f:
-            self.assertIsInstance(NetCDFWrapper(f.read()).dataset(), Dataset)
+            self.assertIsInstance(nc.NetCDFWrapper(f.read()).dataset(), Dataset)
 
     def test_dataset_url(self):
         path = 'dac/csio/2900313/profiles/D2900313_002.nc'
         url = 'https://data-argo.ifremer.fr/' + path
-        self.assertIsInstance(NetCDFWrapper(url).dataset(), Dataset)
+        self.assertIsInstance(nc.NetCDFWrapper(url).dataset(), Dataset)
 
     def test_dataset_dataset(self):
         ds = Dataset(self.test_file)
-        self.assertIs(NetCDFWrapper(ds).dataset(), ds)
+        self.assertIs(nc.NetCDFWrapper(ds).dataset(), ds)
 
     def test_dataset_unknown(self):
         with self.assertRaises(ValueError):
-            NetCDFWrapper('this is not anything').dataset()
+            nc.NetCDFWrapper('this is not anything').dataset()
 
     def test_getitem(self):
-        nc = NetCDFWrapper(self.test_file)
-        self.assertIsInstance(nc['PRES'], Variable)
+        ncobj = nc.NetCDFWrapper(self.test_file)
+        self.assertIsInstance(ncobj['PRES'], Variable)
 
     def test_ndarray(self):
         import numpy as np
-        nc = NetCDFWrapper(self.test_file)
-        self.assertEqual(np.shape(nc._ndarray('PRES')), (1, 70))
+        ncobj = nc.NetCDFWrapper(self.test_file)
+        self.assertEqual(np.shape(ncobj._ndarray('PRES')), (1, 70))
 
     def test_vars_along(self):
-        nc = NetCDFWrapper(self.test_file)
-        prof_vars = nc._var_names_along(('N_PROF', ))
+        ncobj = nc.NetCDFWrapper(self.test_file)
+        prof_vars = ncobj._var_names_along(('N_PROF', ))
         self.assertIn('PLATFORM_NUMBER', prof_vars)
         self.assertIn('CYCLE_NUMBER', prof_vars)
 
     def test_data_frame_along(self):
-        nc = NetCDFWrapper(self.test_file)
-        levels = nc._data_frame_along(('N_PROF', 'N_LEVELS'))
+        ncobj = nc.NetCDFWrapper(self.test_file)
+        levels = ncobj._data_frame_along(('N_PROF', 'N_LEVELS'))
         self.assertSetEqual(
             set(levels.keys()),
-            set(nc._var_names_along(('N_PROF', 'N_LEVELS')))
+            set(ncobj._var_names_along(('N_PROF', 'N_LEVELS')))
         )
 
         # zero variables
-        self.assertEqual(list(nc._data_frame_along(['not a dim']).keys()), [])
+        self.assertEqual(list(ncobj._data_frame_along(['not a dim']).keys()), [])
 
         # scalar dimensions
-        self.assertIn('DATA_TYPE', nc._data_frame_along([]).keys())
+        self.assertIn('DATA_TYPE', ncobj._data_frame_along([]).keys())
 
     def test_tables(self):
-        nc = NetCDFWrapper(self.test_file)
-        self.assertIn('DATA_TYPE', nc.info.keys())
+        ncobj = nc.NetCDFWrapper(self.test_file)
+        self.assertIn('DATA_TYPE', ncobj.info.keys())
 
-class TestProfileNetCDF(unittest.TestCase):
+class TestProfNetCDF(unittest.TestCase):
 
     def setUp(self):
         this_dir = os.path.dirname(__file__)
@@ -91,15 +91,15 @@ class TestProfileNetCDF(unittest.TestCase):
         self.test_file = os.path.join(test_dir, self.test_path)
 
     def test_tables(self):
-        nc = ProfileNetCDF(self.test_file)
-        self.assertIn('PRES', nc.levels.keys())
-        self.assertIn('PLATFORM_NUMBER', nc.prof.keys())
-        self.assertIn('PARAMETER', nc.calib.keys())
-        self.assertIn('STATION_PARAMETERS', nc.param.keys())
-        self.assertIn('HISTORY_DATE', nc.history.keys())
+        ncobj = nc.ProfNetCDF(self.test_file)
+        self.assertIn('PRES', ncobj.levels.keys())
+        self.assertIn('PLATFORM_NUMBER', ncobj.prof.keys())
+        self.assertIn('PARAMETER', ncobj.calib.keys())
+        self.assertIn('STATION_PARAMETERS', ncobj.param.keys())
+        self.assertIn('HISTORY_DATE', ncobj.history.keys())
 
 
-class TestTrajectoryNetCDF(unittest.TestCase):
+class TestTrajNetCDF(unittest.TestCase):
 
     def setUp(self):
         this_dir = os.path.dirname(__file__)
@@ -108,12 +108,24 @@ class TestTrajectoryNetCDF(unittest.TestCase):
         self.test_file = os.path.join(test_dir, self.test_path)
 
     def test_tables(self):
-        nc = TrajectoryNetCDF(self.test_file)
-        self.assertIn('LATITUDE', nc.measurement.keys())
-        self.assertIn('JULD_DESCENT_START', nc.cycle.keys())
-        self.assertIn('TRAJECTORY_PARAMETERS', nc.param.keys())
-        self.assertIn('HISTORY_DATE', nc.history.keys())
+        ncobj = nc.TrajNetCDF(self.test_file)
+        self.assertIn('LATITUDE', ncobj.measurement.keys())
+        self.assertIn('JULD_DESCENT_START', ncobj.cycle.keys())
+        self.assertIn('TRAJECTORY_PARAMETERS', ncobj.param.keys())
+        self.assertIn('HISTORY_DATE', ncobj.history.keys())
 
+
+class TestTechNetCDF(unittest.TestCase):
+
+    def setUp(self):
+        this_dir = os.path.dirname(__file__)
+        test_dir = os.path.join(this_dir, 'argo-test-mirror')
+        self.test_path = 'dac/csio/2900313/2900313_tech.nc'
+        self.test_file = os.path.join(test_dir, self.test_path)
+
+    def test_tables(self):
+        ncobj = nc.TechNetCDF(self.test_file)
+        self.assertIn('CYCLE_NUMBER', ncobj.tech_param.keys())
 
 if __name__ == '__main__':
     unittest.main()

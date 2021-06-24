@@ -109,7 +109,7 @@ class NetCDFWrapper:
             raise ValueError(f"Don't know how to open '{self._src}'\n.Is it a valid file or URL?")
 
 
-class ProfileNetCDF(NetCDFWrapper):
+class ProfNetCDF(NetCDFWrapper):
 
     def __init__(self, src):
         super().__init__(src)
@@ -135,7 +135,7 @@ class ProfileNetCDF(NetCDFWrapper):
         return self._data_frame_along(('N_HISTORY', 'N_PROF'))
 
 
-class TrajectoryNetCDF(NetCDFWrapper):
+class TrajNetCDF(NetCDFWrapper):
 
     def __init__(self, src):
         super().__init__(src)
@@ -155,3 +155,13 @@ class TrajectoryNetCDF(NetCDFWrapper):
     @property
     def history(self):
         return self._data_frame_along(('N_HISTORY', ))
+
+
+class TechNetCDF(NetCDFWrapper):
+
+    def __init__(self, src):
+        super().__init__(src)
+
+    @property
+    def tech_param(self):
+        return self._data_frame_along(('N_TECH_PARAM', ))
