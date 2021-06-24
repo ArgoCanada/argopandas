@@ -6,7 +6,7 @@ import urllib.request
 import reprlib
 
 from netCDF4 import Dataset, Variable, chartostring
-from pandas import DataFrame, MultiIndex
+from pandas import DataFrame, MultiIndex, concat
 
 
 def _is_string_dim(x):
@@ -165,3 +165,51 @@ class TechNetCDF(NetCDFWrapper):
     @property
     def tech_param(self):
         return self._data_frame_along(('N_TECH_PARAM', ))
+
+
+class MetaNetCDF(NetCDFWrapper):
+
+    def __init__(self, src):
+        super().__init__(src)
+
+    @property
+    def config_param(self):
+        # non-standard for these functions, however,
+        # each of these data frames is useless without the other
+        params = self._data_frame_along(('N_CONFIG_PARAM', ))
+        values = self._data_frame_along(('N_MISSIONS', 'N_CONFIG_PARAM'))
+        n_params = len(params.index)
+        n_values = len(values.index)
+        if n_params == 0 or n_values == 0:
+            return DataFrame()
+
+        n_missions = int(n_values / n_params)
+        params_rep = concat([params] * n_missions)
+        for col in params_rep.keys():
+            values[col] = params_rep[col]
+
+        return values
+
+    @property
+    def missions(self):
+        return self._data_frame_along(('N_MISSIONS', ))
+
+    @property
+    def trans_system(self):
+        return self._data_frame_along(('N_TRANS_SYSTEM', ))
+
+    @property
+    def positioning_system(self):
+        return self._data_frame_along(('N_POSITIONING_SYSTEM', ))
+
+    @property
+    def launch_config_param(self):
+        return self._data_frame_along(('N_LAUNCH_CONFIG_PARAM', ))
+
+    @property
+    def sensor(self):
+        return self._data_frame_along(('N_SENSOR', ))
+
+    @property
+    def param(self):
+        return self._data_frame_along(('N_PARAM', ))

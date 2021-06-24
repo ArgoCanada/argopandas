@@ -127,5 +127,32 @@ class TestTechNetCDF(unittest.TestCase):
         ncobj = nc.TechNetCDF(self.test_file)
         self.assertIn('CYCLE_NUMBER', ncobj.tech_param.keys())
 
+
+class TestMetaNetCDF(unittest.TestCase):
+
+    def setUp(self):
+        this_dir = os.path.dirname(__file__)
+        test_dir = os.path.join(this_dir, 'argo-test-mirror')
+        self.test_path = 'dac/csio/2900313/2900313_meta.nc'
+        self.test_file = os.path.join(test_dir, self.test_path)
+
+    def test_tables(self):
+        ncobj = nc.MetaNetCDF(self.test_file)
+        self.assertIn('CONFIG_PARAMETER_VALUE', ncobj.config_param.keys())
+        self.assertIn('CONFIG_PARAMETER_NAME', ncobj.config_param.keys())
+        self.assertIn('CONFIG_MISSION_NUMBER', ncobj.missions.keys())
+        self.assertIn('TRANS_SYSTEM', ncobj.trans_system.keys())
+        self.assertIn('POSITIONING_SYSTEM', ncobj.positioning_system.keys())
+        self.assertIn('LAUNCH_CONFIG_PARAMETER_NAME', ncobj.launch_config_param.keys())
+        self.assertIn('SENSOR', ncobj.sensor.keys())
+        self.assertIn('PARAMETER', ncobj.param.keys())
+
+    def test_config_param_no_vars(self):
+        tech_file_dir = os.path.dirname(self.test_file)
+        tech_file = os.path.join(tech_file_dir, '2900313_tech.nc')
+        ncobj = nc.MetaNetCDF(tech_file)
+        self.assertEqual(tuple(ncobj.config_param.keys()), ())
+
+
 if __name__ == '__main__':
     unittest.main()
