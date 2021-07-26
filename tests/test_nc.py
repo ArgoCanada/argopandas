@@ -4,7 +4,7 @@ import os
 
 from netCDF4 import Dataset, Variable
 
-from argodata import nc
+from argopandas import nc
 
 
 class TestNetCDFWrapper(unittest.TestCase):

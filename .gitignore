@@ -1,6 +1,6 @@
 build
 dist
-argodata.egg-info
+argopandas.egg-info
 __pycache__
 .vscode
 .coverage

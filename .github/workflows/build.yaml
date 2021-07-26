@@ -33,13 +33,13 @@ jobs:
       - name: Test dist
         run: |
           cd tests
-          pip install $(ls ../dist/argodata-*.whl)
+          pip install $(ls ../dist/argopandas-*.whl)
           pytest
       - name: Test coverage
         if: success() && (matrix.python-version == '3.9')
         run: |
           pwd
-          python -m pytest --cov ./argodata
+          python -m pytest --cov ./argopandas
       - name: "Upload coverage to Codecov"
         if: success() && (matrix.python-version == '3.9') && (github.ref == 'refs/heads/master')
         uses: codecov/codecov-action@v1

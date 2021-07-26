@@ -3,7 +3,7 @@ import unittest
 import tempfile
 import os
 
-from argodata.mirror import PathsDoNotExistError, NullMirror, \
+from argopandas.mirror import PathsDoNotExistError, NullMirror, \
     FileMirror, UrlMirror, CachedUrlMirror
 
 

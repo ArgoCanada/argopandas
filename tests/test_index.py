@@ -2,7 +2,7 @@
 import unittest
 import os
 
-from argodata.index import FileIndex, ListIndex
+from argopandas.index import FileIndex, ListIndex
 
 
 def filter_true(x):

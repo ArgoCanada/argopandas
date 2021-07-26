@@ -1,13 +1,13 @@
 
-from argodata.nc import NetCDFWrapper
+from argopandas.nc import NetCDFWrapper
 import tempfile
-from argodata.interactive import MirrorContext, file_mirror, url_mirror
-from argodata.index import FileIndex
-from argodata.global_index import GlobalIndex
+from argopandas.interactive import MirrorContext, file_mirror, url_mirror
+from argopandas.index import FileIndex
+from argopandas.global_index import GlobalIndex
 import unittest
 import os
-import argodata.interactive as argo
-from argodata.mirror import FileMirror, UrlMirror
+import argopandas.interactive as argo
+from argopandas.mirror import FileMirror, UrlMirror
 
 
 class TestGlobalIndexInterface(unittest.TestCase):
@@ -93,12 +93,12 @@ class TestGlobalIndexInterface(unittest.TestCase):
 class TestGlobalMirrors(unittest.TestCase):
 
     def test_global_mirror(self):
-        import argodata.interactive as argodata_mod
+        import argopandas.interactive as argopandas_mod
         mirror = UrlMirror('something')
-        prev_mirror = argodata_mod.set_default_mirror(mirror)
-        self.assertIs(argodata_mod.default_mirror(), mirror)
-        self.assertIs(argodata_mod.set_default_mirror(prev_mirror), mirror)
-        self.assertIs(argodata_mod.default_mirror(), prev_mirror)
+        prev_mirror = argopandas_mod.set_default_mirror(mirror)
+        self.assertIs(argopandas_mod.default_mirror(), mirror)
+        self.assertIs(argopandas_mod.set_default_mirror(prev_mirror), mirror)
+        self.assertIs(argopandas_mod.default_mirror(), prev_mirror)
 
 
 class TestMirrorContext(unittest.TestCase):

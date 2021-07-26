@@ -1,6 +1,6 @@
 
 import unittest
-from argodata.global_index import GlobalIndex
+from argopandas.global_index import GlobalIndex
 
 
 class TestGlobalIndex(unittest.TestCase):
