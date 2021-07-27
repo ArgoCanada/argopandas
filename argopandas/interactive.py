@@ -146,6 +146,6 @@ def nc(path: Union[str, Iterator[str]]) -> Union[str, Iterator[NetCDFWrapper]]:
 # don't include 'open' in * because it shadows the builtin open()
 __all__ = (
     'filename', 'url', 'default_mirror', 'set_default_mirror',
-    'meta', 'tech', 'traj', 'prof', 'bio_traj', 'bio_prof',
+    'meta', 'tech', 'traj', 'prof', 'bio_traj', 'bio_prof', 'nc',
     'synthetic_prof'
 )

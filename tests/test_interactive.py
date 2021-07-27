@@ -3,7 +3,7 @@ from argopandas.nc import NetCDFWrapper
 import tempfile
 from argopandas.interactive import MirrorContext, file_mirror, url_mirror
 from argopandas.index import FileIndex
-from argopandas.global_index import GlobalIndex
+from argopandas.global_index import GlobalIndex, ProfIndex
 import unittest
 import os
 import argopandas.interactive as argo
@@ -55,7 +55,9 @@ class TestGlobalIndexInterface(unittest.TestCase):
             list(argo.prof),
             list(FileIndex(os.path.join(self.test_dir, 'ar_index_global_prof.txt.gz')))
         )
-        self.assertIsInstance(argo.prof.filter(), GlobalIndex)
+        pi = argo.prof.filter()
+        self.assertIsInstance(pi, ProfIndex)
+        self.assertIs(pi._mirror, argo.default_mirror())
         self.assertRegex(repr(argo.prof), 'ar_index')
         self.assertIn('date_update', argo.prof.names())
 

@@ -1,31 +1,84 @@
 
+from argopandas.nc import NetCDFWrapper, ProfNetCDF
 from typing import Iterable
 import gzip
 import reprlib
+
+import pandas as pd
 
 from .index import FileIndex, Index, ListIndex
 from .mirror import NullMirror
 
 
+class GlobalIndexItem(dict):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.nc = NetCDFWrapper(b"")
+
+
 class GlobalIndex(ListIndex):
 
-    def __init__(self, src, filters=None, names=None):
+    def __init__(self, src, filters=None, names=None, mirror=None):
+        self._mirror = mirror
         if filters is not None:
             src = list(ListIndex(src, filters, names))
         super().__init__(src, filters=filters, names=names)
 
-    def _make_item(self, item):
-        return item
+    def filter(self, *args):
+        result = super().filter(*args)
+        result._mirror = self._mirror
+        return result
 
-    def __iter__(self):
-        constructor = self._make_item
-        for item in self._src:
-            yield constructor(item)
+    def __getitem__(self, k) -> GlobalIndexItem:
+        if isinstance(k, slice):
+            return type(self)(self._src[k], names=self._names, mirror=self._mirror)
+        else:
+            return self._make_item(self._src[k])
+
+    def _make_item(self, item) -> GlobalIndexItem:
+        return GlobalIndexItem(item)
 
     def __repr__(self):
         # reprlib abbreviates lists so that these are readable in
         # interactive output
-        return f"GlobalIndex({reprlib.repr(self._src)})"
+        return f"{type(self).__name__}({reprlib.repr(self._src)}, mirror={reprlib.repr(self._mirror)})"
+
+
+class ProfIndex(GlobalIndex):
+
+    def __init__(self, src, filters=None, names=None, mirror=None):
+        super().__init__(src, filters=filters, names=names, mirror=mirror)
+
+    def _make_item(self, item):
+        item = GlobalIndexItem(item)
+        item.nc = ProfNetCDF(self._mirror.url('dac/' + item['file']))
+        return item
+
+    @property
+    def levels(self) -> pd.DataFrame:
+        objs = []
+        keys = []
+        for item in self._src:
+            objs.append(self._make_item(item).nc.levels)
+            keys.append(item['file'])
+
+        return pd.concat(objs, keys=keys, names=["file"])
+
+    @property
+    def prof(self):
+        pass
+
+    @property
+    def calib(self):
+        pass
+
+    @property
+    def param(self):
+        pass
+
+    @property
+    def history(self):
+        pass
 
 
 class GlobalIndexRoot(Index):
@@ -53,7 +106,10 @@ class GlobalIndexRoot(Index):
         self._mirror.prepare([self._path])
         with self._mirror.open(self._path) as fg:
             with gzip.open(fg) as f:
-                self._cached_index = GlobalIndex(FileIndex(f), names=self._names)
+                self._cached_index = self._make_index(FileIndex(f))
+
+    def _make_index(self, file_index):
+        return GlobalIndex(file_index, names=self._names, mirror=self._mirror)
 
     def filter(self, *args) -> GlobalIndex:
         return self._index().filter(*args)
@@ -104,6 +160,9 @@ class GlobalProf(GlobalIndexRoot):
             ('file', 'date', 'longitude', 'latitude', 'ocean',
              'profiler_type', 'institution', 'date_update')
         )
+
+    def _make_index(self, file_index):
+        return ProfIndex(file_index, names=self._names, mirror=self._mirror)
 
 
 class GlobalBioTraj(GlobalIndexRoot):

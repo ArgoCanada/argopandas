@@ -18,7 +18,7 @@ class TestGlobalIndex(unittest.TestCase):
         )
 
     def test_repr(self):
-        self.assertEqual(repr(GlobalIndex([])), 'GlobalIndex([])')
+        self.assertEqual(repr(GlobalIndex([])), 'GlobalIndex([], mirror=None)')
 
 
 if __name__ == '__main__':
