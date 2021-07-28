@@ -105,8 +105,7 @@ def _url_iter(path, mirror):
 def _nc_iter(path, mirror):
     mirror.prepare(path)
     for p in path:
-        with mirror.open(p) as f:
-            yield NetCDFWrapper(f.read())
+        yield NetCDFWrapper(mirror.netcdf_dataset_src(p))
 
 
 def open(path: Union[str, Iterator[str]]) -> Union[str, Iterator[BinaryIO]]:
@@ -137,8 +136,7 @@ def url(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
 def nc(path: Union[str, Iterator[str]]) -> Union[str, Iterator[NetCDFWrapper]]:
     mirror = default_mirror()
     if isinstance(path, str):
-        with mirror.prepare([path]).open(path) as f:
-            return NetCDFWrapper(f.read())
+        return NetCDFWrapper(mirror.netcdf_dataset_src(path))
     else:
         return _nc_iter(path, mirror)
 
