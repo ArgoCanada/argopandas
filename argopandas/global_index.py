@@ -114,6 +114,9 @@ class GlobalIndexRoot(Index):
     def filter(self, *args) -> GlobalIndex:
         return self._index().filter(*args)
 
+    def __getitem__(self, k) -> GlobalIndexItem:
+        return self._index()[k]
+
     def names(self):
         return self._names
 
