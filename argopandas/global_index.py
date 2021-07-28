@@ -51,6 +51,10 @@ class GlobalIndex(ListIndex):
 
         return pd.concat(objs, keys=keys, names=["file"])
 
+    @property
+    def info(self) -> pd.DataFrame:
+        return self._data_frame_along('info')
+
     def __repr__(self):
         # reprlib abbreviates lists so that these are readable in
         # interactive output
