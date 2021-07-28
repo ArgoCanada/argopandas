@@ -25,6 +25,8 @@ class TestAbstractMirror(unittest.TestCase):
             NullMirror().filename("file")
         with self.assertRaises(NotImplementedError):
             NullMirror().url("file")
+        with self.assertRaises(NotImplementedError):
+            NullMirror().netcdf_dataset_src("file")
 
 
 class TestFileMirror(unittest.TestCase):
@@ -62,6 +64,10 @@ class TestFileMirror(unittest.TestCase):
         with self.assertRaises(PathsDoNotExistError):
             mirror.prepare(["not a file"])
 
+    def test_dataset(self):
+        mirror = FileMirror(self.mirror_dir)
+        self.assertEqual(mirror.netcdf_dataset_src('some_file'), mirror.filename('some_file'))
+
 
 class TestUrlMirror(unittest.TestCase):
 
@@ -86,6 +92,10 @@ class TestUrlMirror(unittest.TestCase):
         mirror = UrlMirror('https://httpbin.org')
         with mirror.open('get') as f:
             self.assertTrue(hasattr(f, 'read'))
+
+    def test_dataset(self):
+        mirror = UrlMirror('something')
+        self.assertEqual(mirror.netcdf_dataset_src('get'), mirror.url('get'))
 
 
 class TestCachedUrlMirror(unittest.TestCase):
@@ -147,3 +157,7 @@ class TestCachedUrlMirror(unittest.TestCase):
         with self.assertRaises(PathsDoNotExistError):
             mirror.prepare(["status/404"])
             self.assertFalse(os.path.exists(mirror.filename('status/404')))
+
+    def test_dataset(self):
+        mirror = CachedUrlMirror('something')
+        self.assertEqual(mirror.netcdf_dataset_src('get'), mirror.filename('get'))

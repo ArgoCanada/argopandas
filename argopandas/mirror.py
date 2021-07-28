@@ -33,6 +33,9 @@ class NullMirror:
     def url(self, path):
         raise NotImplementedError()
 
+    def netcdf_dataset_src(self, path):
+        raise NotImplementedError()
+
 
 class FileMirror(NullMirror):
 
@@ -66,6 +69,9 @@ class FileMirror(NullMirror):
 
         return self
 
+    def netcdf_dataset_src(self, path):
+        return self.filename(path)
+
 
 class UrlMirror(NullMirror):
 
@@ -90,6 +96,9 @@ class UrlMirror(NullMirror):
 
     def prepare(self, path_iter):
         return self
+
+    def netcdf_dataset_src(self, path):
+        return self.url(path)
 
 
 class CachedUrlMirror(UrlMirror):
@@ -141,6 +150,9 @@ class CachedUrlMirror(UrlMirror):
             raise PathsDoNotExistError(bad_paths, errors)
 
         return self
+
+    def netcdf_dataset_src(self, path):
+        return self.filename(path)
 
 
 default_mirror = UrlMirror('https://data-argo.ifremer.fr')
