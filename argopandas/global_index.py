@@ -1,5 +1,5 @@
 
-from argopandas.nc import NetCDFWrapper, ProfNetCDF
+from argopandas.nc import MetaNetCDF, NetCDFWrapper, ProfNetCDF, TechNetCDF, TrajNetCDF
 from typing import Iterable
 import gzip
 import reprlib
@@ -38,6 +38,19 @@ class GlobalIndex(ListIndex):
     def _make_item(self, item) -> GlobalIndexItem:
         return GlobalIndexItem(item)
 
+    def _data_frame_along(self, name) -> pd.DataFrame:
+        # prepare the mirror
+        self._mirror.prepare(['dac/' + item['file'] for item in self._src])
+
+        objs = []
+        keys = []
+
+        for item in self._src:
+            objs.append(getattr(self._make_item(item).nc, name))
+            keys.append(item['file'])
+
+        return pd.concat(objs, keys=keys, names=["file"])
+
     def __repr__(self):
         # reprlib abbreviates lists so that these are readable in
         # interactive output
@@ -51,34 +64,109 @@ class ProfIndex(GlobalIndex):
 
     def _make_item(self, item):
         item = GlobalIndexItem(item)
-        item.nc = ProfNetCDF(self._mirror.url('dac/' + item['file']))
+        item.nc = ProfNetCDF(self._mirror.netcdf_dataset_src('dac/' + item['file']))
         return item
 
     @property
     def levels(self) -> pd.DataFrame:
-        objs = []
-        keys = []
-        for item in self._src:
-            objs.append(self._make_item(item).nc.levels)
-            keys.append(item['file'])
-
-        return pd.concat(objs, keys=keys, names=["file"])
+        return self._data_frame_along('levels')
 
     @property
     def prof(self):
-        pass
+        return self._data_frame_along('prof')
 
     @property
     def calib(self):
-        pass
+        return self._data_frame_along('calib')
 
     @property
     def param(self):
-        pass
+        return self._data_frame_along('param')
 
     @property
     def history(self):
-        pass
+        return self._data_frame_along('history')
+
+
+class TrajIndex(GlobalIndex):
+
+    def __init__(self, src, filters=None, names=None, mirror=None):
+        super().__init__(src, filters=filters, names=names, mirror=mirror)
+
+    def _make_item(self, item):
+        item = GlobalIndexItem(item)
+        item.nc = TrajNetCDF(self._mirror.netcdf_dataset_src('dac/' + item['file']))
+        return item
+
+    @property
+    def measurement(self):
+        return self._data_frame_along('measurement')
+
+    @property
+    def cycle(self):
+        return self._data_frame_along('cycle')
+
+    @property
+    def param(self):
+        return self._data_frame_along('param')
+
+    @property
+    def history(self):
+        return self._data_frame_along('history')
+
+
+class TechIndex(GlobalIndex):
+
+    def __init__(self, src, filters=None, names=None, mirror=None):
+        super().__init__(src, filters=filters, names=names, mirror=mirror)
+
+    def _make_item(self, item):
+        item = GlobalIndexItem(item)
+        item.nc = TechNetCDF(self._mirror.netcdf_dataset_src('dac/' + item['file']))
+        return item
+
+    @property
+    def tech_param(self):
+        return self._data_frame_along('tech_param')
+
+
+class MetaIndex(GlobalIndex):
+
+    def __init__(self, src, filters=None, names=None, mirror=None):
+        super().__init__(src, filters=filters, names=names, mirror=mirror)
+
+    def _make_item(self, item):
+        item = GlobalIndexItem(item)
+        item.nc = MetaNetCDF(self._mirror.netcdf_dataset_src('dac/' + item['file']))
+        return item
+
+    @property
+    def config_param(self):
+        return self._data_frame_along('config_param')
+
+    @property
+    def missions(self):
+        return self._data_frame_along('missions')
+
+    @property
+    def trans_system(self):
+        return self._data_frame_along('trans_system')
+
+    @property
+    def positioning_system(self):
+        return self._data_frame_along('positioning_system')
+
+    @property
+    def launch_config_param(self):
+        return self._data_frame_along('launch_config_param')
+
+    @property
+    def sensor(self):
+        return self._data_frame_along('sensor')
+
+    @property
+    def param(self):
+        return self._data_frame_along('param')
 
 
 class GlobalIndexRoot(Index):
@@ -137,6 +225,9 @@ class GlobalMeta(GlobalIndexRoot):
             ('file', 'profiler_type', 'institution', 'date_update')
         )
 
+    def _make_index(self, file_index):
+        return MetaIndex(file_index, names=self._names, mirror=self._mirror)
+
 
 class GlobalTech(GlobalIndexRoot):
     def __init__(self):
@@ -144,6 +235,9 @@ class GlobalTech(GlobalIndexRoot):
             'ar_index_global_tech.txt.gz',
             ('file', 'institution', 'date_update')
         )
+
+    def _make_index(self, file_index):
+        return TechIndex(file_index, names=self._names, mirror=self._mirror)
 
 
 class GlobalTraj(GlobalIndexRoot):
@@ -154,6 +248,9 @@ class GlobalTraj(GlobalIndexRoot):
              'longitude_max', 'longitude_min', 'profiler_type'
              'institution', 'date_update')
         )
+
+    def _make_index(self, file_index):
+        return TrajIndex(file_index, names=self._names, mirror=self._mirror)
 
 
 class GlobalProf(GlobalIndexRoot):
@@ -177,6 +274,9 @@ class GlobalBioTraj(GlobalIndexRoot):
              'parameters', 'institution', 'date_update')
         )
 
+    def _make_index(self, file_index):
+        return TrajIndex(file_index, names=self._names, mirror=self._mirror)
+
 
 class GlobalBioProf(GlobalIndexRoot):
     def __init__(self):
@@ -187,6 +287,9 @@ class GlobalBioProf(GlobalIndexRoot):
              'parameter_data_mode', 'date_update')
         )
 
+    def _make_index(self, file_index):
+        return ProfIndex(file_index, names=self._names, mirror=self._mirror)
+
 
 class GlobalSyntheticProf(GlobalIndexRoot):
     def __init__(self):
@@ -196,3 +299,6 @@ class GlobalSyntheticProf(GlobalIndexRoot):
              'profiler_type', 'institution', 'parameters',
              'parameter_data_mode', 'date_update')
         )
+
+    def _make_index(self, file_index):
+        return ProfIndex(file_index, names=self._names, mirror=self._mirror)
