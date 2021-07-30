@@ -21,7 +21,10 @@ The intended interface for most usage is contained in the `argopandas.interactiv
 
 
 ```python
-import argopandas.interactive as argo
+import argopandas.interactive as argo
+# to make this work with GitHub
+import pandas as pd
+pd.set_option('display.notebook_repr_html', False)
 ```
 
 The global indexes are available via `argo.prof`, `argo.meta`, `argo.tech`, and `argo.traj`:
@@ -34,7 +37,7 @@ argo.meta[:5]
 
 
 
-    GlobalIndex([{'date_update': '20181011200014', 'file': 'aoml/13857/13857_meta.nc', 'institution': 'AO', 'profiler_type': '845'}, {'date_update': '20181011200015', 'file': 'aoml/13858/13858_meta.nc', 'institution': 'AO', 'profiler_type': '845'}, {'date_update': '20181011200025', 'file': 'aoml/13859/13859_meta.nc', 'institution': 'AO', 'profiler_type': '845'}, {'date_update': '20181011200016', 'file': 'aoml/15819/15819_meta.nc', 'institution': 'AO', 'profiler_type': '845'}, {'date_update': '20181011200018', 'file': 'aoml/15820/15820_meta.nc', 'institution': 'AO', 'profiler_type': '845'}], mirror=argo.CachedUr...o.ifremer.fr'))
+    MetaIndex([{'date_update': '20181011200014', 'file': 'aoml/13857/13857_meta.nc', 'institution': 'AO', 'profiler_type': '845'}, {'date_update': '20181011200015', 'file': 'aoml/13858/13858_meta.nc', 'institution': 'AO', 'profiler_type': '845'}, {'date_update': '20181011200025', 'file': 'aoml/13859/13859_meta.nc', 'institution': 'AO', 'profiler_type': '845'}, {'date_update': '20181011200016', 'file': 'aoml/15819/15819_meta.nc', 'institution': 'AO', 'profiler_type': '845'}, {'date_update': '20181011200018', 'file': 'aoml/15820/15820_meta.nc', 'institution': 'AO', 'profiler_type': '845'}], mirror=argo.CachedUr...o.ifremer.fr'))
 
 
 
@@ -50,129 +53,35 @@ argo.prof[:5].levels[['PRES', 'PRES_QC', 'TEMP', 'TEMP_QC']]
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th></th>
-      <th>PRES</th>
-      <th>PRES_QC</th>
-      <th>TEMP</th>
-      <th>TEMP_QC</th>
-    </tr>
-    <tr>
-      <th>file</th>
-      <th>N_PROF</th>
-      <th>N_LEVELS</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="5" valign="top">aoml/13857/profiles/R13857_001.nc</th>
-      <th rowspan="5" valign="top">0</th>
-      <th>0</th>
-      <td>11.900000</td>
-      <td>b'1'</td>
-      <td>22.235001</td>
-      <td>b'1'</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>17.000000</td>
-      <td>b'1'</td>
-      <td>21.987000</td>
-      <td>b'1'</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>22.100000</td>
-      <td>b'1'</td>
-      <td>21.891001</td>
-      <td>b'1'</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>27.200001</td>
-      <td>b'1'</td>
-      <td>21.812000</td>
-      <td>b'1'</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>32.299999</td>
-      <td>b'1'</td>
-      <td>21.632000</td>
-      <td>b'1'</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <th>...</th>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th rowspan="5" valign="top">aoml/13857/profiles/R13857_005.nc</th>
-      <th rowspan="5" valign="top">0</th>
-      <th>102</th>
-      <td>976.500000</td>
-      <td>b'1'</td>
-      <td>4.527000</td>
-      <td>b'1'</td>
-    </tr>
-    <tr>
-      <th>103</th>
-      <td>986.700012</td>
-      <td>b'1'</td>
-      <td>4.527000</td>
-      <td>b'1'</td>
-    </tr>
-    <tr>
-      <th>104</th>
-      <td>996.799988</td>
-      <td>b'1'</td>
-      <td>4.533000</td>
-      <td>b'1'</td>
-    </tr>
-    <tr>
-      <th>105</th>
-      <td>1007.000000</td>
-      <td>b'1'</td>
-      <td>4.487000</td>
-      <td>b'1'</td>
-    </tr>
-    <tr>
-      <th>106</th>
-      <td>1017.200012</td>
-      <td>b'1'</td>
-      <td>4.471000</td>
-      <td>b'1'</td>
-    </tr>
-  </tbody>
-</table>
-<p>551 rows × 4 columns</p>
-</div>
+                                                              PRES PRES_QC  \
+    file                              N_PROF N_LEVELS                        
+    aoml/13857/profiles/R13857_001.nc 0      0           11.900000    b'1'   
+                                             1           17.000000    b'1'   
+                                             2           22.100000    b'1'   
+                                             3           27.200001    b'1'   
+                                             4           32.299999    b'1'   
+    ...                                                        ...     ...   
+    aoml/13857/profiles/R13857_005.nc 0      102        976.500000    b'1'   
+                                             103        986.700012    b'1'   
+                                             104        996.799988    b'1'   
+                                             105       1007.000000    b'1'   
+                                             106       1017.200012    b'1'   
+    
+                                                            TEMP TEMP_QC  
+    file                              N_PROF N_LEVELS                     
+    aoml/13857/profiles/R13857_001.nc 0      0         22.235001    b'1'  
+                                             1         21.987000    b'1'  
+                                             2         21.891001    b'1'  
+                                             3         21.812000    b'1'  
+                                             4         21.632000    b'1'  
+    ...                                                      ...     ...  
+    aoml/13857/profiles/R13857_005.nc 0      102        4.527000    b'1'  
+                                             103        4.527000    b'1'  
+                                             104        4.533000    b'1'  
+                                             105        4.487000    b'1'  
+                                             106        4.471000    b'1'  
+    
+    [551 rows x 4 columns]
 
 
 
@@ -188,10 +97,10 @@ Once you have a data frame you do anything you'd do with a regular `pd.DataFrame
 
 
 ```python
-import matplotlib.pyplot as plt
-fig, ax = plt.subplots()
-for label, df in argo.prof[:5].levels.groupby('file'):
-    df.plot(x='TEMP', y = 'PRES', ax=ax, label=label)
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+for label, df in argo.prof[:5].levels.groupby('file'):
+    df.plot(x='TEMP', y = 'PRES', ax=ax, label=label)
 ax.invert_yaxis()
 ```
 
