@@ -5,3 +5,6 @@ __pycache__
 .vscode
 .coverage
 .pytest_cache
+docs/_build
+docs/README.rst
+docs/README_files
