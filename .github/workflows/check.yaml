@@ -1,9 +1,9 @@
-name: Python package
+name: Check
 
 on: [push, pull_request]
 
 jobs:
-  build:
+  check:
 
     runs-on: ubuntu-latest
     strategy:
@@ -35,18 +35,3 @@ jobs:
           cd tests
           pip install $(ls ../dist/argopandas-*.whl)
           pytest
-      - name: Test coverage
-        if: success() && (matrix.python-version == '3.9')
-        run: |
-          pwd
-          python -m pytest --cov ./argopandas
-      - name: "Upload coverage to Codecov"
-        if: success() && (matrix.python-version == '3.9') && (github.ref == 'refs/heads/master')
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Upload dist
-        uses: actions/upload-artifact@main
-        with:
-          name: dist-python-${{ matrix.python-version }}
-          path: dist
