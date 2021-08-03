@@ -1,6 +1,5 @@
 
 import unittest
-import re
 import argopandas.path as path
 
 class TestPath(unittest.TestCase):
