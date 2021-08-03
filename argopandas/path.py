@@ -163,6 +163,6 @@ def is_meta(path):
 
 
 __all__ = [
-    'path_info', 'is_descending', 'is_float', 'is_data_mode',
+    'info', 'is_descending', 'is_float', 'is_data_mode',
     'is_prof', 'is_traj', 'is_tech', 'is_meta'
 ]
