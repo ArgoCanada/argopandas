@@ -1,8 +1,30 @@
 
 import re
 
+# general file regexes
+def _re_types(types=('traj', 'prof', 'tech', 'meta')):
+    types = '|'.join(types)
+    return re.compile(r'([0-9]+)_(B|S)?(R|D)?(' + types + ')(_aux)?\.nc')
+
+
 _re_prof = re.compile(r'^(B|S)?(R|D)([0-9]+)_([0-9]+)(D)?(_aux)?\.nc$')
-_re_non_prof = re.compile(r'([0-9]+)_(B|S)?(R|D)?(traj|prof|tech|meta)(_aux)?\.nc')
+_re_non_prof = _re_types()
+
+# these are for testing specific bits...faster than parsing an entire
+# expression match
+_re_descending = re.compile(r'[0-9]{3,4}D\.nc')
+
+def _re_data_mode(data_mode):
+    data_mode_chr = data_mode.upper()[0]
+    re_prof = data_mode_chr + r'[0-9]+[^/]+$'
+    re_not_prof = r'[0-9]+_(B|S)?' + data_mode_chr + r'(traj|prof|tech|meta)\.nc$'
+    return re.compile('(' + re_prof + ')|(' + re_not_prof + ')')
+
+
+def _re_float(float):
+    floats = '|'.join(str(int(f)) for f in float)
+    return re.compile(r'[^0-9](' + floats + r')[^0-9][^/]*$')
+
 
 def _path_info(path):
     match = _re_prof.search(path)
@@ -35,8 +57,59 @@ def _path_info_iter(path):
         yield _path_info(p)
 
 
+def _re_search_iter(path, regex):
+    for p in path:
+        yield regex.search(p) is not None
+
+
+def _re_search(path, regex):
+    if isinstance(path, str):
+        return regex.search(path) is not None
+    else:
+        return _re_search_iter(path, regex)
+
+
 def path_info(path):
     if isinstance(path, str):
         return _path_info(path)
     else:
         return _path_info_iter(path)
+
+
+def is_descending(path):
+    return _re_search(path, _re_descending)
+
+
+def is_float(path, floats):
+    if isinstance(floats, str) or isinstance(floats, int):
+        floats = [floats]
+    return _re_search(path, _re_float(floats))
+
+
+def is_data_mode(path, data_mode):
+    return _re_search(path, _re_data_mode(data_mode))
+
+
+def is_prof(path):
+    re_cycle = _re_prof.pattern
+    re_float = _re_types(['prof']).pattern
+    re_both = '(' + re_cycle + ')|(' + re_float + ')'
+    return _re_search(path, re.compile(re_both))
+
+
+def is_traj(path):
+    return _re_search(path, _re_types(['traj']))
+
+
+def is_tech(path):
+    return _re_search(path, _re_types(['tech']))
+
+
+def is_meta(path):
+    return _re_search(path, _re_types(['meta']))
+
+
+__all__ = [
+    'path_info', 'is_descending', 'is_float', 'is_data_mode',
+    'is_prof', 'is_traj', 'is_tech', 'is_meta'
+]
