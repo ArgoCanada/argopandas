@@ -158,6 +158,51 @@
             
   <div class="section" id="module-argopandas.interactive">
 <span id="interactive-interface"></span><h1>Interactive interface<a class="headerlink" href="#module-argopandas.interactive" title="Permalink to this headline">¶</a></h1>
+<p>The interactive module contains the interface for
+argopandas and may be moved to the base module when
+the interface becomes stable.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.interactive.default_mirror">
+<span class="sig-prename descclassname"><span class="pre">argopandas.interactive.</span></span><span class="sig-name descname"><span class="pre">default_mirror</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">argopandas.mirror.NullMirror</span></span></span><a class="headerlink" href="#argopandas.interactive.default_mirror" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the default mirror (e.g., used to populate
+the global indexes).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">argopandas.interactive</span> <span class="k">as</span> <span class="nn">argo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">argo</span><span class="o">.</span><span class="n">default_mirror</span><span class="p">()</span>
+<span class="go">argo.CachedUrlMirror(&#39;https://data-argo.ifremer.fr&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.interactive.filename">
+<span class="sig-prename descclassname"><span class="pre">argopandas.interactive.</span></span><span class="sig-name descname"><span class="pre">filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#argopandas.interactive.filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a one or more files and return the filename.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.interactive.nc">
+<span class="sig-prename descclassname"><span class="pre">argopandas.interactive.</span></span><span class="sig-name descname"><span class="pre">nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">argopandas.nc.NetCDFWrapper</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#argopandas.interactive.nc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a <code class="docutils literal notranslate"><span class="pre">netCDF4.Dataset</span></code> or iterate over multiple data sets.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.interactive.set_default_mirror">
+<span class="sig-prename descclassname"><span class="pre">argopandas.interactive.</span></span><span class="sig-name descname"><span class="pre">set_default_mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mirror</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">argopandas.mirror.NullMirror</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">argopandas.mirror.NullMirror</span></span></span><a class="headerlink" href="#argopandas.interactive.set_default_mirror" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the default mirror.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mirror</strong> – One of <code class="xref py py-func docutils literal notranslate"><span class="pre">url_mirror()</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">file_mirror()</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.interactive.url">
+<span class="sig-prename descclassname"><span class="pre">argopandas.interactive.</span></span><span class="sig-name descname"><span class="pre">url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#argopandas.interactive.url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the URL to one or more files. If <a class="reference internal" href="#argopandas.interactive.default_mirror" title="argopandas.interactive.default_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_mirror()</span></code></a>
+is a <code class="xref py py-func docutils literal notranslate"><span class="pre">file_mirror()</span></code>, this will be a <code class="docutils literal notranslate"><span class="pre">file://</span></code> URL.</p>
+</dd></dl>
+
 </div>
 
 
