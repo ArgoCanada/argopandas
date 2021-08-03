@@ -1,3 +1,8 @@
+"""
+The interactive module contains the interface for
+argopandas and may be moved to the base module when
+the interface becomes stable.
+"""
 
 from contextlib import AbstractContextManager
 from typing import Union, Iterator, BinaryIO
@@ -25,6 +30,11 @@ _default_mirror = None
 
 
 def set_default_mirror(mirror: NullMirror) -> NullMirror:
+    """
+    Set the default mirror.
+
+    :param mirror: One of :func:`url_mirror` or :func:`file_mirror`.
+    """
     global _default_mirror
     previous = _default_mirror
     _default_mirror = mirror
@@ -37,6 +47,14 @@ def set_default_mirror(mirror: NullMirror) -> NullMirror:
 
 
 def default_mirror() -> NullMirror:
+    """
+    Get the default mirror (e.g., used to populate
+    the global indexes).
+
+    >>> import argopandas.interactive as argo
+    >>> argo.default_mirror()
+    argo.CachedUrlMirror('https://data-argo.ifremer.fr')
+    """
     return _default_mirror
 
 
@@ -73,6 +91,17 @@ class MirrorContext(AbstractContextManager, NullMirror):
 
 
 def url_mirror(root, cache_dir=None, cached=True) -> MirrorContext:
+    """
+    Returns a mirror with an optional cache directory.
+
+    :param root: A URL that contains a dac/ directory and
+        a listing of .txt.gz index files.
+    :param cache_dir: Use ``None`` to use a temporary file
+        or sepcify an existing cache directory.
+    :param cached: Use ``False`` to skip the cache step
+        completely and operate on data sets in memory.
+    """
+
     if cached:
         return MirrorContext(CachedUrlMirror(root, cache_dir))
     else:
@@ -80,6 +109,12 @@ def url_mirror(root, cache_dir=None, cached=True) -> MirrorContext:
 
 
 def file_mirror(root) -> MirrorContext:
+    """
+    Returns a mirror from a local file system.
+
+    :param root: A directory that contains a dac/ directory and
+        a listing of .txt.gz index files.
+    """
     return MirrorContext(FileMirror(root))
 
 # ---- global mirror shortcuts ----
@@ -110,6 +145,11 @@ def _nc_iter(path, mirror):
 
 
 def open(path: Union[str, Iterator[str]]) -> Union[str, Iterator[BinaryIO]]:
+    """
+    Open a file or iterate over open files on the default mirror.
+
+    :param path: One or more paths relative to the root directory.
+    """
     mirror = default_mirror()
     if isinstance(path, str):
         return mirror.prepare([path]).open(path)
@@ -118,6 +158,9 @@ def open(path: Union[str, Iterator[str]]) -> Union[str, Iterator[BinaryIO]]:
 
 
 def filename(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
+    """
+    Download a one or more files and return the filename.
+    """
     mirror = default_mirror()
 
     if isinstance(path, str):
@@ -127,6 +170,10 @@ def filename(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
 
 
 def url(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
+    """
+    Return the URL to one or more files. If :func:`default_mirror`
+    is a :func:`file_mirror`, this will be a ``file://`` URL.
+    """
     mirror = default_mirror()
     if isinstance(path, str):
         return mirror.url(path)
@@ -135,6 +182,9 @@ def url(path: Union[str, Iterator[str]]) -> Union[str, Iterator[str]]:
 
 
 def nc(path: Union[str, Iterator[str]]) -> Union[str, Iterator[NetCDFWrapper]]:
+    """
+    Get a ``netCDF4.Dataset`` or iterate over multiple data sets.
+    """
     mirror = default_mirror()
     if isinstance(path, str):
         return NetCDFWrapper(mirror.netcdf_dataset_src(path))

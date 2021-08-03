@@ -1,3 +1,15 @@
+"""
+This module contains functions that operate on Argo filenames.
+These filenames follow specific conventions that can be hard
+to remember. This is built-in to the interactive module. The
+``path`` argument for all functions in this module can be a string
+file path or an iterable of file paths.
+
+>>> import argopandas.interactive as argo
+>>> argo.path.info('2902746_tech.nc')
+{'type': 'tech', 'modifier': None, 'data_mode': None, 'float': 2902746, 'aux': None}
+"""
+
 
 import re
 
@@ -13,6 +25,7 @@ _re_non_prof = _re_types()
 # these are for testing specific bits...faster than parsing an entire
 # expression match
 _re_descending = re.compile(r'[0-9]{3,4}D\.nc')
+
 
 def _re_data_mode(data_mode):
     data_mode_chr = data_mode.upper()[0]
@@ -70,6 +83,10 @@ def _re_search(path, regex):
 
 
 def info(path):
+    """
+    Return a dictionary of information that can be obtained
+    from the file path.
+    """
     if isinstance(path, str):
         return _info(path)
     else:
@@ -77,20 +94,44 @@ def info(path):
 
 
 def is_descending(path):
+    """
+    Return ```True``` if this profile is a descending
+    profile.
+    """
     return _re_search(path, _re_descending)
 
 
 def is_float(path, floats):
+    """
+    Return ``True`` if ``path`` matches one of the floats listed
+    in ``floats``.
+
+    :param floats: An integer, string, or iterable of those
+        representing.
+    """
     if isinstance(floats, str) or isinstance(floats, int):
         floats = [floats]
+    else :
+        floats = [str(f) for f in floats]
+
     return _re_search(path, _re_float(floats))
 
 
 def is_data_mode(path, data_mode):
+    """
+    Return ``True`` if  ``path`` is path a to a real-time ('R')
+    or delayed ('D') mode file.
+
+    :param data_mode: One of 'R', 'D', 'realtime' or 'delayed'
+    """
     return _re_search(path, _re_data_mode(data_mode))
 
 
 def is_prof(path):
+    """
+    Return ``True`` if  ``path`` is path to a profile NetCDF
+    or ``False otherwise.
+    """
     re_cycle = _re_prof.pattern
     re_float = _re_types(['prof']).pattern
     re_both = '(' + re_cycle + ')|(' + re_float + ')'
@@ -98,14 +139,26 @@ def is_prof(path):
 
 
 def is_traj(path):
+    """
+    Return ``True`` if  ``path`` is path to a traj NetCDF
+    or ``False otherwise.
+    """
     return _re_search(path, _re_types(['traj']))
 
 
 def is_tech(path):
+    """
+    Return ``True`` if  ``path`` is path to a tech NetCDF
+    or ``False otherwise.
+    """
     return _re_search(path, _re_types(['tech']))
 
 
 def is_meta(path):
+    """
+    Return ``True`` if  ``path`` is path to a meta NetCDF
+    or ``False otherwise.
+    """
     return _re_search(path, _re_types(['meta']))
 
 
