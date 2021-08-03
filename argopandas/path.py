@@ -26,7 +26,7 @@ def _re_float(float):
     return re.compile(r'[^0-9](' + floats + r')[^0-9][^/]*$')
 
 
-def _path_info(path):
+def _info(path):
     match = _re_prof.search(path)
     if match:
         return {
@@ -52,9 +52,9 @@ def _path_info(path):
     return {'type': None}
 
 
-def _path_info_iter(path):
+def _info_iter(path):
     for p in path:
-        yield _path_info(p)
+        yield _info(p)
 
 
 def _re_search_iter(path, regex):
@@ -69,11 +69,11 @@ def _re_search(path, regex):
         return _re_search_iter(path, regex)
 
 
-def path_info(path):
+def info(path):
     if isinstance(path, str):
-        return _path_info(path)
+        return _info(path)
     else:
-        return _path_info_iter(path)
+        return _info_iter(path)
 
 
 def is_descending(path):

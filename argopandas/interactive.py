@@ -4,6 +4,7 @@ from typing import Union, Iterator, BinaryIO
 
 from .mirror import CachedUrlMirror, FileMirror, NullMirror, UrlMirror
 from . import global_index
+from . import path
 from .nc import NetCDFWrapper
 
 # --- global index interface ----
@@ -145,5 +146,5 @@ def nc(path: Union[str, Iterator[str]]) -> Union[str, Iterator[NetCDFWrapper]]:
 __all__ = (
     'filename', 'url', 'default_mirror', 'set_default_mirror',
     'meta', 'tech', 'traj', 'prof', 'bio_traj', 'bio_prof', 'nc',
-    'synthetic_prof'
+    'synthetic_prof', 'path'
 )

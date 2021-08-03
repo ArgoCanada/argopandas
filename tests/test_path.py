@@ -6,11 +6,11 @@ import argopandas.path as path
 class TestPath(unittest.TestCase):
 
     def test_path_info(self):
-        info = path.path_info('R2901633_052.nc')
-        self.assertEqual(list(path.path_info(['R2901633_052.nc'])), [info])
+        info = path.info('R2901633_052.nc')
+        self.assertEqual(list(path.info(['R2901633_052.nc'])), [info])
 
     def test_path_prof(self):
-        info = path.path_info('R2901633_052.nc')
+        info = path.info('R2901633_052.nc')
         self.assertEqual(info['type'], 'prof')
         self.assertEqual(info['float'], 2901633)
         self.assertEqual(info['cycle'], 52)
@@ -20,7 +20,7 @@ class TestPath(unittest.TestCase):
         self.assertIsNone(info['aux'])
 
     def test_path_not_prof(self):
-        info = path.path_info('2900313_Rtraj.nc')
+        info = path.info('2900313_Rtraj.nc')
         self.assertEqual(info['type'], 'traj')
         self.assertEqual(info['float'], 2900313)
         self.assertEqual(info['data_mode'], 'R')
