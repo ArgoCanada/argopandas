@@ -1,12 +1,11 @@
 
-from argopandas.nc import NetCDFWrapper
+from argopandas.netcdf import NetCDFWrapper
 import tempfile
-from argopandas.interactive import MirrorContext, file_mirror, url_mirror
 from argopandas.index import FileIndex
 from argopandas.global_index import GlobalIndex, ProfIndex
 import unittest
 import os
-import argopandas.interactive as argo
+import argopandas as argo
 from argopandas.mirror import FileMirror, UrlMirror
 
 
@@ -95,12 +94,11 @@ class TestGlobalIndexInterface(unittest.TestCase):
 class TestGlobalMirrors(unittest.TestCase):
 
     def test_global_mirror(self):
-        import argopandas.interactive as argopandas_mod
         mirror = UrlMirror('something')
-        prev_mirror = argopandas_mod.set_default_mirror(mirror)
-        self.assertIs(argopandas_mod.default_mirror(), mirror)
-        self.assertIs(argopandas_mod.set_default_mirror(prev_mirror), mirror)
-        self.assertIs(argopandas_mod.default_mirror(), prev_mirror)
+        prev_mirror = argo.set_default_mirror(mirror)
+        self.assertIs(argo.default_mirror(), mirror)
+        self.assertIs(argo.set_default_mirror(prev_mirror), mirror)
+        self.assertIs(argo.default_mirror(), prev_mirror)
 
 
 class TestMirrorContext(unittest.TestCase):
@@ -111,7 +109,7 @@ class TestMirrorContext(unittest.TestCase):
 
     def test_mirror_context(self):
         # test use without the with: syntax
-        m = MirrorContext(self.mirror)
+        m = argo.MirrorContext(self.mirror)
         self.assertTrue(os.path.exists(m.filename('ar_index_global_meta.txt.gz')))
         with m.open('ar_index_global_meta.txt.gz') as f:
             self.assertTrue(hasattr(f, 'read'))
@@ -119,7 +117,7 @@ class TestMirrorContext(unittest.TestCase):
         self.assertIs(m.prepare([]), m)
 
         prev_mirror = argo.default_mirror()
-        with MirrorContext(self.mirror) as m:
+        with argo.MirrorContext(self.mirror) as m:
             self.assertIs(argo.default_mirror(), m)
             self.assertTrue(os.path.exists(m.filename('ar_index_global_meta.txt.gz')))
             with m.open('ar_index_global_meta.txt.gz') as f:
@@ -130,16 +128,16 @@ class TestMirrorContext(unittest.TestCase):
         self.assertIs(argo.default_mirror(), prev_mirror)
 
     def test_url_mirror(self):
-        with url_mirror('some_root') as m:
+        with argo.url_mirror('some_root') as m:
             self.assertEqual(m.url('something'), 'some_root/something')
             self.assertIs(argo.default_mirror(), m)
-        with url_mirror('some_root', cached=False) as m:
+        with argo.url_mirror('some_root', cached=False) as m:
             self.assertEqual(m.url('something'), 'some_root/something')
             self.assertIs(argo.default_mirror(), m)
 
     def test_file_mirror(self):
         with tempfile.TemporaryDirectory() as temp_dir:
-            with file_mirror(temp_dir) as m:
+            with argo.file_mirror(temp_dir) as m:
                 self.assertEqual(
                     m.filename('something'),
                     os.path.join(temp_dir, 'something')

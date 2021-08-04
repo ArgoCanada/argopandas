@@ -5,7 +5,7 @@ to remember. This is built-in to the interactive module. The
 ``path`` argument for all functions in this module can be a string
 file path or an iterable of file paths.
 
->>> import argopandas.interactive as argo
+>>> import argopandas as argo
 >>> argo.path.info('2902746_tech.nc')
 {'type': 'tech', 'modifier': None, 'data_mode': None, 'float': 2902746, 'aux': None}
 """

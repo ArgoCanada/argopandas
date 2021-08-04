@@ -17,13 +17,16 @@ The package depends on `pandas`, `numpy`, and `netCDF4`, which you can install u
 
 ## Examples
 
-The intended interface for most usage is contained in the `argopandas.interactive` module. You can import this as `argo` for pretty-looking syntax:
+The intended interface for most usage is contained in the `argopandas` module. You can import this as `argo` for pretty-looking syntax:
 
 
 ```python
-import argopandas.interactive as argo
-# to make this work with GitHub
-import pandas as pd
+import argopandas as argo
+
+# to make this work with GitHub
+
+import pandas as pd
+
 pd.set_option('display.notebook_repr_html', False)
 ```
 
@@ -54,33 +57,33 @@ argo.prof[:5].levels[['PRES', 'PRES_QC', 'TEMP', 'TEMP_QC']]
 
 
                                                               PRES PRES_QC  \
-    file                              N_PROF N_LEVELS                        
-    aoml/13857/profiles/R13857_001.nc 0      0           11.900000    b'1'   
-                                             1           17.000000    b'1'   
-                                             2           22.100000    b'1'   
-                                             3           27.200001    b'1'   
-                                             4           32.299999    b'1'   
-    ...                                                        ...     ...   
-    aoml/13857/profiles/R13857_005.nc 0      102        976.500000    b'1'   
-                                             103        986.700012    b'1'   
-                                             104        996.799988    b'1'   
-                                             105       1007.000000    b'1'   
-                                             106       1017.200012    b'1'   
-    
-                                                            TEMP TEMP_QC  
-    file                              N_PROF N_LEVELS                     
-    aoml/13857/profiles/R13857_001.nc 0      0         22.235001    b'1'  
-                                             1         21.987000    b'1'  
-                                             2         21.891001    b'1'  
-                                             3         21.812000    b'1'  
-                                             4         21.632000    b'1'  
-    ...                                                      ...     ...  
-    aoml/13857/profiles/R13857_005.nc 0      102        4.527000    b'1'  
-                                             103        4.527000    b'1'  
-                                             104        4.533000    b'1'  
-                                             105        4.487000    b'1'  
-                                             106        4.471000    b'1'  
-    
+    file                              N_PROF N_LEVELS
+    aoml/13857/profiles/R13857_001.nc 0      0           11.900000    b'1'
+                                             1           17.000000    b'1'
+                                             2           22.100000    b'1'
+                                             3           27.200001    b'1'
+                                             4           32.299999    b'1'
+    ...                                                        ...     ...
+    aoml/13857/profiles/R13857_005.nc 0      102        976.500000    b'1'
+                                             103        986.700012    b'1'
+                                             104        996.799988    b'1'
+                                             105       1007.000000    b'1'
+                                             106       1017.200012    b'1'
+
+                                                            TEMP TEMP_QC
+    file                              N_PROF N_LEVELS
+    aoml/13857/profiles/R13857_001.nc 0      0         22.235001    b'1'
+                                             1         21.987000    b'1'
+                                             2         21.891001    b'1'
+                                             3         21.812000    b'1'
+                                             4         21.632000    b'1'
+    ...                                                      ...     ...
+    aoml/13857/profiles/R13857_005.nc 0      102        4.527000    b'1'
+                                             103        4.527000    b'1'
+                                             104        4.533000    b'1'
+                                             105        4.487000    b'1'
+                                             106        4.471000    b'1'
+
     [551 rows x 4 columns]
 
 
@@ -97,15 +100,19 @@ Once you have a data frame you do anything you'd do with a regular `pd.DataFrame
 
 
 ```python
-import matplotlib.pyplot as plt
-fig, ax = plt.subplots()
-for label, df in argo.prof[:5].levels.groupby('file'):
-    df.plot(x='TEMP', y = 'PRES', ax=ax, label=label)
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+
+for label, df in argo.prof[:5].levels.groupby('file'):
+
+    df.plot(x='TEMP', y = 'PRES', ax=ax, label=label)
+
 ax.invert_yaxis()
 ```
 
 
-    
+
 ![png](README_files/README_8_0.png)
-    
+
 

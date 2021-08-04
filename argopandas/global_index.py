@@ -1,5 +1,5 @@
 
-from argopandas.nc import MetaNetCDF, NetCDFWrapper, ProfNetCDF, TechNetCDF, TrajNetCDF
+from argopandas.netcdf import MetaNetCDF, NetCDFWrapper, ProfNetCDF, TechNetCDF, TrajNetCDF
 from typing import Iterable
 import gzip
 import reprlib
