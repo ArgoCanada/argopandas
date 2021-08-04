@@ -5,7 +5,7 @@
    :maxdepth: 2
    :caption: Contents:
 
-   interactive
+   argopandas
 
 
 Indices and tables

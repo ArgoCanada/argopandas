@@ -1,6 +1,6 @@
 
-Interactive interface
+Main interface
 ============================================
 
-.. automodule:: argopandas.interactive
+.. automodule:: argopandas
     :members:
