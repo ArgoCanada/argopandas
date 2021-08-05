@@ -1,94 +1,44 @@
 
-from argopandas.netcdf import NetCDFWrapper
 import tempfile
-from argopandas.index import FileIndex
-from argopandas.global_index import GlobalIndex, ProfIndex
 import unittest
 import os
 import argopandas as argo
 from argopandas.mirror import FileMirror, UrlMirror
+import argopandas.global_index as global_index
+from argopandas.netcdf import NetCDFWrapper
 
 
 class TestGlobalIndexInterface(unittest.TestCase):
 
     def setUp(self):
         self.test_dir = os.path.join(os.path.dirname(__file__), "argo-test-mirror")
-        self.previous_mirror = argo.set_default_mirror(FileMirror(self.test_dir))
+        self.mirror = FileMirror(self.test_dir)
+        self.previous_mirror = argo.set_default_mirror(self.mirror)
 
     def tearDown(self):
         argo.set_default_mirror(self.previous_mirror)
 
-    def test_global_meta(self):
-        self.assertEqual(len(argo.meta), 2)
-        self.assertEqual(
-            list(argo.meta),
-            list(FileIndex(os.path.join(self.test_dir, 'ar_index_global_meta.txt.gz')))
-        )
-        self.assertIsInstance(argo.meta.filter(), GlobalIndex)
-        self.assertRegex(repr(argo.meta), 'ar_index')
-        self.assertIn('date_update', argo.meta.names())
+    def test_global(self):
+        self.assertIsInstance(argo.prof, global_index.GlobalProf)
+        self.assertIs(argo.prof._mirror, self.mirror)
 
-    def test_global_tech(self):
-        self.assertEqual(len(argo.tech), 2)
-        self.assertEqual(
-            list(argo.tech),
-            list(FileIndex(os.path.join(self.test_dir, 'ar_index_global_tech.txt.gz')))
-        )
-        self.assertIsInstance(argo.tech.filter(), GlobalIndex)
-        self.assertRegex(repr(argo.tech), 'ar_index')
-        self.assertIn('date_update', argo.tech.names())
+        self.assertIsInstance(argo.traj, global_index.GlobalTraj)
+        self.assertIs(argo.traj._mirror, self.mirror)
 
-    def test_global_traj(self):
-        self.assertEqual(len(argo.traj), 2)
-        self.assertEqual(
-            list(argo.traj),
-            list(FileIndex(os.path.join(self.test_dir, 'ar_index_global_traj.txt.gz')))
-        )
-        self.assertIsInstance(argo.traj.filter(), GlobalIndex)
-        self.assertRegex(repr(argo.traj), 'ar_index')
-        self.assertIn('date_update', argo.traj.names())
+        self.assertIsInstance(argo.tech, global_index.GlobalTech)
+        self.assertIs(argo.tech._mirror, self.mirror)
 
-    def test_global_prof(self):
-        self.assertEqual(len(argo.prof), 11)
-        self.assertEqual(
-            list(argo.prof),
-            list(FileIndex(os.path.join(self.test_dir, 'ar_index_global_prof.txt.gz')))
-        )
-        pi = argo.prof.filter()
-        self.assertIsInstance(pi, ProfIndex)
-        self.assertIs(pi._mirror, argo.default_mirror())
-        self.assertRegex(repr(argo.prof), 'ar_index')
-        self.assertIn('date_update', argo.prof.names())
+        self.assertIsInstance(argo.meta, global_index.GlobalMeta)
+        self.assertIs(argo.meta._mirror, self.mirror)
 
-    def test_global_bio_traj(self):
-        self.assertEqual(len(argo.bio_traj), 1)
-        self.assertEqual(
-            list(argo.bio_traj),
-            list(FileIndex(os.path.join(self.test_dir, 'argo_bio-traj_index.txt.gz')))
-        )
-        self.assertIsInstance(argo.bio_traj.filter(), GlobalIndex)
-        self.assertRegex(repr(argo.bio_traj), '_index')
-        self.assertIn('date_update', argo.bio_traj.names())
+        self.assertIsInstance(argo.bio_prof, global_index.GlobalBioProf)
+        self.assertIs(argo.bio_prof._mirror, self.mirror)
 
-    def test_global_bio_prof(self):
-        self.assertEqual(len(argo.bio_prof), 5)
-        self.assertEqual(
-            list(argo.bio_prof),
-            list(FileIndex(os.path.join(self.test_dir, 'argo_bio-profile_index.txt.gz')))
-        )
-        self.assertIsInstance(argo.bio_prof.filter(), GlobalIndex)
-        self.assertRegex(repr(argo.bio_prof), '_index')
-        self.assertIn('date_update', argo.bio_prof.names())
+        self.assertIsInstance(argo.synthetic_prof, global_index.GlobalSyntheticProf)
+        self.assertIs(argo.meta._mirror, self.mirror)
 
-    def test_global_synthetic_prof(self):
-        self.assertEqual(len(argo.synthetic_prof), 5)
-        self.assertEqual(
-            list(argo.synthetic_prof),
-            list(FileIndex(os.path.join(self.test_dir, 'argo_synthetic-profile_index.txt.gz')))
-        )
-        self.assertIsInstance(argo.synthetic_prof.filter(), GlobalIndex)
-        self.assertRegex(repr(argo.synthetic_prof), '_index')
-        self.assertIn('date_update', argo.synthetic_prof.names())
+        self.assertIsInstance(argo.bio_traj, global_index.GlobalBioTraj)
+        self.assertIs(argo.meta._mirror, self.mirror)
 
 
 class TestGlobalMirrors(unittest.TestCase):

@@ -1,144 +1,135 @@
 
-import gzip
-import itertools
-from contextlib import AbstractContextManager
-from collections import deque
-from typing import Iterable, Tuple
+import pandas as pd
+
+from .netcdf import MetaNetCDF, NetCDFWrapper, ProfNetCDF, TechNetCDF, TrajNetCDF
 
 
-# needed to support Python 3.6 (contextlib.nullcontext was added in 3.7)
-class nullcontext(AbstractContextManager):
-    def __init__(self, enter_result=None):
-        self.enter_result = enter_result
+class DataFrameIndex(pd.DataFrame):
 
-    def __enter__(self):
-        return self.enter_result
+    # needed to get the mirror passed on to subsets
+    # https://pandas.pydata.org/pandas-docs/stable/development/extending.html#subclassing-pandas-data-structures
+    _metadata = pd.DataFrame._metadata + ['_mirror']
 
-    def __exit__(self, *excinfo):
-        pass
+    def __init__(self, *args, _mirror=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._mirror = _mirror
 
+    @property
+    def _constructor(self):
+        return type(self)
 
-class Index:
+    def _netcdf_wrapper(self, src):
+        return NetCDFWrapper(src)
 
-    def __init__(self, src, filters=None):
-        self._src = src
-        self._filters = () if filters is None else tuple(filters)
+    def _data_frame_along(self, attr):
+        file = self['file']
 
-    def filter(self, *args):
-        new_filters = self._filters + tuple(args)
-        return type(self)(self._src, new_filters)
+        # prepare the mirror
+        self._mirror.prepare(['dac/' + item for item in file])
 
-    def __repr__(self) -> str:
-        filter_repr = repr(self._filters)
-        return f"{type(self).__name__}({repr(self._src)}, {filter_repr})"
+        # collect the keys and the individual data frames
+        objs = []
+        keys = []
+        for item in file:
+            nc = self._netcdf_wrapper(self._mirror.netcdf_dataset_src('dac/' + item))
+            objs.append(getattr(nc, attr))
+            keys.append(item)
 
-    def __str__(self) -> str:
-        return repr(self)
+        # combine them, adding a `file` index as a level in the multi-index
+        return pd.concat(objs, keys=keys, names=["file"])
 
-    def names(self) -> Tuple[str]:
-        raise NotImplementedError()  # pragma: no cover
-
-    def __iter__(self) -> Iterable[dict]:
-        raise NotImplementedError()  # pragma: no cover
-
-    def __len__(self):
-        raise NotImplementedError()  # pragma: no cover
-
-
-class ListIndex(Index):
-
-    def __init__(self, src: Iterable[dict], filters=None, names=None):
-        super().__init__(list(src), filters)
-        if names is None and self._src:
-            self._names = tuple(self._src[0].keys())
-        elif names is None:
-            self._names = ()
-        else:
-            self._names = names
-
-    def filter(self, *args):
-        new_filters = self._filters + tuple(args)
-        return type(self)(self._src, new_filters, self._names)
-
-    def names(self):
-        return self._names
-
-    def __iter__(self):
-        for item in self._src:
-            if any(not f(item) for f in self._filters):
-                continue
-            yield item
-
-    def __len__(self):
-        return len(self._src)
-
-    def __repr__(self):
-        return f"ListIndex({repr(self._src)}, {repr(self._filters)}, {repr(self._names)})"
+    @property
+    def info(self):
+        return self._data_frame_along('info')
 
 
-class FileIndex(Index):
+class ProfIndex(DataFrameIndex):
 
-    def __init__(self, src, filters=None):
-        super().__init__(src, filters)
-        self._cached_len = None
-        self._fresh = True
-        self._names = None
-        self._validate()
+    def _netcdf_wrapper(self, src):
+        return ProfNetCDF(src)
 
-    def _validate(self) -> None:
-        for i, f in enumerate(self._filters):
-            if not callable(f):
-                raise ValueError(f"filter {i} is not callable")
+    @property
+    def levels(self):
+        return self._data_frame_along('levels')
 
-        try:
-            with self._open() as f:
-                pass
-        except Exception as e:
-            raise ValueError(f"Failed to open {repr(self._src)}': {str(e)}")
+    @property
+    def prof(self):
+        return self._data_frame_along('prof')
 
-    def names(self):
-        if self._names is None:
-            for item in self:
-                break
-        return self._names
+    @property
+    def calib(self):
+        return self._data_frame_along('calib')
 
-    def __len__(self):
-        if self._cached_len is None:
-            counter = itertools.count()
-            deque(zip(self, counter), maxlen=0)
-            self._cached_len = next(counter)
-        return self._cached_len
+    @property
+    def param(self):
+        return self._data_frame_along('param')
 
-    def __iter__(self):
-        with self._open() as f:
-            if not self._fresh:
-                f.seek(0)
-            self._fresh = False
+    @property
+    def history(self):
+        return self._data_frame_along('history')
 
-            names = None
-            for line in f:
-                if not line or line.startswith(b'#'):
-                    continue
-                elif names is None and line.startswith(b'file,'):
-                    names = line[:-1].decode('UTF-8').split(',')
-                    self._names = tuple(names)
-                    continue
 
-                item = {k: v for k, v in zip(names, line[:-1].decode('UTF-8').split(','))}
-                if any(not f(item) for f in self._filters):
-                    continue
+class TrajIndex(DataFrameIndex):
 
-                yield item
+    def _netcdf_wrapper(self, src):
+        return TrajNetCDF(src)
 
-            if names is None:
-                raise ValueError('Header line not found. Is this a valid index file?')
+    @property
+    def measurement(self):
+        return self._data_frame_along('measurement')
 
-    def _open(self):
-        if isinstance(self._src, str) and self._src.endswith('.gz'):
-            return gzip.open(self._src)
-        elif isinstance(self._src, str):
-            return open(self._src, 'rb')
-        elif hasattr(self._src, 'readline') and callable(self._src.readline):
-            return nullcontext(self._src)
-        else:
-            raise ValueError("src must be a filename or file-like object")
+    @property
+    def cycle(self):
+        return self._data_frame_along('cycle')
+
+    @property
+    def param(self):
+        return self._data_frame_along('param')
+
+    @property
+    def history(self):
+        return self._data_frame_along('history')
+
+
+class TechIndex(DataFrameIndex):
+
+    def _netcdf_wrapper(self, src):
+        return TechNetCDF(src)
+
+    @property
+    def tech_param(self):
+        return self._data_frame_along('tech_param')
+
+
+class MetaIndex(DataFrameIndex):
+
+    def _netcdf_wrapper(self, src):
+        return MetaNetCDF(src)
+
+    @property
+    def config_param(self):
+        return self._data_frame_along('config_param')
+
+    @property
+    def missions(self):
+        return self._data_frame_along('missions')
+
+    @property
+    def trans_system(self):
+        return self._data_frame_along('trans_system')
+
+    @property
+    def positioning_system(self):
+        return self._data_frame_along('positioning_system')
+
+    @property
+    def launch_config_param(self):
+        return self._data_frame_along('launch_config_param')
+
+    @property
+    def sensor(self):
+        return self._data_frame_along('sensor')
+
+    @property
+    def param(self):
+        return self._data_frame_along('param')
