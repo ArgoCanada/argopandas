@@ -192,14 +192,18 @@ module. You can import this as <code class="docutils literal notranslate"><span 
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">argo</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                       <span class="n">file</span>  <span class="n">profiler_type</span> <span class="n">institution</span>     <span class="n">date_update</span>
-<span class="mi">0</span>  <span class="n">aoml</span><span class="o">/</span><span class="mi">13857</span><span class="o">/</span><span class="mi">13857</span><span class="n">_meta</span><span class="o">.</span><span class="n">nc</span>            <span class="mi">845</span>          <span class="n">AO</span>  <span class="mi">20181011200014</span>
-<span class="mi">1</span>  <span class="n">aoml</span><span class="o">/</span><span class="mi">13858</span><span class="o">/</span><span class="mi">13858</span><span class="n">_meta</span><span class="o">.</span><span class="n">nc</span>            <span class="mi">845</span>          <span class="n">AO</span>  <span class="mi">20181011200015</span>
-<span class="mi">2</span>  <span class="n">aoml</span><span class="o">/</span><span class="mi">13859</span><span class="o">/</span><span class="mi">13859</span><span class="n">_meta</span><span class="o">.</span><span class="n">nc</span>            <span class="mi">845</span>          <span class="n">AO</span>  <span class="mi">20181011200025</span>
-<span class="mi">3</span>  <span class="n">aoml</span><span class="o">/</span><span class="mi">15819</span><span class="o">/</span><span class="mi">15819</span><span class="n">_meta</span><span class="o">.</span><span class="n">nc</span>            <span class="mi">845</span>          <span class="n">AO</span>  <span class="mi">20181011200016</span>
-<span class="mi">4</span>  <span class="n">aoml</span><span class="o">/</span><span class="mi">15820</span><span class="o">/</span><span class="mi">15820</span><span class="n">_meta</span><span class="o">.</span><span class="n">nc</span>            <span class="mi">845</span>          <span class="n">AO</span>  <span class="mi">20181011200018</span>
-</pre></div>
-</div>
+<pre class="literal-block">                       file  profiler_type institution  0  aoml/13857/13857_meta.nc            845          AO
+1  aoml/13858/13858_meta.nc            845          AO
+2  aoml/13859/13859_meta.nc            845          AO
+3  aoml/15819/15819_meta.nc            845          AO
+4  aoml/15820/15820_meta.nc            845          AO
+
+                date_update
+0 2018-10-11 20:00:14+00:00
+1 2018-10-11 20:00:15+00:00
+2 2018-10-11 20:00:25+00:00
+3 2018-10-11 20:00:16+00:00
+4 2018-10-11 20:00:18+00:00</pre>
 <p>By defaut, downloads are lazily cached from the <a class="reference external" href="https://data-argo.ifremer.fr">Ifremer https
 mirror</a>. You can use
 <code class="docutils literal notranslate"><span class="pre">argo.url_mirror()</span></code> or <code class="docutils literal notranslate"><span class="pre">argo.file_mirror()</span></code> with
