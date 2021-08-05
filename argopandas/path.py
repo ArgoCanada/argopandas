@@ -23,7 +23,7 @@ def _re_types(types=('traj', 'prof', 'tech', 'meta')):
     return re.compile(r'([0-9]+)_(B|S)?(R|D)?(' + types + ')(_aux)?\.nc')
 
 
-_re_prof = re.compile(r'^(B|S)?(R|D)([0-9]+)_([0-9]+)(D)?(_aux)?\.nc$')
+_re_prof = re.compile(r'(B|S)?(R|D)([0-9]+)_([0-9]+)(D)?(_aux)?\.nc$')
 _re_non_prof = _re_types()
 
 # these are for testing specific bits...faster than parsing an entire

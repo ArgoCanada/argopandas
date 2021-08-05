@@ -1,5 +1,6 @@
 
 from . import path
+from . import index
 
 
 class Float:
@@ -16,29 +17,29 @@ class Float:
         return root[path.is_float(root['file'], self._float_id)]
 
     @property
-    def prof(self):
+    def prof(self) -> index.ProfIndex:
         return self._filtered('prof')
 
     @property
-    def traj(self):
+    def traj(self) -> index.TrajIndex:
         return self._filtered('traj')
 
     @property
-    def tech(self):
+    def tech(self) -> index.TechIndex:
         return self._filtered('tech')
 
     @property
-    def meta(self):
+    def meta(self) -> index.MetaIndex:
         return self._filtered('meta')
 
     @property
-    def bio_prof(self):
+    def bio_prof(self) -> index.ProfIndex:
         return self._filtered('bio_prof')
 
     @property
-    def synthetic_prof(self):
+    def synthetic_prof(self) -> index.ProfIndex:
         return self._filtered('synthetic_prof')
 
     @property
-    def bio_traj(self):
+    def bio_traj(self) -> index.TrajIndex:
         return self._filtered('bio_traj')
