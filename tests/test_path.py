@@ -26,6 +26,10 @@ class TestPath(unittest.TestCase):
         self.assertIsNone(info['modifier'])
         self.assertIsNone(info['aux'])
 
+    def test_path_none(self):
+        info = path.info('not anything really')
+        self.assertIsNone(info['type'])
+
     def test_descending(self):
         self.assertTrue(path.is_descending('R2901633_052D.nc'))
         self.assertFalse(path.is_descending('R2901633_052.nc'))

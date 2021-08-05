@@ -7,9 +7,8 @@ import pyarrow.csv as csv
 from . import index
 from .mirror import NullMirror
 
-# using pyarrow for date parsing because this takes
-# minutes using pandas
-# hard-coding the 8-line header here
+# Using pyarrow for date parsing because this takes
+# minutes using pandas. Hard-coding the 8-line header here
 def _read_index_csv(file_obj, nrows=None):
     # pyarrow doesn't have a concept of 'nrows' but it's really important
     # for partial downloading of the giant prof index
@@ -37,11 +36,7 @@ def _read_index_csv(file_obj, nrows=None):
         )
     )
 
-    df = table.to_pandas()
-    if nrows is None:
-        return df
-    else:
-        return df.head(nrows)
+    return table.to_pandas()
 
 
 class GlobalIndex:
@@ -83,9 +78,8 @@ class GlobalIndex:
                     with gzip.open(fg) as f:
                         return self._make_index(f, nrows=nrows)
 
-    def _make_index(self, file, nrows=None):
-        df = _read_index_csv(file, nrows=nrows)
-        return index.DataFrameIndex(df)
+    def _make_index(self, file, nrows=None) -> index.DataFrameIndex:
+        raise NotImplementedError()  # pragma: no cover
 
     def head(self, n=6):
         if self._cached_index is None:
