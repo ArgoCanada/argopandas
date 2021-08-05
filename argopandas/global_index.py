@@ -5,6 +5,11 @@ import pandas as pd
 from . import index
 from .mirror import NullMirror
 
+
+def _read_index_csv(file, nrows=None):
+    return pd.read_csv(file, nrows=nrows, comment='#', engine='c')
+
+
 class GlobalIndex:
 
     def __init__(self, path: str):
@@ -45,7 +50,7 @@ class GlobalIndex:
                         return self._make_index(f, nrows=nrows)
 
     def _make_index(self, file, nrows=None):
-        df = pd.read_csv(file, nrows=nrows, comment='#')
+        df = _read_index_csv(file, nrows=nrows)
         return index.DataFrameIndex(df)
 
     def head(self, n=6):
@@ -74,7 +79,7 @@ class GlobalMeta(GlobalIndex):
         super().__init__('ar_index_global_meta.txt.gz')
 
     def _make_index(self, file, nrows=None):
-        df = pd.read_csv(file, nrows=nrows, comment='#')
+        df = _read_index_csv(file, nrows=nrows)
         return index.MetaIndex(df, _mirror=self._mirror)
 
 
@@ -83,7 +88,7 @@ class GlobalTech(GlobalIndex):
         super().__init__('ar_index_global_tech.txt.gz')
 
     def _make_index(self, file, nrows=None):
-        df = pd.read_csv(file, nrows=nrows, comment='#')
+        df = _read_index_csv(file, nrows=nrows)
         return index.TechIndex(df, _mirror=self._mirror)
 
 
@@ -92,7 +97,7 @@ class GlobalTraj(GlobalIndex):
         super().__init__('ar_index_global_traj.txt.gz')
 
     def _make_index(self, file, nrows=None):
-        df = pd.read_csv(file, nrows=nrows, comment='#')
+        df = _read_index_csv(file, nrows=nrows)
         return index.TrajIndex(df, _mirror=self._mirror)
 
 
@@ -101,7 +106,7 @@ class GlobalProf(GlobalIndex):
         super().__init__('ar_index_global_prof.txt.gz')
 
     def _make_index(self, file, nrows=None):
-        df = pd.read_csv(file, nrows=nrows, comment='#', engine='c')
+        df = _read_index_csv(file, nrows=nrows)
         return index.ProfIndex(df, _mirror=self._mirror)
 
 
@@ -110,7 +115,7 @@ class GlobalBioTraj(GlobalIndex):
         super().__init__('argo_bio-traj_index.txt.gz')
 
     def _make_index(self, file, nrows=None):
-        df = pd.read_csv(file, nrows=nrows, comment='#')
+        df = _read_index_csv(file, nrows=nrows)
         return index.TrajIndex(df, _mirror=self._mirror)
 
 
@@ -119,7 +124,7 @@ class GlobalBioProf(GlobalIndex):
         super().__init__('argo_bio-profile_index.txt.gz')
 
     def _make_index(self, file, nrows=None):
-        df = pd.read_csv(file, nrows=nrows, comment='#')
+        df = _read_index_csv(file, nrows=nrows)
         return index.ProfIndex(df, _mirror=self._mirror)
 
 
@@ -128,5 +133,5 @@ class GlobalSyntheticProf(GlobalIndex):
         super().__init__('argo_synthetic-profile_index.txt.gz')
 
     def _make_index(self, file, nrows=None):
-        df = pd.read_csv(file, nrows=nrows, comment='#')
+        df = _read_index_csv(file, nrows=nrows)
         return index.ProfIndex(df, _mirror=self._mirror)
