@@ -11,19 +11,21 @@ from typing import Union, Iterator, BinaryIO
 from .mirror import CachedUrlMirror, FileMirror, NullMirror, UrlMirror
 from . import global_index
 from . import path
+from .float import Float
 from .netcdf import NetCDFWrapper
 
 # --- global index interface ----
 
-meta = global_index.GlobalMeta()
-tech = global_index.GlobalTech()
-traj = global_index.GlobalTraj()
-prof = global_index.GlobalProf()
-bio_traj = global_index.GlobalBioTraj()
-bio_prof = global_index.GlobalBioProf()
-synthetic_prof = global_index.GlobalSyntheticProf()
+_index_all = global_index.make_globals()
 
-_index_all = (meta, tech, traj, prof, bio_traj, bio_prof, synthetic_prof)
+meta = _index_all['meta']
+tech = _index_all['tech']
+traj = _index_all['traj']
+prof = _index_all['prof']
+bio_traj = _index_all['bio_traj']
+bio_prof = _index_all['bio_prof']
+synthetic_prof = _index_all['synthetic_prof']
+
 
 # --- global mirror preference ----
 
@@ -41,7 +43,7 @@ def set_default_mirror(mirror: NullMirror) -> NullMirror:
     _default_mirror = mirror
 
     # update mirror for globals
-    for index in _index_all:
+    for index in _index_all.values():
         index._set_mirror(mirror)
 
     return previous
@@ -145,6 +147,11 @@ def _nc_iter(path, mirror):
         yield NetCDFWrapper(mirror.netcdf_dataset_src(p))
 
 
+def _float_iter(float, globals):
+    for f in float:
+        yield Float(f, globals=globals)
+
+
 def open(path: Union[str, Iterator[str]]) -> Union[str, Iterator[BinaryIO]]:
     """
     Open a file or iterate over open files on the default mirror.
@@ -192,10 +199,16 @@ def nc(path: Union[str, Iterator[str]]) -> Union[str, Iterator[NetCDFWrapper]]:
     else:
         return _nc_iter(path, mirror)
 
+def float(float_id: Union[str, int, Iterator[Union[str, int]]]) -> Union[Float, Iterator[Float]]:
+    mirror = default_mirror()
+    if isinstance(float_id, int) or isinstance(float_id, str):
+        return Float(float_id, globals=_index_all)
+    else:
+        return _float_iter(float_id, globals=_index_all)
 
 # don't include 'open' in * because it shadows the builtin open()
 __all__ = (
     'filename', 'url', 'default_mirror', 'set_default_mirror',
     'meta', 'tech', 'traj', 'prof', 'bio_traj', 'bio_prof', 'nc',
-    'synthetic_prof', 'path'
+    'synthetic_prof', 'path', 'float'
 )

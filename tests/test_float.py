@@ -1,7 +1,7 @@
 
 import unittest
 import os
-from argopandas import float
+from argopandas.float import Float
 from argopandas.mirror import FileMirror
 from argopandas import global_index
 
@@ -15,7 +15,7 @@ class TestFloat(unittest.TestCase):
 
     def test_float(self):
         globals = global_index.make_globals(self.mirror)
-        f = float.Float(2900313, globals)
+        f = Float(2900313, globals)
         self.assertTrue(f.exists())
         self.assertEqual(f.meta.shape[0], 1)
         self.assertEqual(f.tech.shape[0], 1)

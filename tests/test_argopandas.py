@@ -133,6 +133,13 @@ class TestGlobalMirrorInterface(unittest.TestCase):
         for fiter in argo.nc([actual_file]):
             self.assertIsInstance(fiter, NetCDFWrapper)
 
+    def test_float(self):
+        self.assertTrue(argo.float(2900313).exists())
+        self.assertTrue(argo.float('2900313').exists())
+        for float in argo.float([2900313]):
+            self.assertTrue(float.exists())
+
+
 
 if __name__ == '__main__':
     unittest.main()
