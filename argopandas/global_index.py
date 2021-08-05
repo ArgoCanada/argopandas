@@ -1,13 +1,47 @@
 
 import gzip
+import io
 import urllib.request
-import pandas as pd
+import pyarrow
+import pyarrow.csv as csv
 from . import index
 from .mirror import NullMirror
 
+# using pyarrow for date parsing because this takes
+# minutes using pandas
+# hard-coding the 8-line header here
+def _read_index_csv(file_obj, nrows=None):
+    # pyarrow doesn't have a concept of 'nrows' but it's really important
+    # for partial downloading of the giant prof index
+    if nrows is not None:
+        buf = io.BytesIO()
+        n = 0
+        for line in file_obj:
+            n += 1
+            buf.write(line)
+            if n >= (nrows + 8 + 1):
+                break
 
-def _read_index_csv(file, nrows=None):
-    return pd.read_csv(file, nrows=nrows, comment='#', engine='c')
+        buf.seek(0)
+        return _read_index_csv(buf, nrows=None)
+
+    table = pyarrow.csv.read_csv(
+        file_obj,
+        read_options=csv.ReadOptions(skip_rows=8),
+        convert_options=csv.ConvertOptions(
+            column_types={
+                'date': pyarrow.timestamp('s', tz='utc'),
+                'date_update': pyarrow.timestamp('s', tz='utc')
+            },
+            timestamp_parsers=['%Y%m%d%H%M%S']
+        )
+    )
+
+    df = table.to_pandas()
+    if nrows is None:
+        return df
+    else:
+        return df.head(nrows)
 
 
 class GlobalIndex:
