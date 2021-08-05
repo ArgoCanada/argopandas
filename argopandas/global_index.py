@@ -61,7 +61,7 @@ class GlobalMeta(GlobalIndex):
 
     def _make_index(self, file, nrows=None):
         df = pd.read_csv(file, nrows=nrows, comment='#')
-        return index.MetaIndex(df)
+        return index.MetaIndex(df, _mirror=self._mirror)
 
 
 class GlobalTech(GlobalIndex):
@@ -70,7 +70,7 @@ class GlobalTech(GlobalIndex):
 
     def _make_index(self, file, nrows=None):
         df = pd.read_csv(file, nrows=nrows, comment='#')
-        return index.TechIndex(df)
+        return index.TechIndex(df, _mirror=self._mirror)
 
 
 class GlobalTraj(GlobalIndex):
@@ -79,7 +79,7 @@ class GlobalTraj(GlobalIndex):
 
     def _make_index(self, file, nrows=None):
         df = pd.read_csv(file, nrows=nrows, comment='#')
-        return index.TrajIndex(df)
+        return index.TrajIndex(df, _mirror=self._mirror)
 
 
 class GlobalProf(GlobalIndex):
@@ -87,8 +87,8 @@ class GlobalProf(GlobalIndex):
         super().__init__('ar_index_global_prof.txt.gz')
 
     def _make_index(self, file, nrows=None):
-        df = pd.read_csv(file, nrows=nrows, comment='#')
-        return index.ProfIndex(df)
+        df = pd.read_csv(file, nrows=nrows, comment='#', engine='c')
+        return index.ProfIndex(df, _mirror=self._mirror)
 
 
 class GlobalBioTraj(GlobalIndex):
@@ -97,7 +97,7 @@ class GlobalBioTraj(GlobalIndex):
 
     def _make_index(self, file, nrows=None):
         df = pd.read_csv(file, nrows=nrows, comment='#')
-        return index.TrajIndex(df)
+        return index.TrajIndex(df, _mirror=self._mirror)
 
 
 class GlobalBioProf(GlobalIndex):
@@ -106,7 +106,7 @@ class GlobalBioProf(GlobalIndex):
 
     def _make_index(self, file, nrows=None):
         df = pd.read_csv(file, nrows=nrows, comment='#')
-        return index.ProfIndex(df)
+        return index.ProfIndex(df, _mirror=self._mirror)
 
 
 class GlobalSyntheticProf(GlobalIndex):
@@ -115,4 +115,4 @@ class GlobalSyntheticProf(GlobalIndex):
 
     def _make_index(self, file, nrows=None):
         df = pd.read_csv(file, nrows=nrows, comment='#')
-        return index.ProfIndex(df)
+        return index.ProfIndex(df, _mirror=self._mirror)

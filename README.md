@@ -21,26 +21,49 @@ The intended interface for most usage is contained in the `argopandas` module. Y
 
 
 ```python
-import argopandas as argo
-
-# to make this work with GitHub
-
-import pandas as pd
-
+import argopandas as argo
+# to make this work with GitHub
+import pandas as pd
 pd.set_option('display.notebook_repr_html', False)
 ```
 
-The global indexes are available via `argo.prof`, `argo.meta`, `argo.tech`, and `argo.traj`:
+The global indexes are available via `argo.prof`, `argo.meta`, `argo.tech`, `argo.traj`, `argo.bio_prof`, `argo.synthetic_prof`, and `argo.bio_traj`.
 
 
 ```python
-argo.meta[:5]
+argo.meta[:]
 ```
 
 
 
 
-    MetaIndex([{'date_update': '20181011200014', 'file': 'aoml/13857/13857_meta.nc', 'institution': 'AO', 'profiler_type': '845'}, {'date_update': '20181011200015', 'file': 'aoml/13858/13858_meta.nc', 'institution': 'AO', 'profiler_type': '845'}, {'date_update': '20181011200025', 'file': 'aoml/13859/13859_meta.nc', 'institution': 'AO', 'profiler_type': '845'}, {'date_update': '20181011200016', 'file': 'aoml/15819/15819_meta.nc', 'institution': 'AO', 'profiler_type': '845'}, {'date_update': '20181011200018', 'file': 'aoml/15820/15820_meta.nc', 'institution': 'AO', 'profiler_type': '845'}], mirror=argo.CachedUr...o.ifremer.fr'))
+                                    file  profiler_type institution  \
+    0           aoml/13857/13857_meta.nc          845.0          AO   
+    1           aoml/13858/13858_meta.nc          845.0          AO   
+    2           aoml/13859/13859_meta.nc          845.0          AO   
+    3           aoml/15819/15819_meta.nc          845.0          AO   
+    4           aoml/15820/15820_meta.nc          845.0          AO   
+    ...                              ...            ...         ...   
+    16654  nmdis/2901629/2901629_meta.nc          841.0          NM   
+    16655  nmdis/2901630/2901630_meta.nc          841.0          NM   
+    16656  nmdis/2901631/2901631_meta.nc          841.0          NM   
+    16657  nmdis/2901632/2901632_meta.nc          841.0          NM   
+    16658  nmdis/2901633/2901633_meta.nc          841.0          NM   
+    
+              date_update  
+    0      20181011200014  
+    1      20181011200015  
+    2      20181011200025  
+    3      20181011200016  
+    4      20181011200018  
+    ...               ...  
+    16654  20150511174056  
+    16655  20150511174105  
+    16656  20130617181802  
+    16657  20151026160825  
+    16658  20151026160835  
+    
+    [16659 rows x 4 columns]
 
 
 
@@ -50,41 +73,27 @@ To get Argo data from one or more NetCDF files, subset the indexes and use one o
 
 
 ```python
-argo.prof[:5].levels[['PRES', 'PRES_QC', 'TEMP', 'TEMP_QC']]
+argo.prof.head(5).levels[['PRES', 'TEMP']]
 ```
 
 
 
 
-                                                              PRES PRES_QC  \
-    file                              N_PROF N_LEVELS
-    aoml/13857/profiles/R13857_001.nc 0      0           11.900000    b'1'
-                                             1           17.000000    b'1'
-                                             2           22.100000    b'1'
-                                             3           27.200001    b'1'
-                                             4           32.299999    b'1'
-    ...                                                        ...     ...
-    aoml/13857/profiles/R13857_005.nc 0      102        976.500000    b'1'
-                                             103        986.700012    b'1'
-                                             104        996.799988    b'1'
-                                             105       1007.000000    b'1'
-                                             106       1017.200012    b'1'
-
-                                                            TEMP TEMP_QC
-    file                              N_PROF N_LEVELS
-    aoml/13857/profiles/R13857_001.nc 0      0         22.235001    b'1'
-                                             1         21.987000    b'1'
-                                             2         21.891001    b'1'
-                                             3         21.812000    b'1'
-                                             4         21.632000    b'1'
-    ...                                                      ...     ...
-    aoml/13857/profiles/R13857_005.nc 0      102        4.527000    b'1'
-                                             103        4.527000    b'1'
-                                             104        4.533000    b'1'
-                                             105        4.487000    b'1'
-                                             106        4.471000    b'1'
-
-    [551 rows x 4 columns]
+                                                              PRES       TEMP
+    file                              N_PROF N_LEVELS                        
+    aoml/13857/profiles/R13857_001.nc 0      0           11.900000  22.235001
+                                             1           17.000000  21.987000
+                                             2           22.100000  21.891001
+                                             3           27.200001  21.812000
+                                             4           32.299999  21.632000
+    ...                                                        ...        ...
+    aoml/13857/profiles/R13857_005.nc 0      102        976.500000   4.527000
+                                             103        986.700012   4.527000
+                                             104        996.799988   4.533000
+                                             105       1007.000000   4.487000
+                                             106       1017.200012   4.471000
+    
+    [551 rows x 2 columns]
 
 
 
@@ -100,19 +109,15 @@ Once you have a data frame you do anything you'd do with a regular `pd.DataFrame
 
 
 ```python
-import matplotlib.pyplot as plt
-
-fig, ax = plt.subplots()
-
-for label, df in argo.prof[:5].levels.groupby('file'):
-
-    df.plot(x='TEMP', y = 'PRES', ax=ax, label=label)
-
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+for label, df in argo.prof.head(5).levels.groupby('file'):
+    df.plot(x='TEMP', y = 'PRES', ax=ax, label=label)
 ax.invert_yaxis()
 ```
 
 
-
+    
 ![png](README_files/README_8_0.png)
-
+    
 
