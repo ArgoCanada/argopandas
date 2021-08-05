@@ -1,5 +1,6 @@
 
 import unittest
+import pandas as pd
 import argopandas.path as path
 
 class TestPath(unittest.TestCase):
@@ -7,6 +8,11 @@ class TestPath(unittest.TestCase):
     def test_path_info(self):
         info = path.info('R2901633_052.nc')
         self.assertEqual(list(path.info(['R2901633_052.nc'])), [info])
+        self.assertIsInstance(path.info(pd.Series(['R2901633_052.nc'])), pd.DataFrame)
+        self.assertIsInstance(
+            path.info(pd.DataFrame({'file': ['R2901633_052.nc']})),
+            pd.DataFrame
+        )
 
     def test_path_prof(self):
         info = path.info('R2901633_052.nc')
@@ -30,10 +36,15 @@ class TestPath(unittest.TestCase):
         info = path.info('not anything really')
         self.assertIsNone(info['type'])
 
+    def test_search(self):
+        self.assertTrue(path.is_descending('R2901633_052D.nc'))
+        self.assertEqual([path.is_descending('a')], list(path.is_descending(['a'])))
+        self.assertIsInstance(path.is_descending(pd.Series(['a'])), pd.Series)
+        self.assertIsInstance(path.is_descending(pd.DataFrame({'file': ['a']})), pd.Series)
+
     def test_descending(self):
         self.assertTrue(path.is_descending('R2901633_052D.nc'))
         self.assertFalse(path.is_descending('R2901633_052.nc'))
-        self.assertEqual([path.is_descending('a')], list(path.is_descending(['a'])))
 
     def test_is_float(self):
         self.assertTrue(path.is_float('R2901633_052.nc', 2901633))

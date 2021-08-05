@@ -3,7 +3,8 @@ This module contains functions that operate on Argo filenames.
 These filenames follow specific conventions that can be hard
 to remember. This is built-in to the interactive module. The
 ``path`` argument for all functions in this module can be a string
-file path or an iterable of file paths.
+file path, an iterable of file paths, a ``pandas.Series`` or
+a ``pandas.DataFrame`` (whose 'file' column is used as input).
 
 >>> import argopandas as argo
 >>> argo.path.info('2902746_tech.nc')
@@ -12,6 +13,9 @@ file path or an iterable of file paths.
 
 
 import re
+import warnings
+import pandas as pd
+
 
 # general file regexes
 def _re_types(types=('traj', 'prof', 'tech', 'meta')):
@@ -78,6 +82,14 @@ def _re_search_iter(path, regex):
 def _re_search(path, regex):
     if isinstance(path, str):
         return regex.search(path) is not None
+    elif isinstance(path, pd.Series):
+        # pandas warns about capture groups here but we don't care
+        # (we're using them to group alternation |)
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+            return path.str.contains(regex.pattern)
+    elif isinstance(path, pd.DataFrame):
+        return _re_search(path['file'], regex)
     else:
         return _re_search_iter(path, regex)
 
@@ -85,10 +97,18 @@ def _re_search(path, regex):
 def info(path):
     """
     Return a dictionary of information that can be obtained
-    from the file path.
+    from the file path. ``pandas.Series`` objects are expanded
+    to ``pandas.DataFrame`` s; ``pandas.DataFrame`` objects are
+    appended to the output ``pandas.DataFrame``.
     """
     if isinstance(path, str):
         return _info(path)
+    elif isinstance(path, pd.Series):
+        return pd.DataFrame.from_records(_info_iter(path))
+    elif isinstance(path, pd.DataFrame):
+        info_df = info(path['file'])
+        info_with_file_names = {'file_' + k: v for k,v in info_df.items()}
+        return pd.concat([path, pd.DataFrame(info_with_file_names)])
     else:
         return _info_iter(path)
 
