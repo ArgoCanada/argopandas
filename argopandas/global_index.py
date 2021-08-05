@@ -163,3 +163,21 @@ class GlobalSyntheticProf(GlobalIndex):
     def _make_index(self, file, nrows=None):
         df = _read_index_csv(file, nrows=nrows)
         return index.ProfIndex(df, _mirror=self._mirror)
+
+
+def make_globals(mirror=None):
+    globals = {
+        'prof': GlobalProf(),
+        'traj': GlobalTraj(),
+        'tech': GlobalTech(),
+        'meta': GlobalMeta(),
+        'bio_traj': GlobalBioTraj(),
+        'bio_prof': GlobalBioProf(),
+        'synthetic_prof': GlobalSyntheticProf()
+    }
+
+    if mirror is not None:
+        for v in globals.values():
+            v._set_mirror(mirror)
+
+    return globals
