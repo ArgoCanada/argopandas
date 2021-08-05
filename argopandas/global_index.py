@@ -1,5 +1,6 @@
 
 import gzip
+import urllib.request
 import pandas as pd
 from . import index
 from .mirror import NullMirror
@@ -21,14 +22,27 @@ class GlobalIndex:
             self._cached_index = None
 
     def _load_index(self, nrows=None):
-        self._mirror.prepare([self._path])
-        with self._mirror.open(self._path) as fg:
-            with gzip.open(fg) as f:
-                if nrows is None:
+        if nrows is None:
+            self._mirror.prepare([self._path])
+            with self._mirror.open(self._path) as fg:
+                with gzip.open(fg) as f:
                     self._cached_index = self._make_index(f, nrows=nrows)
                     return self._cached_index
-                else:
-                    return self._make_index(f, nrows=nrows)
+        else:
+            # we want to try to download/load as little as possible
+            # here so that we can get a preview of the index
+            # we want a URL connection for this if there's no cached
+            # file (otherwise we want the cached file for consistency)
+            try:
+                filename = self._mirror.filename(self._path)
+                with open(filename, 'rb') as fg:
+                    with gzip.open(fg) as f:
+                        return self._make_index(f, nrows=nrows)
+            except (FileNotFoundError, NotImplementedError):
+                url = self._mirror.url(self._path)
+                with urllib.request.urlopen(url) as fg:
+                    with gzip.open(fg) as f:
+                        return self._make_index(f, nrows=nrows)
 
     def _make_index(self, file, nrows=None):
         df = pd.read_csv(file, nrows=nrows, comment='#')

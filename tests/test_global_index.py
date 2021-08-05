@@ -4,7 +4,7 @@ import unittest
 import pandas as pd
 import argopandas.global_index as global_index
 import argopandas.index as index
-from argopandas.mirror import FileMirror
+from argopandas.mirror import CachedUrlMirror, FileMirror, UrlMirror
 
 
 class TestGlobalIndex(unittest.TestCase):
@@ -35,6 +35,18 @@ class TestGlobalIndex(unittest.TestCase):
 
         # repr
         self.assertRegex(repr(root), r'^GlobalMeta')
+
+    def test_lazy_head(self):
+        root = global_index.GlobalMeta()
+        root._set_mirror(UrlMirror('https://data-argo.ifremer.fr'))
+        self.assertEqual(root.head(12).shape[0], 12)
+        self.assertIsNone(root._cached_index)
+
+        root._set_mirror(CachedUrlMirror('https://data-argo.ifremer.fr'))
+        self.assertEqual(root.head(12).shape[0], 12)
+        self.assertIsNone(root._cached_index)
+        self.assertFalse(os.path.exists(root._mirror.filename(root._path)))
+
 
     def test_prof(self):
         root = global_index.GlobalProf()
