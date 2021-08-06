@@ -168,11 +168,11 @@
 <p>The Mirror API is responsible for mapping file requests to a
 URL, local filename, file-like object, or something that can
 construct a NetCDF <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>. These are usually constructred
-using <code class="xref py py-func docutils literal notranslate"><span class="pre">argopandas.url_mirror()</span></code> and/or
-<code class="xref py py-func docutils literal notranslate"><span class="pre">argopandas.file_mirror()</span></code>.</p>
+using <a class="reference internal" href="argopandas.html#argopandas.url_mirror" title="argopandas.url_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">argopandas.url_mirror()</span></code></a> and/or
+<a class="reference internal" href="argopandas.html#argopandas.file_mirror" title="argopandas.file_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">argopandas.file_mirror()</span></code></a>.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.mirror.Mirror">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">argopandas.mirror.</span></span><span class="sig-name descname"><span class="pre">Mirror</span></span><a class="headerlink" href="#argopandas.mirror.Mirror" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">Mirror</span></span><a class="headerlink" href="#argopandas.mirror.Mirror" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">Mirror</span></code> class is the abstract base class for
 other mirror types. You can define your own subclass
 and use it in the main API if you have a non-standard
@@ -196,7 +196,7 @@ first.</p>
 <dt class="sig sig-object py" id="argopandas.mirror.Mirror.netcdf_dataset_src">
 <span class="sig-name descname"><span class="pre">netcdf_dataset_src</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.mirror.Mirror.netcdf_dataset_src" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the best available input to
-<code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.netcdf.NetCDFWrapper</span></code>.</p>
+<a class="reference internal" href="netcdf.html#argopandas.netcdf.NetCDFWrapper" title="argopandas.netcdf.NetCDFWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.netcdf.NetCDFWrapper</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -228,7 +228,7 @@ if it exists.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.mirror.CachedUrlMirror">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">argopandas.mirror.</span></span><span class="sig-name descname"><span class="pre">CachedUrlMirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.mirror.CachedUrlMirror" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">CachedUrlMirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.mirror.CachedUrlMirror" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the most common mirror, which uses a cache
 to avoid unnecessarily downloading the same file
 more than once. By default the cache will reset
@@ -253,7 +253,7 @@ or <code class="docutils literal notranslate"><span class="pre">None</span></cod
 
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.mirror.FileMirror">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">argopandas.mirror.</span></span><span class="sig-name descname"><span class="pre">FileMirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.mirror.FileMirror" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">FileMirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.mirror.FileMirror" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">FileMirror</span></code> maps a root directory on a filesystem.
 This is useful if you have a local copy of Argo downloaded
 via <code class="docutils literal notranslate"><span class="pre">rsync</span></code> or via a stable DOI version of the GDAC. This
@@ -273,7 +273,7 @@ need to access frequently.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.mirror.UrlMirror">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">argopandas.mirror.</span></span><span class="sig-name descname"><span class="pre">UrlMirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.mirror.UrlMirror" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">UrlMirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.mirror.UrlMirror" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">UrlMirror</span></code> is a cache-less mirror that only uses
 URL connections. You probably want the <a class="reference internal" href="#argopandas.mirror.CachedUrlMirror" title="argopandas.mirror.CachedUrlMirror"><code class="xref py py-class docutils literal notranslate"><span class="pre">CachedUrlMirror</span></code></a>
 unless you are doing real-time work that might be affected

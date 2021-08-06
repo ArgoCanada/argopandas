@@ -3,4 +3,21 @@ argopandas package API
 ============================================
 
 .. automodule:: argopandas
-    :members:
+
+    Mirror setters and getters
+    --------------------------
+
+    .. autofunction:: default_mirror
+    .. autofunction:: set_default_mirror
+    .. autofunction:: file_mirror
+    .. autofunction:: url_mirror
+
+
+    Quick access to floats and files
+    --------------------------------
+
+    .. autofunction:: float
+    .. autofunction:: nc
+    .. autofunction:: filename
+    .. autofunction:: url
+    .. autofunction:: open

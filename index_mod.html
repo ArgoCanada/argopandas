@@ -168,19 +168,19 @@
 <p>This module contains an interface to the index files provided
 by the GDAC. It is related to the <a href="#id1"><span class="problematic" id="id2">:module:`argopandas.netcdf`</span></a>
 module in that there is an index subclass for each
-<code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.netcdf.NetCDFWrapper</span></code> subclass. Indexes
+<a class="reference internal" href="netcdf.html#argopandas.netcdf.NetCDFWrapper" title="argopandas.netcdf.NetCDFWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.netcdf.NetCDFWrapper</span></code></a> subclass. Indexes
 are <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> subclasses with a few accessors
 that load data from each.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.index.DataFrameIndex">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">argopandas.index.</span></span><span class="sig-name descname"><span class="pre">DataFrameIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.DataFrameIndex" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">DataFrameIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.DataFrameIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>A representation of a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> whose <code class="docutils literal notranslate"><span class="pre">file</span></code> column
 represents a path to a NetCDF file on the GDAC. These objects
 are created by subsetting the global indexes (e.g., <code class="docutils literal notranslate"><span class="pre">argopandas.prof</span></code>).</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.index.DataFrameIndex.info">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#argopandas.index.DataFrameIndex.info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Combine the <code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.NetCDFWrapper.info</span></code> table for
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.NetCDFWrapper.info" title="argopandas.netcdf.NetCDFWrapper.info"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.NetCDFWrapper.info</span></code></a> table for
 the files in this index.</p>
 </dd></dl>
 
@@ -188,18 +188,18 @@ the files in this index.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.index.MetaIndex">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">argopandas.index.</span></span><span class="sig-name descname"><span class="pre">MetaIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.MetaIndex" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">MetaIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.MetaIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>A subclass for an index of meta NetCDF files.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.index.ProfIndex">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">argopandas.index.</span></span><span class="sig-name descname"><span class="pre">ProfIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.ProfIndex" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">ProfIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.ProfIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>A subclass for an index of profile NetCDF files.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.index.ProfIndex.levels">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">levels</span></span><a class="headerlink" href="#argopandas.index.ProfIndex.levels" title="Permalink to this definition">¶</a></dt>
-<dd><p>Combine the <code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.ProfNetCDF.levels</span></code> table for
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.ProfNetCDF.levels" title="argopandas.netcdf.ProfNetCDF.levels"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.ProfNetCDF.levels</span></code></a> table for
 the files in this index.</p>
 </dd></dl>
 
@@ -207,13 +207,13 @@ the files in this index.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.index.TechIndex">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">argopandas.index.</span></span><span class="sig-name descname"><span class="pre">TechIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.TechIndex" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">TechIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.TechIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>A subclass for an index of tech NetCDF files.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.index.TrajIndex">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">argopandas.index.</span></span><span class="sig-name descname"><span class="pre">TrajIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.TrajIndex" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">TrajIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.TrajIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>A subclass for an index of trajectory NetCDF files.</p>
 </dd></dl>
 
