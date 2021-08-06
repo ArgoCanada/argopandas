@@ -9,7 +9,9 @@
    mirror
    path
    netcdf
+   float
    index_mod
+   global_index
 
 
 Indices and tables

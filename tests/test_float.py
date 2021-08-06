@@ -16,6 +16,7 @@ class TestFloat(unittest.TestCase):
     def test_float(self):
         globals = global_index.make_globals(self.mirror)
         f = Float(2900313, globals)
+        self.assertEqual(f.float_id(), '2900313')
         self.assertTrue(f.exists())
         self.assertEqual(f.meta.shape[0], 1)
         self.assertEqual(f.tech.shape[0], 1)

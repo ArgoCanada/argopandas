@@ -1,3 +1,8 @@
+"""
+This module implements the logic to lazily load index files as
+necessary. The classes in this module represent the indexes
+provided by the main package API (e.g., :attr:`argopandas.prof`).
+"""
 
 import gzip
 import io
@@ -40,6 +45,11 @@ def _read_index_csv(file_obj, nrows=None):
 
 
 class GlobalIndex:
+    """
+    Abstract base class for global indexes implementing the logic to
+    make these lazy and data frame-like (without unnecessarily downloading
+    the index until requested).
+    """
 
     def __init__(self, path: str):
         self._path = path
@@ -82,6 +92,9 @@ class GlobalIndex:
         raise NotImplementedError()  # pragma: no cover
 
     def head(self, n=6):
+        """
+        Get the first ``n`` rows of this index without downloading it.
+        """
         if self._cached_index is None:
             return self._load_index(n)
         else:
@@ -103,6 +116,12 @@ class GlobalIndex:
 
 
 class GlobalMeta(GlobalIndex):
+    """
+    The global meta index (i.e., 'ar_index_global_meta.txt.gz'). Subsets
+    of the global meta index are :class:`argopandas.index.MetaIndex` objects.
+    This object is available as the :attr:`argopandas.meta` object.
+    """
+
     def __init__(self):
         super().__init__('ar_index_global_meta.txt.gz')
 
@@ -112,6 +131,12 @@ class GlobalMeta(GlobalIndex):
 
 
 class GlobalTech(GlobalIndex):
+    """
+    The global tech index (i.e., 'ar_index_global_tech.txt.gz'). Subsets
+    of the global meta index are :class:`argopandas.index.TechIndex` objects.
+    This object is available as the :attr:`argopandas.tech` object.
+    """
+
     def __init__(self):
         super().__init__('ar_index_global_tech.txt.gz')
 
@@ -121,6 +146,12 @@ class GlobalTech(GlobalIndex):
 
 
 class GlobalTraj(GlobalIndex):
+    """
+    The global trajectory index (i.e., 'ar_index_global_traj.txt.gz'). Subsets
+    of the global meta index are :class:`argopandas.index.TrajIndex` objects.
+    This object is available as the :attr:`argopandas.traj` object.
+    """
+
     def __init__(self):
         super().__init__('ar_index_global_traj.txt.gz')
 
@@ -130,6 +161,12 @@ class GlobalTraj(GlobalIndex):
 
 
 class GlobalProf(GlobalIndex):
+    """
+    The global profile index (i.e., 'ar_index_global_prof.txt.gz'). Subsets
+    of the global meta index are :class:`argopandas.index.ProfIndex` objects.
+    This object is available as the :attr:`argopandas.prof` object.
+    """
+
     def __init__(self):
         super().__init__('ar_index_global_prof.txt.gz')
 
@@ -139,6 +176,12 @@ class GlobalProf(GlobalIndex):
 
 
 class GlobalBioTraj(GlobalIndex):
+    """
+    The global BGC trajectory index (i.e., 'argo_bio-traj_index.txt.gz').
+    Subsets are :class:`argopandas.index.TrajIndex` objects.
+    This object is available as the :attr:`argopandas.bio_traj` object.
+    """
+
     def __init__(self):
         super().__init__('argo_bio-traj_index.txt.gz')
 
@@ -148,6 +191,12 @@ class GlobalBioTraj(GlobalIndex):
 
 
 class GlobalBioProf(GlobalIndex):
+    """
+    The global BGC profile index (i.e., 'argo_bio-profile_index.txt.gz').
+    Subsets are :class:`argopandas.index.ProfIndex` objects.
+    This object is available as the :attr:`argopandas.bio_prof` object.
+    """
+
     def __init__(self):
         super().__init__('argo_bio-profile_index.txt.gz')
 
@@ -157,6 +206,12 @@ class GlobalBioProf(GlobalIndex):
 
 
 class GlobalSyntheticProf(GlobalIndex):
+    """
+    The global BGC synthetic profile index (i.e., 'argo_synthetic-profile_index.txt.gz').
+    Subsets are :class:`argopandas.index.ProfIndex` objects. This object is
+    avilable as the :attr:`argopandas.synthetic_prof` object.
+    """
+
     def __init__(self):
         super().__init__('argo_synthetic-profile_index.txt.gz')
 

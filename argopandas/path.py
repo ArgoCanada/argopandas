@@ -115,7 +115,7 @@ def info(path):
 
 def is_descending(path):
     """
-    Return ```True``` if this profile is a descending
+    Return ``True`` if this profile is a descending
     profile.
     """
     return _re_search(path, _re_descending)
