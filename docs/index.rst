@@ -6,6 +6,10 @@
    :caption: Contents:
 
    argopandas
+   mirror
+   path
+   netcdf
+   index
 
 
 Indices and tables

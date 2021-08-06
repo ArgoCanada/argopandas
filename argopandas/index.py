@@ -1,3 +1,12 @@
+"""
+This module contains an interface to the index files provided
+by the GDAC. It is related to the :module:`argopandas.netcdf`
+module in that there is an index subclass for each
+:class:`argopandas.netcdf.NetCDFWrapper` subclass. Indexes
+are ``pandas.DataFrame`` subclasses with a few accessors
+that load data from each.
+"""
+
 
 import pandas as pd
 
@@ -5,6 +14,11 @@ from .netcdf import MetaNetCDF, NetCDFWrapper, ProfNetCDF, TechNetCDF, TrajNetCD
 
 
 class DataFrameIndex(pd.DataFrame):
+    """
+    A representation of a ``pandas.DataFrame`` whose ``file`` column
+    represents a path to a NetCDF file on the GDAC. These objects
+    are created by subsetting the global indexes (e.g., ``argopandas.prof``).
+    """
 
     # needed to get the mirror passed on to subsets
     # https://pandas.pydata.org/pandas-docs/stable/development/extending.html#subclassing-pandas-data-structures
@@ -40,16 +54,27 @@ class DataFrameIndex(pd.DataFrame):
 
     @property
     def info(self):
+        """
+        Combine the :attr:`argopandas.netcdf.NetCDFWrapper.info` table for
+        the files in this index.
+        """
         return self._data_frame_along('info')
 
 
 class ProfIndex(DataFrameIndex):
+    """
+    A subclass for an index of profile NetCDF files.
+    """
 
     def _netcdf_wrapper(self, src):
         return ProfNetCDF(src)
 
     @property
     def levels(self):
+        """
+        Combine the :attr:`argopandas.netcdf.ProfNetCDF.levels` table for
+        the files in this index.
+        """
         return self._data_frame_along('levels')
 
     @property
@@ -70,6 +95,9 @@ class ProfIndex(DataFrameIndex):
 
 
 class TrajIndex(DataFrameIndex):
+    """
+    A subclass for an index of trajectory NetCDF files.
+    """
 
     def _netcdf_wrapper(self, src):
         return TrajNetCDF(src)
@@ -92,6 +120,9 @@ class TrajIndex(DataFrameIndex):
 
 
 class TechIndex(DataFrameIndex):
+    """
+    A subclass for an index of tech NetCDF files.
+    """
 
     def _netcdf_wrapper(self, src):
         return TechNetCDF(src)
@@ -102,6 +133,9 @@ class TechIndex(DataFrameIndex):
 
 
 class MetaIndex(DataFrameIndex):
+    """
+    A subclass for an index of meta NetCDF files.
+    """
 
     def _netcdf_wrapper(self, src):
         return MetaNetCDF(src)
