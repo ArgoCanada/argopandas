@@ -150,7 +150,7 @@ def is_data_mode(path, data_mode):
 def is_prof(path):
     """
     Return ``True`` if  ``path`` is path to a profile NetCDF
-    or ``False otherwise.
+    or ``False`` otherwise.
     """
     re_cycle = _re_prof.pattern
     re_float = _re_types(['prof']).pattern
@@ -161,7 +161,7 @@ def is_prof(path):
 def is_traj(path):
     """
     Return ``True`` if  ``path`` is path to a traj NetCDF
-    or ``False otherwise.
+    or ``False`` otherwise.
     """
     return _re_search(path, _re_types(['traj']))
 
@@ -169,7 +169,7 @@ def is_traj(path):
 def is_tech(path):
     """
     Return ``True`` if  ``path`` is path to a tech NetCDF
-    or ``False otherwise.
+    or ``False`` otherwise.
     """
     return _re_search(path, _re_types(['tech']))
 
@@ -177,7 +177,7 @@ def is_tech(path):
 def is_meta(path):
     """
     Return ``True`` if  ``path`` is path to a meta NetCDF
-    or ``False otherwise.
+    or ``False`` otherwise.
     """
     return _re_search(path, _re_types(['meta']))
 
