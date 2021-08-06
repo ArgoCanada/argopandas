@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Main interface &mdash; argopandas  documentation</title>
+  <title>argopandas package API &mdash; argopandas  documentation</title>
   
 
   
@@ -41,6 +41,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Mirror API" href="mirror.html" />
     <link rel="prev" title="argopandas" href="index.html" /> 
 </head>
 
@@ -88,7 +89,11 @@
             
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Main interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">argopandas package API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mirror.html">Mirror API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="path.html">Argo filename information API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netcdf.html">NetCDF Wrapper API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_mod.html">NetCDF File Index API</a></li>
 </ul>
 
             
@@ -137,7 +142,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Main interface</li>
+      <li>argopandas package API</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -157,7 +162,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-argopandas">
-<span id="main-interface"></span><h1>Main interface<a class="headerlink" href="#module-argopandas" title="Permalink to this headline">¶</a></h1>
+<span id="argopandas-package-api"></span><h1>argopandas package API<a class="headerlink" href="#module-argopandas" title="Permalink to this headline">¶</a></h1>
 <p>The root package contains the interface for
 argopandas.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">argopandas</span> <span class="k">as</span> <span class="nn">argo</span>
@@ -165,7 +170,7 @@ argopandas.</p>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="argopandas.default_mirror">
-<span class="sig-prename descclassname"><span class="pre">argopandas.</span></span><span class="sig-name descname"><span class="pre">default_mirror</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">argopandas.mirror.NullMirror</span></span></span><a class="headerlink" href="#argopandas.default_mirror" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">argopandas.</span></span><span class="sig-name descname"><span class="pre">default_mirror</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="mirror.html#argopandas.mirror.Mirror" title="argopandas.mirror.Mirror"><span class="pre">argopandas.mirror.Mirror</span></a></span></span><a class="headerlink" href="#argopandas.default_mirror" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the default mirror (e.g., used to populate
 the global indexes).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">argopandas</span> <span class="k">as</span> <span class="nn">argo</span>
@@ -189,7 +194,7 @@ the global indexes).</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="argopandas.set_default_mirror">
-<span class="sig-prename descclassname"><span class="pre">argopandas.</span></span><span class="sig-name descname"><span class="pre">set_default_mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mirror</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">argopandas.mirror.NullMirror</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">argopandas.mirror.NullMirror</span></span></span><a class="headerlink" href="#argopandas.set_default_mirror" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">argopandas.</span></span><span class="sig-name descname"><span class="pre">set_default_mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mirror</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="mirror.html#argopandas.mirror.Mirror" title="argopandas.mirror.Mirror"><span class="pre">argopandas.mirror.Mirror</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="mirror.html#argopandas.mirror.Mirror" title="argopandas.mirror.Mirror"><span class="pre">argopandas.mirror.Mirror</span></a></span></span><a class="headerlink" href="#argopandas.set_default_mirror" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the default mirror.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -213,6 +218,7 @@ is a <code class="xref py py-func docutils literal notranslate"><span class="pre
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="mirror.html" class="btn btn-neutral float-right" title="Mirror API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="index.html" class="btn btn-neutral float-left" title="argopandas" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
