@@ -1,5 +1,5 @@
 
-Main interface
+argopandas package API
 ============================================
 
 .. automodule:: argopandas

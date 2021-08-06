@@ -1,4 +1,13 @@
 
+"""
+The Mirror API is responsible for mapping file requests to a
+URL, local filename, file-like object, or something that can
+construct a NetCDF ``Dataset``. These are usually constructred
+using :func:`argopandas.url_mirror` and/or
+:func:`argopandas.file_mirror`.
+"""
+
+
 import os
 import urllib.request
 from urllib.error import URLError
@@ -9,6 +18,10 @@ from typing import BinaryIO
 
 
 class PathsDoNotExistError(Exception):
+    """
+    The exception thrown when one or more requested path
+    does not exist locally and could not be downloaded.
+    """
 
     def __init__(self, bad_paths, errors=None):
         self.bad_paths = bad_paths
@@ -20,26 +33,66 @@ class PathsDoNotExistError(Exception):
 
 
 class Mirror:
+    """
+    The ``Mirror`` class is the abstract base class for
+    other mirror types. You can define your own subclass
+    and use it in the main API if you have a non-standard
+    mapping of files and would like to use features of the
+    package-level API.
+
+    :param path: A path to a file on the GDAC (e.g.,
+      /dac/csio/1234/1234_meta.nc)
+    """
 
     def open(self, path) -> BinaryIO:
+        """Get a file-like object for this ``path``."""
         raise NotImplementedError()
 
     def filename(self, path) -> str:
+        """
+        Get a filename for this path. The filename is not
+        guaranteed to exist unless :meth:`prepare` is called
+        first.
+        """
         raise NotImplementedError()
 
     def prepare(self, path_iter):
+        """
+        Prepare the mirror for loading all the paths in
+        ``path_iter`` (e.g., by downloading them).
+
+        :param path_iter: An iterable of ``path`` s.
+        """
         raise NotImplementedError()
 
     def url(self, path):
+        """
+        Return the URL to ``path`` without checking
+        if it exists.
+        """
         raise NotImplementedError()
 
     def netcdf_dataset_src(self, path):
+        """
+        Return the best available input to
+        :class:`argopandas.netcdf.NetCDFWrapper`.
+        """
         raise NotImplementedError()
 
 
 class FileMirror(Mirror):
+    """
+    The ``FileMirror`` maps a root directory on a filesystem.
+    This is useful if you have a local copy of Argo downloaded
+    via ``rsync`` or via a stable DOI version of the GDAC. This
+    can also be a partial copy if you have a few files you
+    need to access frequently.
+    """
 
     def __init__(self, root):
+        """
+        :param root: The root directory containing the files.
+        """
         if not os.path.isdir(root):
             raise ValueError(f"'{root}' is not a directory")
         self._root = root
@@ -74,8 +127,19 @@ class FileMirror(Mirror):
 
 
 class UrlMirror(Mirror):
+    """
+    The ``UrlMirror`` is a cache-less mirror that only uses
+    URL connections. You probably want the :class:`CachedUrlMirror`
+    unless you are doing real-time work that might be affected
+    by an out-of-date cache. Note that :meth:`filename` is not
+    supported by the ``UrlMirror`` (use :meth:`open` instead).
+    """
 
     def __init__(self, root):
+        """
+        :param root: The URL of the base directory. This can
+            be anything supported by ``urllib.request.urlopen``.
+        """
         if root.endswith('/'):
             root = root[:-1]
         self._root = root
@@ -102,8 +166,21 @@ class UrlMirror(Mirror):
 
 
 class CachedUrlMirror(UrlMirror):
+    """
+    This is the most common mirror, which uses a cache
+    to avoid unnecessarily downloading the same file
+    more than once. By default the cache will reset
+    when the session is restarted; however, you can set
+    a persistent cache using ``cache_dir``.
+    """
 
     def __init__(self, root, cache_dir=None):
+        """
+        :param root: The URL of the base directory. This can
+            be anything supported by ``urllib.request.urlopen``.
+        :param cache_dir: The path to the local persistent cache
+            or ``None`` to use a temporary directory.
+        """
         super().__init__(root)
         self._temp_dir = None
 
@@ -153,6 +230,3 @@ class CachedUrlMirror(UrlMirror):
 
     def netcdf_dataset_src(self, path):
         return self.filename(path)
-
-
-default_mirror = UrlMirror('https://data-argo.ifremer.fr')

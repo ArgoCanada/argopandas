@@ -1,4 +1,14 @@
 
+"""
+These wrappers define a few ways to load a NetCDF file from a
+:class:`argodata.mirror.Mirror` and define which tables can
+be extracted from them. These objects are used under the hood
+to power extraction of tables from the indexes; however, you
+may use them directly if you have local NetCDF files that
+conform to the Argo standards.
+"""
+
+
 import os
 import io
 import shutil
@@ -24,8 +34,16 @@ def _dims_along_match(dims, target_dims):
 
 
 class NetCDFWrapper:
+    """
+    The base class for an Argo NetCDF file. These objects
+    are usually constructed using :func:`argopandas.nc` .
+    """
 
     def __init__(self, src):
+        """
+        :param src: A filename, URL, raw bytes, or existing
+            ``netCDF4.Dataset`` object.
+        """
         if not isinstance(src, (Dataset, bytes, str)):
             raise TypeError('`src` must be a filename, url, bytes, or netCDF4.Dataset object')
         self._src = src
@@ -39,9 +57,16 @@ class NetCDFWrapper:
 
     @property
     def info(self):
+        """
+        Returns a one-row ``DataFrame`` containing
+        all dimensionless variables in the NetCDF.
+        """
         return self._data_frame_along([])
 
     def dataset(self) -> Dataset:
+        """
+        Return the underlying ``netCDF4.Dataset`` .
+        """
         if self._dataset is None:
             self._load_dataset()
         return self._dataset
@@ -110,70 +135,93 @@ class NetCDFWrapper:
 
 
 class ProfNetCDF(NetCDFWrapper):
+    """
+    Subclass representing a profile NetCDF file.
+    """
 
     def __init__(self, src):
         super().__init__(src)
 
     @property
     def levels(self):
+        """Extract variables along N_PROF, N_LEVELS"""
         return self._data_frame_along(('N_PROF', 'N_LEVELS'))
 
     @property
     def prof(self):
+        """Extract variables along N_PROF"""
         return self._data_frame_along(('N_PROF', ))
 
     @property
     def calib(self):
+        """Extract variables along N_PROF, N_CALIB, N_PARAM"""
         return self._data_frame_along(('N_PROF', 'N_CALIB', 'N_PARAM'))
 
     @property
     def param(self):
+        """Extract variables along N_PROF, N_PARAM"""
         return self._data_frame_along(('N_PROF', 'N_PARAM'))
 
     @property
     def history(self):
+        """Extract variables along N_HISTORY, N_PROF"""
         return self._data_frame_along(('N_HISTORY', 'N_PROF'))
 
 
 class TrajNetCDF(NetCDFWrapper):
+    """Subclass representing a trajectory NetCDF."""
 
     def __init__(self, src):
         super().__init__(src)
 
     @property
     def measurement(self):
+        """Extract variables along N_MEASUREMENT"""
         return self._data_frame_along(('N_MEASUREMENT', ))
 
     @property
     def cycle(self):
+        """Extract variables along N_CYCLE"""
         return self._data_frame_along(('N_CYCLE', ))
 
     @property
     def param(self):
+        """Extract variables along N_PARAM"""
         return self._data_frame_along(('N_PARAM', ))
 
     @property
     def history(self):
+        """Extract variables along N_HISTORY"""
         return self._data_frame_along(('N_HISTORY', ))
 
 
 class TechNetCDF(NetCDFWrapper):
+    """Subclass representing a tech NetCDF file"""
 
     def __init__(self, src):
         super().__init__(src)
 
     @property
     def tech_param(self):
+        """Extract variables along N_TECH_PARAM"""
         return self._data_frame_along(('N_TECH_PARAM', ))
 
 
 class MetaNetCDF(NetCDFWrapper):
+    """
+    Subclass representing a meta NetCDF file.
+    """
 
     def __init__(self, src):
         super().__init__(src)
 
     @property
     def config_param(self):
+        """
+        Extract variables along N_CONFIG_PARAM and combine
+        them with variables along N_MISSIONS and N_CONFIG_PARAM.
+        """
+
         # non-standard for these functions, however,
         # each of these data frames is useless without the other
         params = self._data_frame_along(('N_CONFIG_PARAM', ))
@@ -192,24 +240,30 @@ class MetaNetCDF(NetCDFWrapper):
 
     @property
     def missions(self):
+        """Extract variables along N_MISSIONS"""
         return self._data_frame_along(('N_MISSIONS', ))
 
     @property
     def trans_system(self):
+        """Extract variables along N_TRANS_SYSTEM"""
         return self._data_frame_along(('N_TRANS_SYSTEM', ))
 
     @property
     def positioning_system(self):
+        """Extract variables along N_POSITIONING_SYSTEM"""
         return self._data_frame_along(('N_POSITIONING_SYSTEM', ))
 
     @property
     def launch_config_param(self):
+        """Extract variables along N_LAUNCH_CONFIG_PARAM"""
         return self._data_frame_along(('N_LAUNCH_CONFIG_PARAM', ))
 
     @property
     def sensor(self):
+        """Extract variables along N_SENSOR"""
         return self._data_frame_along(('N_SENSOR', ))
 
     @property
     def param(self):
+        """Extract variables along N_PARAM"""
         return self._data_frame_along(('N_PARAM', ))
