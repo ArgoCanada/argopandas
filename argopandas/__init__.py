@@ -8,7 +8,7 @@ argopandas.
 from contextlib import AbstractContextManager
 from typing import Union, Iterator, BinaryIO
 
-from .mirror import CachedUrlMirror, FileMirror, NullMirror, UrlMirror
+from .mirror import CachedUrlMirror, FileMirror, Mirror, UrlMirror
 from . import global_index
 from . import path
 from .float import Float
@@ -32,7 +32,7 @@ synthetic_prof = _index_all['synthetic_prof']
 _default_mirror = None
 
 
-def set_default_mirror(mirror: NullMirror) -> NullMirror:
+def set_default_mirror(mirror: Mirror) -> Mirror:
     """
     Set the default mirror.
 
@@ -49,7 +49,7 @@ def set_default_mirror(mirror: NullMirror) -> NullMirror:
     return previous
 
 
-def default_mirror() -> NullMirror:
+def default_mirror() -> Mirror:
     """
     Get the default mirror (e.g., used to populate
     the global indexes).
@@ -66,13 +66,13 @@ set_default_mirror(CachedUrlMirror('https://data-argo.ifremer.fr'))
 
 # ---- mirror wrappers that support the get/set default mirror ----
 
-class MirrorContext(AbstractContextManager, NullMirror):
+class MirrorContext(AbstractContextManager, Mirror):
 
-    def __init__(self, mirror: NullMirror):
+    def __init__(self, mirror: Mirror):
         self._mirror = mirror
         self._prev_mirror = None
 
-    def __enter__(self) -> NullMirror:
+    def __enter__(self) -> Mirror:
         self._prev_mirror = set_default_mirror(self._mirror)
         return self._mirror
 

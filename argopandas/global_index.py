@@ -5,7 +5,7 @@ import urllib.request
 import pyarrow
 import pyarrow.csv as csv
 from . import index
-from .mirror import NullMirror
+from .mirror import Mirror
 
 # Using pyarrow for date parsing because this takes
 # minutes using pandas. Hard-coding the 8-line header here
@@ -43,7 +43,7 @@ class GlobalIndex:
 
     def __init__(self, path: str):
         self._path = path
-        self._mirror = NullMirror()
+        self._mirror = Mirror()
 
     def _index(self):
         if self._cached_index is None:

@@ -3,7 +3,7 @@ import unittest
 import tempfile
 import os
 
-from argopandas.mirror import PathsDoNotExistError, NullMirror, \
+from argopandas.mirror import PathsDoNotExistError, Mirror, \
     FileMirror, UrlMirror, CachedUrlMirror
 
 
@@ -18,15 +18,15 @@ class TestAbstractMirror(unittest.TestCase):
 
     def test_abstract_mirror(self):
         with self.assertRaises(NotImplementedError):
-            NullMirror().open("file")
+            Mirror().open("file")
         with self.assertRaises(NotImplementedError):
-            NullMirror().prepare(["file", ])
+            Mirror().prepare(["file", ])
         with self.assertRaises(NotImplementedError):
-            NullMirror().filename("file")
+            Mirror().filename("file")
         with self.assertRaises(NotImplementedError):
-            NullMirror().url("file")
+            Mirror().url("file")
         with self.assertRaises(NotImplementedError):
-            NullMirror().netcdf_dataset_src("file")
+            Mirror().netcdf_dataset_src("file")
 
 
 class TestFileMirror(unittest.TestCase):

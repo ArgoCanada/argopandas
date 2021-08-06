@@ -19,7 +19,7 @@ class PathsDoNotExistError(Exception):
         super().__init__(path_summary)
 
 
-class NullMirror:
+class Mirror:
 
     def open(self, path) -> BinaryIO:
         raise NotImplementedError()
@@ -37,7 +37,7 @@ class NullMirror:
         raise NotImplementedError()
 
 
-class FileMirror(NullMirror):
+class FileMirror(Mirror):
 
     def __init__(self, root):
         if not os.path.isdir(root):
@@ -73,7 +73,7 @@ class FileMirror(NullMirror):
         return self.filename(path)
 
 
-class UrlMirror(NullMirror):
+class UrlMirror(Mirror):
 
     def __init__(self, root):
         if root.endswith('/'):
