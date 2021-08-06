@@ -9,7 +9,7 @@
    mirror
    path
    netcdf
-   index
+   index_mod
 
 
 Indices and tables
