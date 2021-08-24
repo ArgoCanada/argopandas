@@ -8,7 +8,7 @@ using :func:`argopandas.url_mirror` and/or
 """
 
 
-from argopandas.downloader import download_async, download_sequential
+from argopandas.downloader import download_async
 import os
 import urllib.request
 import tempfile
