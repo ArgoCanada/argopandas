@@ -13,7 +13,7 @@ import os
 import urllib.request
 from urllib.error import URLError
 from http.client import InvalidURL
-from threading import Thread
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from .progress import Progressor, ProgressBar
 
 def download_one(url, dest_file, quiet=False):
@@ -74,6 +74,18 @@ def download_one(url, dest_file, quiet=False):
             os.unlink(dest_file_temp)
 
 
+def download_one_noexcept(url, dest_file, quiet=False):
+    """
+    A version of :func:`download_one` that returns an error
+    message (or ``None`` if there was no error) instead of
+    raising an exception.
+    """
+    try:
+        download_one(url, dest_file, quiet=quiet)
+    except (URLError, InvalidURL, FileNotFoundError) as e:
+        return str(e)
+
+
 def download_sequential(files, quiet=False, max_errors=50):
     """
     Downloads an iterable of url, dest_file tuples with optional progress
@@ -98,10 +110,9 @@ def download_sequential(files, quiet=False, max_errors=50):
     # which is useful for large files such as the index
     if len(files) == 1:
         url, dest_file = files[0]
-        try:
-            download_one(url, dest_file, quiet=quiet)
-        except (URLError, InvalidURL) as e:
-            errors.append((0, str(e)))
+        err = download_one_noexcept(url, dest_file, quiet=quiet)
+        if err:
+            errors.append((0, err))
         return errors
 
 
@@ -110,12 +121,41 @@ def download_sequential(files, quiet=False, max_errors=50):
         for i, urldest in enumerate(files):
             url, dest_file = urldest
             pb.bump(0, message=os.path.basename(url))
-            try:
-                download_one(url, dest_file, quiet=True)
-            except (URLError, InvalidURL) as e:
-                errors.append((i, str(e)))
-                if len(errors) >= max_errors:
-                    break
+            err = download_one_noexcept(url, dest_file, quiet=quiet)
+            if err:
+                errors.append((i, err))
             pb.bump(1)
+            if len(errors) >= max_errors:
+                break
 
     return errors
+
+
+def download_async(files, quiet=False, max_workers=6):
+    """
+    Uses a ``concurrent.futures.ThreadPoolExecutor`` to download
+    files using ``max_worker`` threads instead of sequentially
+    like :func:`download_sequential`. When downloading many files
+    (like Argo NetCDF files) this is usually much faster.
+    """
+    files = list(files)
+    if len(files) <= 1 or max_workers <= 1:
+        return download_sequential(files, quiet=quiet)
+
+    pb = Progressor(len(files)) if quiet else ProgressBar(len(files))
+    with pb, ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_map = {}
+        for i, urldest in enumerate(files):
+            url, dest_file = urldest
+            future = executor.submit(download_one_noexcept, url, dest_file, True)
+            future_map[future] = (i, url, dest_file)
+
+        errors = []
+        for future in as_completed(future_map):
+            i, url, dest_file = future_map[future]
+            pb.bump(1, message=os.path.basename(url))
+            err = future.result()
+            if err:
+                errors.append((i, err))
+
+        return errors
