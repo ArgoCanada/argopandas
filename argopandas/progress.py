@@ -37,14 +37,19 @@ class ProgressBar(Progressor):
     def __init__(self, total, start=0, init_message=None,
                  width=None, file=None, interactive=None, message_len=25):
         super().__init__(total, start=start, init_message=init_message)
+
         if width is None:
             self._width = shutil.get_terminal_size().columns // 2 + message_len
+        else:
+            self._width = width
 
         if file is None:
-            self._file = sys.stderr
+            self._file = sys.stderr  # pragma: no cover
+        else:
+            self._file = file
 
         if interactive is None:
-            self._interactive = self._is_interactive()
+            self._interactive = self._check_is_interactive()  # pragma: no cover
         else:
             self._interactive = interactive
 
@@ -54,7 +59,7 @@ class ProgressBar(Progressor):
         self._message = None
         self._messasge_len = max([message_len, 3])
 
-    def _is_interactive(self):
+    def _check_is_interactive(self):  # pragma: no cover
         import __main__ as main
         return not hasattr(main, '__file__')
 
