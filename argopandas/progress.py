@@ -35,7 +35,7 @@ class Progressor:
 class ProgressBar(Progressor):
 
     def __init__(self, total, start=0, init_message=None,
-                 width=None, file=None, interactive=None, message_len=25):
+                 width=None, file=None, interactive=None, message_len=30):
         super().__init__(total, start=start, init_message=init_message)
 
         if width is None:
@@ -110,7 +110,7 @@ class ProgressBar(Progressor):
     def _prepare_message(self, message):
         if message is None:
             return ''
-        elif len(message) > (self._messasge_len - 3):
-            return message[:self._messasge_len] + '...'
+        elif len(message) > self._messasge_len:
+            return message[:(self._messasge_len - 3)] + '...'
         else:
             return message
