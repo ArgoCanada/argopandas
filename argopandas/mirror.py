@@ -8,11 +8,9 @@ using :func:`argopandas.url_mirror` and/or
 """
 
 
+from argopandas.downloader import download_async, download_sequential
 import os
 import urllib.request
-from urllib.error import URLError
-from http.client import InvalidURL
-import shutil
 import tempfile
 from typing import BinaryIO
 
@@ -209,21 +207,17 @@ class CachedUrlMirror(UrlMirror):
         return os.path.join(self._cache_dir, path)
 
     def prepare(self, path_iter):
-        # download all the files! in the future, do the parallel thing
-        bad_paths = []
-        errors = []
-        for path in path_iter:
-            try:
-                dest_file = self.filename(path)
-                os.makedirs(os.path.dirname(dest_file), exist_ok=True)
-                with super().open(path) as src:
-                    with open(dest_file, 'wb') as dst:
-                        shutil.copyfileobj(src, dst)
-            except (URLError, InvalidURL) as e:
-                bad_paths.append(path)
-                errors.append(str(e))
+        paths = list(path_iter)
+        files = zip(
+            [self.url(path) for path in paths],
+            [self.filename(path) for path in paths]
+        )
 
-        if bad_paths:
+        errors = download_async(files, quiet=False, max_errors=50)
+
+        if errors:
+            path_index, errors = zip(*errors)
+            bad_paths = [paths[i] for i in path_index]
             raise PathsDoNotExistError(bad_paths, errors)
 
         return self

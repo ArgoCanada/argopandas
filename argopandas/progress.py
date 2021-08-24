@@ -79,7 +79,7 @@ class ProgressBar(Progressor):
             err = f'Attempt to set ProgressBar value > total ({value}/{total}, {repr(message)})'
             raise RuntimeError(err)
 
-        n_ticks = int(value / total * self._tick_width)
+        n_ticks = int(value / total * self._tick_width) if total != 0 else 0
 
         is_fresh = self._n_ticks is None
         is_progressed = n_ticks != self._n_ticks

@@ -121,7 +121,7 @@ def download_sequential(files, quiet=False, max_errors=50):
         for i, urldest in enumerate(files):
             url, dest_file = urldest
             pb.bump(0, message=os.path.basename(url))
-            err = download_one_noexcept(url, dest_file, quiet=quiet)
+            err = download_one_noexcept(url, dest_file, quiet=True)
             if err:
                 errors.append((i, err))
             pb.bump(1)
@@ -131,7 +131,7 @@ def download_sequential(files, quiet=False, max_errors=50):
     return errors
 
 
-def download_async(files, quiet=False, max_workers=6):
+def download_async(files, quiet=False, max_workers=6, max_errors=50):
     """
     Uses a ``concurrent.futures.ThreadPoolExecutor`` to download
     files using ``max_worker`` threads instead of sequentially
@@ -157,5 +157,7 @@ def download_async(files, quiet=False, max_workers=6):
             err = future.result()
             if err:
                 errors.append((i, err))
+            if len(errors) >= max_errors:
+                break
 
         return errors
