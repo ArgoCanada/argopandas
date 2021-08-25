@@ -60,6 +60,7 @@ Global indexes
 
 from contextlib import AbstractContextManager
 from typing import Union, Iterator, BinaryIO
+import os
 
 from .mirror import CachedUrlMirror, FileMirror, Mirror, UrlMirror
 from . import global_index
@@ -194,10 +195,28 @@ def _url_iter(path, mirror):
         yield mirror.url(p)
 
 
-def _nc_iter(path, mirror):
-    mirror.prepare(path)
+def _nc_path_prepare(path, mirror):
+    mirror_paths = []
     for p in path:
-        yield load_netcdf(mirror.netcdf_dataset_src(p))
+        is_file = os.path.isfile(p)
+        is_url = p.startswith('https://') or p.startswith('http://') or p.startswith('ftp://')
+        if not is_file and not is_url:
+            mirror_paths.append(p)
+    mirror.prepare(mirror_paths)
+
+def _nc_load_one(path, mirror):
+    is_file = os.path.isfile(path)
+    is_url = path.startswith('https://') or path.startswith('http://') or path.startswith('ftp://')
+    if is_file or is_url:
+        return load_netcdf(path)
+    else:
+        return load_netcdf(mirror.netcdf_dataset_src(path))
+
+
+def _nc_iter(path, mirror):
+    _nc_path_prepare(path, mirror)
+    for p in path:
+        yield _nc_load_one(p, mirror)
 
 
 def _float_iter(float, globals):
@@ -248,7 +267,8 @@ def nc(path: Union[str, Iterator[str]]) -> Union[str, Iterator[NetCDFWrapper]]:
     """
     mirror = default_mirror()
     if isinstance(path, str):
-        return load_netcdf(mirror.netcdf_dataset_src(path))
+        _nc_path_prepare([path], mirror)
+        return _nc_load_one(path, mirror)
     else:
         return _nc_iter(path, mirror)
 
