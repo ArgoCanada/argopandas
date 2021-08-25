@@ -38,6 +38,9 @@ class DataFrameIndex(pd.DataFrame):
     def _data_frame_along(self, attr):
         file = self['file']
 
+        if len(file) == 0:
+            return self[['file']].iloc[[]]
+
         # prepare the mirror
         self._mirror.prepare(['dac/' + item for item in file])
 
