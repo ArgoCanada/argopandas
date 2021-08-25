@@ -134,6 +134,9 @@ def download_sequential(files, quiet=False, max_errors=50):
     files = list(files)
     errors = []
 
+    if not files:
+        return []
+
     # for one file we can display a progress bar of the bytes
     # which is useful for large files such as the index
     if len(files) == 1:

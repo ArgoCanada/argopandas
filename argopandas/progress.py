@@ -66,12 +66,12 @@ class ProgressBar(Progressor):
 
     def _initialize(self, value, total, message):
         if message is not None:
-            self._file.write(f'\n{message}')
-
-        if self._interactive:
-            self._file.write('\n')
+            self._file.write(f"{message}\n")
         else:
-            self._file.write(f'\n[{" " * self._tick_width}]\n ')
+            self._file.write('\n')
+
+        if not self._interactive:
+            self._file.write(f'[{" " * self._tick_width}]\n ')
 
         self._update(value, total, None)
 
@@ -109,8 +109,11 @@ class ProgressBar(Progressor):
         # if the bar finished, erase it! if it didn't
         # it's useful to see where progress stopped
         if self._interactive and value == total:
-            self._file.write('\r')
-        self._file.write('\n')
+            self._file.write('\r' + (' ' * self._width) + '\r')
+        else:
+            self._file.write('\n')
+            
+        
 
     def _prepare_message(self, message):
         if message is None:
@@ -118,12 +121,13 @@ class ProgressBar(Progressor):
         elif len(message) > self._messasge_len:
             return message[:(self._messasge_len - 3)] + '...'
         else:
-            return message
+            return message + ' ' * (self._messasge_len - len(message))
 
 
 def _interactive():  # pragma: no cover
     import __main__ as main
     return not hasattr(main, '__file__')
+
 
 def _is_terminal():  # pragma: no cover
     return sys.stderr.isatty()

@@ -209,15 +209,17 @@ class CachedUrlMirror(UrlMirror):
     def prepare(self, path_iter):
         paths = list(path_iter)
         files = zip(
+            paths,
             [self.url(path) for path in paths],
             [self.filename(path) for path in paths]
         )
-
-        errors = download_async(files, quiet=False, max_errors=50)
-
+        downloads = [(path, url, dest) for path, url, dest in files if not os.path.exists(dest)]
+        download_files = [(item[1], item[2]) for item in downloads]
+        
+        errors = download_async(download_files, quiet=False, max_errors=50)
         if errors:
             path_index, errors = zip(*errors)
-            bad_paths = [paths[i] for i in path_index]
+            bad_paths = [download_files[i][0] for i in path_index]
             raise PathsDoNotExistError(bad_paths, errors)
 
         return self

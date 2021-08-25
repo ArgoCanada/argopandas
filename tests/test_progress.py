@@ -10,17 +10,17 @@ class TestProgressBar(unittest.TestCase):
         f = io.StringIO()
         pb = ProgressBar(10, file=f, init_message='init!', interactive=True)
         with pb:
-            self.assertRegex(f.getvalue(), r'^\ninit!\n')
+            self.assertRegex(f.getvalue(), r'^init!\n')
             pb.bump()
             self.assertRegex(f.getvalue(), r'10%\s+$')
             pb.bump(message='msg')
-            self.assertRegex(f.getvalue(), r'msg$')
+            self.assertRegex(f.getvalue(), r'msg *$')
             pb.bump(message='this is a message that will be truncated')
             self.assertRegex(f.getvalue(), r'\.\.\.$')
             for i in range(7):
                 pb.bump(message=str(i))
-            self.assertRegex(f.getvalue(), r'100% 6$')
-        self.assertRegex(f.getvalue(), r'\r\n$')
+            self.assertRegex(f.getvalue(), r'100% 6 +$')
+        self.assertRegex(f.getvalue(), r'\r +\r$')
 
         with self.assertRaises(RuntimeError):
             pb.bump()
@@ -29,7 +29,7 @@ class TestProgressBar(unittest.TestCase):
         f = io.StringIO()
         pb = ProgressBar(10, file=f, init_message='init!', interactive=False)
         with pb:
-            self.assertRegex(f.getvalue(), r'^\ninit!\n\[ +\]\n $')
+            self.assertRegex(f.getvalue(), r'^init!\n\[ +\]\n $')
             for i in range(10):
                 pb.bump(message=str(i))
             self.assertRegex(f.getvalue(), ' =+$')
