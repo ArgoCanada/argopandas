@@ -30,18 +30,14 @@ def _common_prefix(urls):
 def _init_message(urls):
     if not urls:
         return None
-    
-    if len(urls) == 1:
-        common = os.path.dirname(urls[0])
-        files = 'file'
-    else:
-        common = _common_prefix([os.path.dirname(url) for url in urls])
-        files = 'files'
-    
+    elif len(urls) == 1:
+        return f"Downloading '{urls[0]}'"
+
+    common = _common_prefix([os.path.dirname(url) for url in urls])    
     if common:
-        return f"Downloading {len(urls)} {files} from '{common}'"
+        return f"Downloading {len(urls)} files from '{common}'"
     else:
-        return f"Downloading {len(urls)} {files}"
+        return f"Downloading {len(urls)} files"
 
 
 def download_one(url, dest_file, quiet=False):
@@ -71,7 +67,6 @@ def download_one(url, dest_file, quiet=False):
     dest_file_temp = dest_file + '.argotmp'
 
     # used for status updates
-    base_name = os.path.basename(url)
     message = _init_message([url])
 
     try:
@@ -89,7 +84,7 @@ def download_one(url, dest_file, quiet=False):
                     if not buffer:
                         break
                     dst.write(buffer)
-                    pb.bump(len(buffer), message=base_name)
+                    pb.bump(len(buffer))
 
             if not file_len:
                 pb.bump(1)

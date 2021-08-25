@@ -7,10 +7,10 @@ are ``pandas.DataFrame`` subclasses with a few accessors
 that load data from each.
 """
 
-
+import os
 import pandas as pd
-
 from .netcdf import MetaNetCDF, NetCDFWrapper, ProfNetCDF, TechNetCDF, TrajNetCDF
+from .progress import guess_progressor
 
 
 class DataFrameIndex(pd.DataFrame):
@@ -47,10 +47,16 @@ class DataFrameIndex(pd.DataFrame):
         # collect the keys and the individual data frames
         objs = []
         keys = []
-        for item in file:
-            nc = self._netcdf_wrapper(self._mirror.netcdf_dataset_src('dac/' + item))
-            objs.append(getattr(nc, attr))
-            keys.append(item)
+
+
+        message = f"Reading {len(file)} {'files' if len(file) != 1 else 'file'}"
+        pb = guess_progressor(len(file), init_message=message)
+        with pb:
+            for item in file:
+                pb.bump(message=os.path.basename(item))
+                nc = self._netcdf_wrapper(self._mirror.netcdf_dataset_src('dac/' + item))
+                objs.append(getattr(nc, attr))
+                keys.append(item)
 
         # combine them, adding a `file` index as a level in the multi-index
         return pd.concat(objs, keys=keys, names=["file"])
