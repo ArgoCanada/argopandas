@@ -129,12 +129,8 @@ def _interactive():  # pragma: no cover
     return not hasattr(main, '__file__')
 
 
-def _is_terminal():  # pragma: no cover
-    return sys.stderr.isatty()
-
-
 def guess_progressor(*args, quiet=False, **kwargs):
-    if quiet or (not _is_terminal() and not _interactive()):
+    if quiet or not _interactive():
         return SilentProgress()
     else:
         return ProgressBar(*args, **kwargs, interactive=True)
