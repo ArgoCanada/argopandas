@@ -15,6 +15,35 @@ from http.client import InvalidURL
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from .progress import guess_progressor
 
+
+def _common_prefix(urls):
+    if not urls:
+        return ''
+    max_length = max(len(url) for url in urls)
+    for i in reversed(range(1, max_length + 1)):
+        prefix = urls[0][:i]
+        if all(url[:i] == prefix for url in urls):
+            return prefix
+    return ''
+
+
+def _init_message(urls):
+    if not urls:
+        return None
+    
+    if len(urls) == 1:
+        common = os.path.dirname(urls[0])
+        files = 'file'
+    else:
+        common = _common_prefix([os.path.dirname(url) for url in urls])
+        files = 'files'
+    
+    if common:
+        return f"Downloading {len(urls)} {files} from '{common}'"
+    else:
+        return f"Downloading {len(urls)} {files}"
+
+
 def download_one(url, dest_file, quiet=False):
     """
     Downloads one file with an optional progress bar.
@@ -43,7 +72,7 @@ def download_one(url, dest_file, quiet=False):
 
     # used for status updates
     base_name = os.path.basename(url)
-    message = f"Downloading '{url}'"
+    message = _init_message([url])
 
     try:
         with urllib.request.urlopen(url) as src:
@@ -114,8 +143,8 @@ def download_sequential(files, quiet=False, max_errors=50):
             errors.append((0, err))
         return errors
 
-
-    pb = guess_progressor(len(files), quiet=quiet)
+    message = _init_message([item[0] for item in files])
+    pb = guess_progressor(len(files), quiet=quiet, init_message=message)
     with pb:
         for i, urldest in enumerate(files):
             url, dest_file = urldest
@@ -141,7 +170,8 @@ def download_async(files, quiet=False, max_workers=6, max_errors=50):
     if len(files) <= 1 or max_workers <= 1:
         return download_sequential(files, quiet=quiet)
 
-    pb = guess_progressor(len(files), quiet=quiet)
+    message = _init_message([item[0] for item in files])
+    pb = guess_progressor(len(files), quiet=quiet, init_message=message)
     with pb, ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_map = {}
         for i, urldest in enumerate(files):
