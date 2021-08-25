@@ -18,6 +18,8 @@ import reprlib
 from netCDF4 import Dataset, Variable, chartostring
 from pandas import DataFrame, MultiIndex, concat
 
+from .path import info as path_info
+
 
 def _is_string_dim(x):
     return x.startswith('STRING') or x == 'DATE_TIME'
@@ -53,7 +55,11 @@ class NetCDFWrapper:
         return f"{type(self).__name__}({reprlib.repr(self._src)})"
 
     def __getitem__(self, k) -> Variable:
-        return self.dataset()[k]
+        return self.dataset[k]
+    
+    @property
+    def variables(self):
+        return self.dataset.variables
 
     @property
     def info(self):
@@ -63,6 +69,7 @@ class NetCDFWrapper:
         """
         return self._data_frame_along([])
 
+    @property
     def dataset(self) -> Dataset:
         """
         Return the underlying ``netCDF4.Dataset`` .
@@ -72,7 +79,7 @@ class NetCDFWrapper:
         return self._dataset
 
     def _data_frame_along(self, target_dims, vars=None):
-        dataset = self.dataset()
+        dataset = self.dataset
 
         var_names = self._var_names_along(target_dims, vars=vars)
         if not var_names:
@@ -96,7 +103,7 @@ class NetCDFWrapper:
         return DataFrame(values, index=index)
 
     def _var_names_along(self, target_dims, vars=None):
-        dataset = self.dataset()
+        dataset = self.dataset
         if vars is None:
             vars = dataset.variables
         target_dims = tuple(target_dims)
@@ -111,7 +118,7 @@ class NetCDFWrapper:
 
     def _ndarray(self, var_name, dataset=None):
         if dataset is None:
-            dataset = self.dataset()
+            dataset = self.dataset
         var = dataset[var_name]
         if _is_string_var(var):
             return chartostring(var[:], encoding='utf-8')
@@ -267,3 +274,45 @@ class MetaNetCDF(NetCDFWrapper):
     def param(self):
         """Extract variables along N_PARAM"""
         return self._data_frame_along(('N_PARAM', ))
+
+
+def _guess_class_from_name(name):
+    file_type = path_info(name)['type']
+
+    if file_type == 'meta':
+        return MetaNetCDF
+    elif file_type == 'prof':
+        return ProfNetCDF
+    elif file_type == 'tech':
+        return TechNetCDF
+    elif file_type == 'traj':
+        return TrajNetCDF
+    else:
+        return None
+
+
+def _guess_class_from_wrapper(nc):
+    try:
+        file_type = nc.info['DATA_TYPE'][0].strip()
+        if file_type == 'Argo meta-data':
+            return MetaNetCDF
+        elif file_type == 'Argo profile':
+            return ProfNetCDF
+        elif file_type == 'Argo technical data':
+            return TechNetCDF
+        elif file_type == 'Argo trajectory':
+            return TrajNetCDF
+        else:
+            return NetCDFWrapper
+    except:
+        return NetCDFWrapper
+
+
+def load_netcdf(src):
+    if isinstance(src, str):
+        nc_class = _guess_class_from_name(src)
+        if nc_class:
+            return nc_class(src)
+    
+    nc = NetCDFWrapper(src)
+    return _guess_class_from_wrapper(nc)(nc.dataset)

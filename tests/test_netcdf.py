@@ -27,27 +27,27 @@ class TestNetCDFWrapper(unittest.TestCase):
 
     def test_dataset_file(self):
         nc_abspath = nc.NetCDFWrapper(os.path.abspath(self.test_file))
-        self.assertIsInstance(nc_abspath.dataset(), Dataset)
+        self.assertIsInstance(nc_abspath.dataset, Dataset)
 
         nc_relpath = nc.NetCDFWrapper(self.test_file)
-        self.assertIsInstance(nc_relpath.dataset(), Dataset)
+        self.assertIsInstance(nc_relpath.dataset, Dataset)
 
     def test_dataset_bytes(self):
         with open(self.test_file, 'rb') as f:
-            self.assertIsInstance(nc.NetCDFWrapper(f.read()).dataset(), Dataset)
+            self.assertIsInstance(nc.NetCDFWrapper(f.read()).dataset, Dataset)
 
     def test_dataset_url(self):
         path = 'dac/csio/2900313/profiles/D2900313_002.nc'
         url = 'https://data-argo.ifremer.fr/' + path
-        self.assertIsInstance(nc.NetCDFWrapper(url).dataset(), Dataset)
+        self.assertIsInstance(nc.NetCDFWrapper(url).dataset, Dataset)
 
     def test_dataset_dataset(self):
         ds = Dataset(self.test_file)
-        self.assertIs(nc.NetCDFWrapper(ds).dataset(), ds)
+        self.assertIs(nc.NetCDFWrapper(ds).dataset, ds)
 
     def test_dataset_unknown(self):
         with self.assertRaises(ValueError):
-            nc.NetCDFWrapper('this is not anything').dataset()
+            nc.NetCDFWrapper('this is not anything').dataset
 
     def test_getitem(self):
         ncobj = nc.NetCDFWrapper(self.test_file)

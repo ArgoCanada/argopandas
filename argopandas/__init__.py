@@ -65,7 +65,7 @@ from .mirror import CachedUrlMirror, FileMirror, Mirror, UrlMirror
 from . import global_index
 from . import path
 from .float import Float
-from .netcdf import NetCDFWrapper
+from .netcdf import load_netcdf, NetCDFWrapper
 
 # --- global index interface ----
 
@@ -197,7 +197,7 @@ def _url_iter(path, mirror):
 def _nc_iter(path, mirror):
     mirror.prepare(path)
     for p in path:
-        yield NetCDFWrapper(mirror.netcdf_dataset_src(p))
+        yield load_netcdf(mirror.netcdf_dataset_src(p))
 
 
 def _float_iter(float, globals):
@@ -248,7 +248,7 @@ def nc(path: Union[str, Iterator[str]]) -> Union[str, Iterator[NetCDFWrapper]]:
     """
     mirror = default_mirror()
     if isinstance(path, str):
-        return NetCDFWrapper(mirror.netcdf_dataset_src(path))
+        return load_netcdf(mirror.netcdf_dataset_src(path))
     else:
         return _nc_iter(path, mirror)
 
