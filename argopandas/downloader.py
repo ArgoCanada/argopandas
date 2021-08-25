@@ -8,13 +8,12 @@ in the future.
 """
 
 
-import time
 import os
 import urllib.request
 from urllib.error import URLError
 from http.client import InvalidURL
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from .progress import Progressor, ProgressBar
+from .progress import guess_progressor
 
 def download_one(url, dest_file, quiet=False):
     """
@@ -50,9 +49,9 @@ def download_one(url, dest_file, quiet=False):
         with urllib.request.urlopen(url) as src:
             file_len = src.headers['Content-Length']
             if file_len and not quiet:
-                pb = ProgressBar(int(file_len), init_message=message)
+                pb = guess_progressor(int(file_len), init_message=message, quiet=quiet)
             else:
-                pb = Progressor(1)
+                pb = guess_progressor(1, quiet=quiet)
 
             with pb, open(dest_file_temp, 'wb') as dst:
                 block_size = 8192
@@ -116,7 +115,7 @@ def download_sequential(files, quiet=False, max_errors=50):
         return errors
 
 
-    pb = Progressor(len(files)) if quiet else ProgressBar(len(files))
+    pb = guess_progressor(len(files), quiet=quiet)
     with pb:
         for i, urldest in enumerate(files):
             url, dest_file = urldest
@@ -142,7 +141,7 @@ def download_async(files, quiet=False, max_workers=6, max_errors=50):
     if len(files) <= 1 or max_workers <= 1:
         return download_sequential(files, quiet=quiet)
 
-    pb = Progressor(len(files)) if quiet else ProgressBar(len(files))
+    pb = guess_progressor(len(files), quiet=quiet)
     with pb, ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_map = {}
         for i, urldest in enumerate(files):

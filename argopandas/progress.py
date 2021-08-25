@@ -32,6 +32,11 @@ class Progressor:
         self._finish(self._value, self._total)
 
 
+class SilentProgress(Progressor):
+    def __init__(self, *args, **kwargs):
+        super().__init__(0)
+
+
 class ProgressBar(Progressor):
 
     def __init__(self, total, start=0, init_message=None,
@@ -59,10 +64,6 @@ class ProgressBar(Progressor):
         self._message = None
         self._messasge_len = max([message_len, 3])
 
-    def _check_is_interactive(self):  # pragma: no cover
-        import __main__ as main
-        return not hasattr(main, '__file__')
-
     def _initialize(self, value, total, message):
         if message is not None:
             self._file.write(f'\n{message}')
@@ -80,6 +81,7 @@ class ProgressBar(Progressor):
             raise RuntimeError(err)
 
         n_ticks = int(value / total * self._tick_width) if total != 0 else 0
+        pct = value / total * 100 if total != 0 else 0
 
         is_fresh = self._n_ticks is None
         is_progressed = n_ticks != self._n_ticks
@@ -91,10 +93,10 @@ class ProgressBar(Progressor):
                 ticks = '=' * n_ticks
                 arrow = '>' if n_ticks != self._tick_width else ''
                 spaces = ' ' * n_spaces
-                pct = str(int(value / total * 100)).rjust(3)
+                pct_just = str(int(pct)).rjust(3)
                 message = self._prepare_message(message)
 
-                bar = f'\r[{ticks}{arrow}{spaces}] {pct}% {message}'
+                bar = f'\r[{ticks}{arrow}{spaces}] {pct_just}% {message}'
                 self._file.write(bar)
             else:
                 current_ticks = 0 if is_fresh else self._n_ticks
@@ -104,7 +106,10 @@ class ProgressBar(Progressor):
             self._message = message
 
     def _finish(self, value, total):
-        self._update(value, total, message=None)
+        # if the bar finished, erase it! if it didn't
+        # it's useful to see where progress stopped
+        if self._interactive and value == total:
+            self._file.write('\r')
         self._file.write('\n')
 
     def _prepare_message(self, message):
@@ -114,3 +119,18 @@ class ProgressBar(Progressor):
             return message[:(self._messasge_len - 3)] + '...'
         else:
             return message
+
+
+def _interactive():  # pragma: no cover
+    import __main__ as main
+    return not hasattr(main, '__file__')
+
+def _is_terminal():  # pragma: no cover
+    return sys.stderr.isatty()
+
+
+def guess_progressor(*args, quiet=False, **kwargs):
+    if quiet or (not _is_terminal() and not _interactive()):
+        return SilentProgress()
+    else:
+        return ProgressBar(*args, **kwargs, interactive=True)

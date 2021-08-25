@@ -20,7 +20,7 @@ class TestProgressBar(unittest.TestCase):
             for i in range(7):
                 pb.bump(message=str(i))
             self.assertRegex(f.getvalue(), r'100% 6$')
-        self.assertRegex(f.getvalue(), r'100%\s+$')
+        self.assertRegex(f.getvalue(), r'\r\n$')
 
         with self.assertRaises(RuntimeError):
             pb.bump()
