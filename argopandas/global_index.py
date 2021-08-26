@@ -136,6 +136,7 @@ class GlobalIndex:
         else:
             return f"{self.short_repr()} (preview)\n{repr(self.head())}"
 
+
 class GlobalMeta(GlobalIndex):
     """
     The global meta index (i.e., 'ar_index_global_meta.txt.gz'). Subsets
