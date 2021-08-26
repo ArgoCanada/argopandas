@@ -7,7 +7,6 @@ better handled by the urllib3 package, which may replace this module
 in the future.
 """
 
-
 import os
 import urllib.request
 from urllib.error import URLError
@@ -20,10 +19,13 @@ def _common_prefix(urls):
     if not urls:
         return ''
     max_length = max(len(url) for url in urls)
+
+    # probably faster to use a recursive splitting strategy
     for i in reversed(range(1, max_length + 1)):
         prefix = urls[0][:i]
         if all(url[:i] == prefix for url in urls):
             return prefix
+
     return ''
 
 
@@ -33,7 +35,7 @@ def _init_message(urls):
     elif len(urls) == 1:
         return f"Downloading '{urls[0]}'"
 
-    common = _common_prefix([os.path.dirname(url) for url in urls])    
+    common = _common_prefix([os.path.dirname(url) for url in urls])
     if common:
         return f"Downloading {len(urls)} files from '{common}'"
     else:
