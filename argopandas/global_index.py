@@ -55,6 +55,15 @@ class GlobalIndex:
         self._path = path
         self._mirror = Mirror()
 
+    def is_downloaded(self):
+        return self._cached_index is not None
+
+    def short_repr(self):
+        if self.is_downloaded():
+            return f"{type(self).__name__}"
+        else:
+            return f"Lazy {type(self).__name__}"
+
     def _index(self):
         if self._cached_index is None:
             self._load_index()
@@ -111,9 +120,21 @@ class GlobalIndex:
     def iloc(self):
         return self._index().iloc
 
-    def __repr__(self):
-        return f"{type(self).__name__}({repr(self._path)}, mirror={repr(self._mirror)})"
+    def _repr_html_(self):
+        if self.is_downloaded():
+            rep = f"{self.short_repr()} (downloaded)"
+            html = self._index()._repr_html_()
+        else:
+            rep = f"{self.short_repr()} (preview)"
+            html = self.head()._repr_html_()
 
+        return f"<p>{rep}</p>\n{html}"
+
+    def __repr__(self):
+        if self.is_downloaded():
+            return f"{self.short_repr()}\n{repr(self._index())}"
+        else:
+            return f"{self.short_repr()} (preview)\n{repr(self.head())}"
 
 class GlobalMeta(GlobalIndex):
     """

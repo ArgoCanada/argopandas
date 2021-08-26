@@ -19,6 +19,25 @@ class Float:
         """
         self._float_id = float_id
         self._globals = globals
+        self._cached_tables = {}
+
+    def __repr__(self):
+        constructor = f"argo.float({repr(self._float_id)})"
+        tbls = [
+            'prof', 'traj', 'tech', 'meta',
+            'bio_prof', 'synthetic_prof', 'bio_traj'
+        ]
+        items = '\n'.join(f"  .{tbl} <{self.__repr_item(tbl)}>" for tbl in tbls)
+        return f"{constructor}\n{items}"
+
+    def __repr_item(self, name):
+        if name in self._cached_tables:
+            tbl = self._cached_tables[name]
+            shape = f"[{tbl.shape[0]} x {tbl.shape[1]}]"
+            return f"{type(tbl).__name__} {shape}"
+        else:
+            root = f"argo.{name}"
+            return f"{root}[argo.path.is_float({root}['file'], {repr(self._float_id)})]"
 
     def float_id(self) -> str:
         """Returns the float identifier for this float."""
@@ -32,8 +51,11 @@ class Float:
         return self.meta.shape[0] > 0
 
     def _filtered(self, name):
-        root = self._globals[name]
-        return root[path.is_float(root['file'], self._float_id)]
+        if name not in self._cached_tables:
+            root = self._globals[name]
+            tbl = root[path.is_float(root['file'], self._float_id)]
+            self._cached_tables[name] = tbl
+        return self._cached_tables[name]
 
     @property
     def prof(self) -> index.ProfIndex:
