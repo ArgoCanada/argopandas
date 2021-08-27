@@ -31,39 +31,25 @@ The global indexes are available via `argo.prof`, `argo.meta`, `argo.tech`, `arg
 
 
 ```python
-argo.meta[:]
+argo.meta.head(5)
 ```
 
 
 
 
-                                    file  profiler_type institution  \
-    0           aoml/13857/13857_meta.nc          845.0          AO   
-    1           aoml/13858/13858_meta.nc          845.0          AO   
-    2           aoml/13859/13859_meta.nc          845.0          AO   
-    3           aoml/15819/15819_meta.nc          845.0          AO   
-    4           aoml/15820/15820_meta.nc          845.0          AO   
-    ...                              ...            ...         ...   
-    16654  nmdis/2901629/2901629_meta.nc          841.0          NM   
-    16655  nmdis/2901630/2901630_meta.nc          841.0          NM   
-    16656  nmdis/2901631/2901631_meta.nc          841.0          NM   
-    16657  nmdis/2901632/2901632_meta.nc          841.0          NM   
-    16658  nmdis/2901633/2901633_meta.nc          841.0          NM   
+                           file  profiler_type institution  \
+    0  aoml/13857/13857_meta.nc            845          AO   
+    1  aoml/13858/13858_meta.nc            845          AO   
+    2  aoml/13859/13859_meta.nc            845          AO   
+    3  aoml/15819/15819_meta.nc            845          AO   
+    4  aoml/15820/15820_meta.nc            845          AO   
     
-              date_update  
-    0      20181011200014  
-    1      20181011200015  
-    2      20181011200025  
-    3      20181011200016  
-    4      20181011200018  
-    ...               ...  
-    16654  20150511174056  
-    16655  20150511174105  
-    16656  20130617181802  
-    16657  20151026160825  
-    16658  20151026160835  
-    
-    [16659 rows x 4 columns]
+                    date_update  
+    0 2018-10-11 20:00:14+00:00  
+    1 2018-10-11 20:00:15+00:00  
+    2 2018-10-11 20:00:25+00:00  
+    3 2018-10-11 20:00:16+00:00  
+    4 2018-10-11 20:00:18+00:00  
 
 
 
@@ -75,6 +61,10 @@ To get Argo data from one or more NetCDF files, subset the indexes and use one o
 ```python
 argo.prof.head(5).levels[['PRES', 'TEMP']]
 ```
+
+    Downloading 5 files from 'https://data-argo.ifremer.fr/dac/aoml/13857/profiles'
+    Reading 5 files
+                                                                                                      
 
 
 
@@ -116,8 +106,79 @@ for label, df in argo.prof.head(5).levels.groupby('file'):
 ax.invert_yaxis()
 ```
 
+    Reading 5 files
+                                                                                                      
+
 
     
-![png](README_files/README_8_0.png)
+![png](README_files/README_8_1.png)
     
+
+
+You can access all the index files for a particular float using `argo.float()`, which lazily filters all the indexes for a particular float ID.
+
+
+```python
+float_obj = argo.float(13857)
+float_obj.meta.info
+```
+
+    Downloading 'https://data-argo.ifremer.fr/ar_index_global_meta.txt.gz'
+    Downloading 'https://data-argo.ifremer.fr/dac/aoml/13857/13857_meta.nc'
+    Reading 1 file
+                                                                                                      
+
+
+
+
+                                       DATA_TYPE FORMAT_VERSION HANDBOOK_VERSION  \
+    file                                                                           
+    aoml/13857/13857_meta.nc 0  Argo meta-data             3.1              1.2    
+    
+                                 DATE_CREATION     DATE_UPDATE PLATFORM_NUMBER  \
+    file                                                                         
+    aoml/13857/13857_meta.nc 0  20181011200014  20181011200014        13857      
+    
+                                                                              PTT  \
+    file                                                                            
+    aoml/13857/13857_meta.nc 0  09335                                         ...   
+    
+                                                                  PLATFORM_FAMILY  \
+    file                                                                            
+    aoml/13857/13857_meta.nc 0  FLOAT                                         ...   
+    
+                                                   PLATFORM_TYPE  \
+    file                                                           
+    aoml/13857/13857_meta.nc 0  PALACE                             
+    
+                                                                   PLATFORM_MAKER  \
+    file                                                                            
+    aoml/13857/13857_meta.nc 0  WRC                                           ...   
+    
+                                ... LAUNCH_QC      START_DATE START_DATE_QC  \
+    file                        ...                                           
+    aoml/13857/13857_meta.nc 0  ...      b'1'  19970719163000          b'1'   
+    
+                                  STARTUP_DATE STARTUP_DATE_QC  \
+    file                                                         
+    aoml/13857/13857_meta.nc 0  19970719103000            b'1'   
+    
+                                             DEPLOYMENT_PLATFORM  \
+    file                                                           
+    aoml/13857/13857_meta.nc 0  R/V Seward Johnson                 
+    
+                                            DEPLOYMENT_CRUISE_ID  \
+    file                                                           
+    aoml/13857/13857_meta.nc 0  97-03                              
+    
+                                                  DEPLOYMENT_REFERENCE_STATION_ID  \
+    file                                                                            
+    aoml/13857/13857_meta.nc 0  CTD 108                                       ...   
+    
+                               END_MISSION_DATE END_MISSION_STATUS  
+    file                                                            
+    aoml/13857/13857_meta.nc 0                                 NaN  
+    
+    [1 rows x 43 columns]
+
 
