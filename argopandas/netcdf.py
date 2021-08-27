@@ -17,6 +17,7 @@ import reprlib
 
 from netCDF4 import Dataset, Variable, chartostring
 from pandas import DataFrame, MultiIndex, concat
+import numpy as np
 
 from .path import info as path_info
 
@@ -247,9 +248,9 @@ class MetaNetCDF(NetCDFWrapper):
             return DataFrame()
 
         n_missions = int(n_values / n_params)
-        params_rep = concat([params] * n_missions)
+        params_rep = params.iloc[np.tile(range(n_params), n_missions)]
         for col in params_rep.keys():
-            values[col] = params_rep[col]
+            values[col] = params_rep[col].values
 
         return values
 
