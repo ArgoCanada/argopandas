@@ -1,22 +1,22 @@
-# argopandas
-
-[![Check](https://github.com/ArgoCanada/argopandas/actions/workflows/check.yaml/badge.svg)](https://github.com/ArgoCanada/argopandas/actions/workflows/check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/ArgoCanada/argopandas/branch/master/graph/badge.svg)](https://codecov.io/gh/ArgoCanada/argopandas?branch=master)
-
-The goal of argopandas is to provide seamless access to Argo NetCDF files using a pandas `DataFrame`-based interface. It is a Python port of the [argodata package for R](https://github.com/ArgoCanada/argodata). The package is under heavy development and we would love feedback on the interface or anything else about the package!
-
-## Installation
-
-You can install the `argopandas` package using `pip`.
-
-``` bash
-pip install git+https://github.com/ArgoCanada/argopandas.git
-```
-
-The package depends on `pandas`, `numpy`, and `netCDF4`, which you can install using `pip install pandas numpy netCDF4` or via your favourite Python package management system. The `argopandas` package requires Python 3.6 or later.
-
-## Examples
-
+# argopandas
+
+[![Check](https://github.com/ArgoCanada/argopandas/actions/workflows/check.yaml/badge.svg)](https://github.com/ArgoCanada/argopandas/actions/workflows/check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/ArgoCanada/argopandas/branch/master/graph/badge.svg)](https://codecov.io/gh/ArgoCanada/argopandas?branch=master)
+
+The goal of argopandas is to provide seamless access to Argo NetCDF files using a pandas `DataFrame`-based interface. It is a Python port of the [argodata package for R](https://github.com/ArgoCanada/argodata). The package is under heavy development and we would love feedback on the interface or anything else about the package!
+
+## Installation
+
+You can install the `argopandas` package using `pip`.
+
+``` bash
+pip install git+https://github.com/ArgoCanada/argopandas.git
+```
+
+The package depends on `pandas`, `numpy`, `netCDF4`, and `pyarrow`, which install automatically if using `pip` or you can install also your favourite Python package manager. The `argopandas` package requires Python 3.6 or later.
+
+## Examples
+
 The intended interface for most usage is contained in the `argopandas` module. You can import this as `argo` for pretty-looking syntax:
 
 
