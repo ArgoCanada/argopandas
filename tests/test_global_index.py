@@ -18,6 +18,10 @@ class TestGlobalIndex(unittest.TestCase):
         root = global_index.GlobalMeta()
         root._set_mirror(self.mirror)
 
+        # call repr() before the index has been cached
+        self.assertRegex(repr(root), r'^Lazy')
+        self.assertRegex(root._repr_html_(), r'<p>Lazy')
+
         # make sure head() gets called without resolving the whole file
         self.assertEqual(root.head().shape[0], 2)
         self.assertIsNone(root._cached_index)
@@ -33,8 +37,9 @@ class TestGlobalIndex(unittest.TestCase):
         self.assertEqual(root.iloc[0, 0], root[:].iloc[0, 0])
         self.assertEqual(root.loc[0, 'file'], root[:].loc[0, 'file'])
 
-        # repr
+        # repr for resolved index
         self.assertRegex(repr(root), r'^GlobalMeta')
+        self.assertRegex(root._repr_html_(), r'<p>GlobalMeta')
 
     def test_lazy_head(self):
         root = global_index.GlobalMeta()
