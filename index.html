@@ -272,6 +272,56 @@ variables that aren’t aligned along any dimensions</p></li>
 </pre></div>
 </div>
 <img alt="_images/README_8_1.png" src="_images/README_8_1.png" />
+<p>You can access all the index files for a particular float using
+<code class="docutils literal notranslate"><span class="pre">argo.float()</span></code>, which lazily filters all the indexes for a particular
+float ID.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">float_obj</span> <span class="o">=</span> <span class="n">argo</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="mi">13857</span><span class="p">)</span>
+<span class="n">float_obj</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">info</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Downloading</span> <span class="s1">&#39;https://data-argo.ifremer.fr/ar_index_global_meta.txt.gz&#39;</span>
+<span class="n">Downloading</span> <span class="s1">&#39;https://data-argo.ifremer.fr/dac/aoml/13857/13857_meta.nc&#39;</span>
+<span class="n">Reading</span> <span class="mi">1</span> <span class="n">file</span>
+</pre></div>
+</div>
+<pre class="literal-block">                                   DATA_TYPE FORMAT_VERSION HANDBOOK_VERSION  file
+aoml/13857/13857_meta.nc 0  Argo meta-data             3.1              1.2
+
+                             DATE_CREATION     DATE_UPDATE PLATFORM_NUMBER  file
+aoml/13857/13857_meta.nc 0  20181011200014  20181011200014        13857
+
+                                                                          PTT  file
+aoml/13857/13857_meta.nc 0  09335                                         ...
+
+                                                              PLATFORM_FAMILY  file
+aoml/13857/13857_meta.nc 0  FLOAT                                         ...
+
+                                               PLATFORM_TYPE  file
+aoml/13857/13857_meta.nc 0  PALACE
+
+                                                               PLATFORM_MAKER  file
+aoml/13857/13857_meta.nc 0  WRC                                           ...
+
+                            ... LAUNCH_QC      START_DATE START_DATE_QC  file                        ...
+aoml/13857/13857_meta.nc 0  ...      b'1'  19970719163000          b'1'
+
+                              STARTUP_DATE STARTUP_DATE_QC  file
+aoml/13857/13857_meta.nc 0  19970719103000            b'1'
+
+                                         DEPLOYMENT_PLATFORM  file
+aoml/13857/13857_meta.nc 0  R/V Seward Johnson
+
+                                        DEPLOYMENT_CRUISE_ID  file
+aoml/13857/13857_meta.nc 0  97-03
+
+                                              DEPLOYMENT_REFERENCE_STATION_ID  file
+aoml/13857/13857_meta.nc 0  CTD 108                                       ...
+
+                           END_MISSION_DATE END_MISSION_STATUS
+file
+aoml/13857/13857_meta.nc 0                                 NaN
+
+[1 rows x 43 columns]</pre>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
