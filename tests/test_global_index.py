@@ -52,7 +52,6 @@ class TestGlobalIndex(unittest.TestCase):
         self.assertIsNone(root._cached_index)
         self.assertFalse(os.path.exists(root._mirror.filename(root._path)))
 
-
     def test_prof(self):
         root = global_index.GlobalProf()
         root._set_mirror(self.mirror)
