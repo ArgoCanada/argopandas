@@ -89,14 +89,14 @@ def download_one(url, dest_file, quiet=False):
                     pb.bump(len(buffer))
 
             if not file_len:
-                pb.bump(1)
+                pb.bump(1)  # pragma: no cover
 
             if os.path.exists(dest_file):
                 os.unlink(dest_file)
             os.rename(dest_file_temp, dest_file)
     finally:
         if os.path.exists(dest_file_temp):
-            os.unlink(dest_file_temp)
+            os.unlink(dest_file_temp)  # pragma: no cover
 
 
 def download_one_noexcept(url, dest_file, quiet=False):

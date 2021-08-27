@@ -62,6 +62,20 @@ class TestDownloader(unittest.TestCase):
             self.assertEqual(errors[0][0], 0)
             self.assertRegex(errors[0][1], '404')
 
+            errors = dl.download_sequential([
+                ('https://httpbin.org/status/404', os.path.join(temp, '404.json')),
+                ('https://httpbin.org/status/200', os.path.join(temp, 'get2.json'))
+            ])
+            self.assertEqual(len(errors), 1)
+            self.assertEqual(errors[0][0], 0)
+            self.assertRegex(errors[0][1], '404')
+
+            errors = dl.download_async([
+                ('https://httpbin.org/status/404', os.path.join(temp, '404.json')),
+                ('https://httpbin.org/status/404', os.path.join(temp, '4042.json'))
+            ], max_errors=1)
+            self.assertEqual(len(errors), 1)
+
     def test_download_async(self):
         self.assertEqual(dl.download_async([]), [])
         with tempfile.TemporaryDirectory() as temp:
@@ -90,6 +104,20 @@ class TestDownloader(unittest.TestCase):
             self.assertEqual(len(errors), 1)
             self.assertEqual(errors[0][0], 0)
             self.assertRegex(errors[0][1], '404')
+
+            errors = dl.download_async([
+                ('https://httpbin.org/status/404', os.path.join(temp, '404.json')),
+                ('https://httpbin.org/status/200', os.path.join(temp, 'get2.json'))
+            ])
+            self.assertEqual(len(errors), 1)
+            self.assertEqual(errors[0][0], 0)
+            self.assertRegex(errors[0][1], '404')
+
+            errors = dl.download_async([
+                ('https://httpbin.org/status/404', os.path.join(temp, '404.json')),
+                ('https://httpbin.org/status/404', os.path.join(temp, '4042.json'))
+            ], max_errors=1)
+            self.assertEqual(len(errors), 1)
 
 
 if __name__ == '__main__':
