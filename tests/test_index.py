@@ -58,6 +58,10 @@ class TestDataFrameIndex(unittest.TestCase):
         self.assertIn('SENSOR', df.sensor.keys())
         self.assertIn('PARAMETER', df.param.keys())
 
+    def test_zero_length(self):
+        df = pd.DataFrame({'file': []})
+        df = dfi.DataFrameIndex(df)
+        self.assertEqual({k: list(v) for k, v in df.info.items()}, {'file': []})
 
 if __name__ == '__main__':
     unittest.main()
