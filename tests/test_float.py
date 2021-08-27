@@ -26,6 +26,15 @@ class TestFloat(unittest.TestCase):
         self.assertEqual(f.synthetic_prof.shape[0], 0)
         self.assertEqual(f.bio_traj.shape[0], 0)
 
+    def test_float_repr(self):
+        globals = global_index.make_globals(self.mirror)
+        f = Float(2900313, globals)
+        # lazy (not yet evaluated)
+        self.assertRegex(repr(f), r'\.prof <argo\.prof')
+        # resolve profile index
+        f.prof
+        self.assertRegex(repr(f), r'ProfIndex \[8 x 8\]')
+
 
 if __name__ == '__main__':
     unittest.main()
