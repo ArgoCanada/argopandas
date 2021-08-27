@@ -51,12 +51,20 @@ class NetCDFWrapper:
         self._src = src
         self._dataset = None
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *execinfo):
+        if self._dataset is not None and not isinstance(self._src, Dataset):
+            self._dataset.close()
+            self._dataset = None
+
     def __repr__(self):
         return f"{type(self).__name__}({reprlib.repr(self._src)})"
 
     def __getitem__(self, k) -> Variable:
         return self.dataset[k]
-    
+
     @property
     def variables(self):
         return self.dataset.variables
@@ -313,6 +321,11 @@ def load_netcdf(src):
         nc_class = _guess_class_from_name(src)
         if nc_class:
             return nc_class(src)
-    
-    nc = NetCDFWrapper(src)
-    return _guess_class_from_wrapper(nc)(nc.dataset)
+
+    nc = None
+    try:
+        nc = NetCDFWrapper(src)
+        return _guess_class_from_wrapper(nc)(src)
+    finally:
+        if nc and not isinstance(src, Dataset):
+            nc.dataset.close()

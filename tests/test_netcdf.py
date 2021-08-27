@@ -1,6 +1,8 @@
 
+import shutil
 import unittest
 import os
+import tempfile
 
 from netCDF4 import Dataset, Variable
 
@@ -49,6 +51,10 @@ class TestNetCDFWrapper(unittest.TestCase):
         with self.assertRaises(ValueError):
             nc.NetCDFWrapper('this is not anything').dataset
 
+    def test_variables(self):
+        ncobj = nc.NetCDFWrapper(self.test_file)
+        self.assertEqual(list(ncobj.variables), list(ncobj.dataset.variables))
+
     def test_getitem(self):
         ncobj = nc.NetCDFWrapper(self.test_file)
         self.assertIsInstance(ncobj['PRES'], Variable)
@@ -82,6 +88,22 @@ class TestNetCDFWrapper(unittest.TestCase):
         ncobj = nc.NetCDFWrapper(self.test_file)
         self.assertIn('DATA_TYPE', ncobj.info.keys())
 
+    def test_load(self):
+        with tempfile.TemporaryDirectory() as temp:
+            # real argo file with a non-argo name
+            shutil.copy(self.test_file, os.path.join(temp, 'f1.nc'))
+            with nc.load_netcdf(os.path.join(temp, 'f1.nc')) as ds:
+                self.assertIsInstance(ds, nc.NetCDFWrapper)
+
+            # not an Argo NetCDF without a filename
+            ds = Dataset(os.path.join(temp, 'f2.nc'), mode='w')
+            ds.close()
+
+            with open(os.path.join(temp, 'f2.nc'), 'rb') as f:
+                with nc.load_netcdf(f.read()) as ds:
+                    self.assertIsInstance(ds, nc.NetCDFWrapper)
+
+
 class TestProfNetCDF(unittest.TestCase):
 
     def setUp(self):
@@ -97,6 +119,11 @@ class TestProfNetCDF(unittest.TestCase):
         self.assertIn('PARAMETER', ncobj.calib.keys())
         self.assertIn('STATION_PARAMETERS', ncobj.param.keys())
         self.assertIn('HISTORY_DATE', ncobj.history.keys())
+
+    def test_load(self):
+        self.assertIsInstance(nc.load_netcdf(self.test_file), nc.ProfNetCDF)
+        ncobj = nc.ProfNetCDF(self.test_file)
+        self.assertIsInstance(nc.load_netcdf(ncobj.dataset), nc.ProfNetCDF)
 
 
 class TestTrajNetCDF(unittest.TestCase):
@@ -114,6 +141,11 @@ class TestTrajNetCDF(unittest.TestCase):
         self.assertIn('TRAJECTORY_PARAMETERS', ncobj.param.keys())
         self.assertIn('HISTORY_DATE', ncobj.history.keys())
 
+    def test_load(self):
+        self.assertIsInstance(nc.load_netcdf(self.test_file), nc.TrajNetCDF)
+        ncobj = nc.ProfNetCDF(self.test_file)
+        self.assertIsInstance(nc.load_netcdf(ncobj.dataset), nc.TrajNetCDF)
+
 
 class TestTechNetCDF(unittest.TestCase):
 
@@ -126,6 +158,11 @@ class TestTechNetCDF(unittest.TestCase):
     def test_tables(self):
         ncobj = nc.TechNetCDF(self.test_file)
         self.assertIn('CYCLE_NUMBER', ncobj.tech_param.keys())
+
+    def test_load(self):
+        self.assertIsInstance(nc.load_netcdf(self.test_file), nc.TechNetCDF)
+        ncobj = nc.ProfNetCDF(self.test_file)
+        self.assertIsInstance(nc.load_netcdf(ncobj.dataset), nc.TechNetCDF)
 
 
 class TestMetaNetCDF(unittest.TestCase):
@@ -152,6 +189,11 @@ class TestMetaNetCDF(unittest.TestCase):
         tech_file = os.path.join(tech_file_dir, '2900313_tech.nc')
         ncobj = nc.MetaNetCDF(tech_file)
         self.assertEqual(tuple(ncobj.config_param.keys()), ())
+
+    def test_load(self):
+        self.assertIsInstance(nc.load_netcdf(self.test_file), nc.MetaNetCDF)
+        ncobj = nc.ProfNetCDF(self.test_file)
+        self.assertIsInstance(nc.load_netcdf(ncobj.dataset), nc.MetaNetCDF)
 
 
 if __name__ == '__main__':
