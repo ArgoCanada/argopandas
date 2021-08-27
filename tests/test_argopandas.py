@@ -5,7 +5,7 @@ import os
 import argopandas as argo
 from argopandas.mirror import FileMirror, UrlMirror
 import argopandas.global_index as global_index
-from argopandas.netcdf import NetCDFWrapper
+from argopandas.netcdf import NetCDFWrapper, ProfNetCDF
 
 
 class TestGlobalIndexInterface(unittest.TestCase):
@@ -129,9 +129,16 @@ class TestGlobalMirrorInterface(unittest.TestCase):
 
     def test_nc(self):
         actual_file = 'dac/csio/2900313/profiles/D2900313_002.nc'
-        self.assertIsInstance(argo.nc(actual_file), NetCDFWrapper)
+
+        # as a path
+        self.assertIsInstance(argo.nc(actual_file), ProfNetCDF)
         for fiter in argo.nc([actual_file]):
-            self.assertIsInstance(fiter, NetCDFWrapper)
+            self.assertIsInstance(fiter, ProfNetCDF)
+
+        # as a filename
+        self.assertIsInstance(argo.nc(argo.filename(actual_file)), ProfNetCDF)
+        for fiter in argo.nc(argo.filename([actual_file])):
+            self.assertIsInstance(fiter, ProfNetCDF)
 
     def test_float(self):
         self.assertTrue(argo.float(2900313).exists())
