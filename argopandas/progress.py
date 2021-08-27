@@ -59,16 +59,18 @@ class ProgressBar(Progressor):
             self._interactive = interactive
 
         # this bar is [====>    ] XX% message for interactive or ===== otherwise
-        self._tick_width = max([self._width - message_len - len('[] XXX% '), 2])
+        n_bar_chars = len('[] XXX% ')
+        self._tick_width = max([self._width - message_len - n_bar_chars, 2])
         self._n_ticks = None
         self._message = None
-        self._messasge_len = max([message_len, 3])
+        message_len = min([self._width - self._tick_width - n_bar_chars, message_len])
+        self._messasge_len = max([message_len, 4])
 
     def _initialize(self, value, total, message):
         if message is not None:
-            self._file.write(f"{message}\n")
-        else:
-            self._file.write('\n')
+            self._file.write(message)
+
+        self._file.write('\n')
 
         if not self._interactive:
             self._file.write(f'[{" " * self._tick_width}]\n ')
@@ -112,8 +114,8 @@ class ProgressBar(Progressor):
             self._file.write('\r' + (' ' * self._width) + '\r')
         else:
             self._file.write('\n')
-            
-        
+
+
 
     def _prepare_message(self, message):
         if message is None:
@@ -124,7 +126,7 @@ class ProgressBar(Progressor):
             return message + ' ' * (self._messasge_len - len(message))
 
 
-def _interactive():  # pragma: no cover
+def _interactive():
     import __main__ as main
     return not hasattr(main, '__file__')
 
@@ -133,4 +135,4 @@ def guess_progressor(*args, quiet=False, **kwargs):
     if quiet or not _interactive():
         return SilentProgress()
     else:
-        return ProgressBar(*args, **kwargs, interactive=True)
+        return ProgressBar(*args, **kwargs, interactive=True)  # pragma: no cover

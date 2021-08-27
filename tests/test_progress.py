@@ -25,6 +25,15 @@ class TestProgressBar(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             pb.bump()
 
+    def test_progressbar_skinny(self):
+        f = io.StringIO()
+        pb = ProgressBar(10, file=f, interactive=True, width=10)
+        with pb:
+            for i in range(10):
+                pb.bump(message=str(i))
+        self.assertRegex(f.getvalue()[-100:], r'\[==\] 100% 9   \r +\r$')
+
+
     def test_progressbar_static(self):
         f = io.StringIO()
         pb = ProgressBar(10, file=f, init_message='init!', interactive=False)
