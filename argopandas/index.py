@@ -8,9 +8,11 @@ that load data from each.
 """
 
 import os
+from numpy import Inf
 import pandas as pd
 from .netcdf import MetaNetCDF, NetCDFWrapper, ProfNetCDF, TechNetCDF, TrajNetCDF
 from .progress import guess_progressor
+from . import path
 
 
 class DataFrameIndex(pd.DataFrame):
@@ -62,12 +64,159 @@ class DataFrameIndex(pd.DataFrame):
         return pd.concat(objs, keys=keys, names=["file"])
 
     @property
-    def info(self):
+    def info(self) -> pd.DataFrame:
         """
         Combine the :attr:`argopandas.netcdf.NetCDFWrapper.info` table for
         the files in this index.
         """
         return self._data_frame_along('info')
+
+    def __assert_columns(self, *cols):
+        missing_cols = [col for col in cols if col not in self]
+        if missing_cols:
+            missing_cols_lab = ', '.join(f"'{col}'" for col in missing_cols)
+            raise ValueError(f"Index is missing required columns: {missing_cols_lab}")
+    
+    def subset_data_mode(self, data_mode) -> pd.DataFrame:
+        """
+        Return the subset of this index corresponding to the specified
+        ``data_mode``.
+
+        :param data_mode: One of 'R', 'D', 'realtime' or 'delayed'
+        """
+        self.__assert_columns('file')
+        return self[path.is_data_mode(self['file'], data_mode)]
+    
+    def subset_float(self, floats) -> pd.DataFrame:
+        """
+        Return the subset of this index corresponding to the specified
+        ``floats``.
+
+        :param floats: An integer, string, or iterable of those
+            representing the float identifier(s).
+        """
+        self.__assert_columns('file')
+        return self[path.is_float(self['file'], floats)]
+    
+    def subset_direction(self, direction) -> pd.DataFrame:
+        """
+        Return the subset of this index corresponding to the specified
+        ``direction``.
+
+        :param direction: 'ascending', 'descending', 'asc', or 'desc'
+        """
+        self.__assert_columns('file')
+        direction = direction.lower()
+        if direction == ('ascending', 'asc'):
+            return self[~path.is_descending(self['file'])]
+        elif direction in ('descending', 'desc'):
+            return self[path.is_descending(self['file'])]
+        else:
+            raise ValueError("`direction` must be one of '(asc)ending' or '(desc)ending'")
+    
+    def subset_parameter(self, parameters) -> pd.DataFrame:
+        """
+        Return the subset of this index corresponding containing
+        one or more of the parameters specified.
+
+        :param parameters: A string or iterable of strings containing
+            the parameters of interest.
+        """
+        self.__assert_columns('parameters')
+
+        if isinstance(parameters, str):
+            parameters = r'\b' + parameters.upper() + r'\b'
+        else:
+            parameters = r'\b)|(\b'.join(p.upper() for p in parameters)
+            parameters = r'(\b' + parameters + r'\b)'
+        
+        return self[self['parameters'].str.contains(parameters)]
+
+
+    def subset_date(self, date_start=None, date_end=None) -> pd.DataFrame:
+        """
+        Return the subset of this index representing profiles collected between
+        ``date_start`` and ``date_end``.
+
+        :param date_start: The first date to include in the subset. Can be a
+            pandas-style date abbreviation like '2021' or '2021-09' or a
+            datetime object.
+        :param date_end: The laste date to include in the subset. Can be a
+            pandas-style date abbreviation like '2021' or '2021-09' or a
+            datetime object.
+        """
+        self.__assert_columns('date')
+
+        if date_start is None and date_end is None:
+            return self
+        elif date_start is None and date_end is not None:
+            return self[self['date'] <= date_end]
+        elif date_start is not None and date_end is None:
+            return self[self['date'] >= date_start]
+        else:
+            return self[(self['date'] >= date_start) & (self['date'] <= date_end)]
+
+    def subset_updated(self, date_start=None, date_end=None) -> pd.DataFrame:
+        """
+        Return the subset of this index representing profiles updated between
+        ``date_start`` and ``date_end``.
+
+        :param date_start: The first date to include in the subset. Can be a
+            pandas-style date abbreviation like '2021' or '2021-09' or a
+            datetime object.
+        :param date_end: The laste date to include in the subset. Can be a
+            pandas-style date abbreviation like '2021' or '2021-09' or a
+            datetime object.
+        """
+        self.__assert_columns('date_update')
+
+        if date_start is None and date_end is None:
+            return self
+        elif date_start is None and date_end is not None:
+            return self[self['date_update'] <= date_end]
+        elif date_start is not None and date_end is None:
+            return self[self['date_update'] >= date_start]
+        else:
+            return self[(self['date_update'] >= date_start) & (self['date_update'] <= date_end)]
+
+    # see https://github.com/ArgoCanada/argodata/blob/master/R/argo-filter.R#L207-L298
+
+    def subset_radius(self, latitude, longitude, radius_km) -> pd.DataFrame:
+        """
+        Return the subset of this index representing profiles collected 
+        within ``radius_km`` of the position given by
+        ``latitude``/``longitude``.
+
+        :param latitude: The latitude of the target position.
+        :param longitude: The longitude of the target position.
+        :param radius_km: The number of kilometres within which profiles should
+            be included.
+        """
+        self.__assert_columns('latitude', 'longitude')
+        raise NotImplementedError()
+    
+    def subset_rect(self, lat_min=-Inf, lng_min=-Inf, lat_max=Inf, lng_max=Inf) -> pd.DataFrame:
+        """
+        Return the subset of this index representing profiles or trajectories 
+        within the bounding box. You can specify bounding boxes that wrap around
+        the international date line by specifying ``lat_min > lat_max``.
+
+        :param lat_min: The minimum latitude to include
+        :param lng_min: The minimum longitude to include
+        :param lat_max: The maximum latitude to include
+        :param lng_min: The maximum longitude to include
+        """
+        try:
+            self.__assert_columns('latitude', 'longitude')
+        except ValueError:
+            pass
+            
+        try:
+            self.__assert_columns('latitude_max', 'longitude_max', 'latitude_min', 'longitude_min')
+        except ValueError:
+            pass
+        
+        raise ValueError("Index must have columns 'latitude' and 'longitude' or 'latitude+longitude_min+max'")
 
 
 class ProfIndex(DataFrameIndex):
