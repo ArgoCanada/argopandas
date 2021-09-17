@@ -108,7 +108,7 @@ class DataFrameIndex(pd.DataFrame):
         """
         self.__assert_columns('file')
         direction = direction.lower()
-        if direction == ('ascending', 'asc'):
+        if direction in ('ascending', 'asc'):
             return self[~path.is_descending(self['file'])]
         elif direction in ('descending', 'desc'):
             return self[path.is_descending(self['file'])]
