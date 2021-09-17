@@ -86,44 +86,44 @@ conform to the Argo standards.</p>
 <dd><p>Subclass representing a meta NetCDF file.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.MetaNetCDF.config_param">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">config_param</span></span><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.config_param" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">config_param</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.config_param" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_CONFIG_PARAM and combine
 them with variables along N_MISSIONS and N_CONFIG_PARAM.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.MetaNetCDF.launch_config_param">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">launch_config_param</span></span><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.launch_config_param" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">launch_config_param</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.launch_config_param" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_LAUNCH_CONFIG_PARAM</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.MetaNetCDF.missions">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">missions</span></span><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.missions" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">missions</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.missions" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_MISSIONS</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.MetaNetCDF.param">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param</span></span><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.param" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.param" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_PARAM</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.MetaNetCDF.positioning_system">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">positioning_system</span></span><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.positioning_system" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">positioning_system</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.positioning_system" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_POSITIONING_SYSTEM</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.MetaNetCDF.sensor">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sensor</span></span><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.sensor" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sensor</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.sensor" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_SENSOR</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.MetaNetCDF.trans_system">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">trans_system</span></span><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.trans_system" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">trans_system</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.MetaNetCDF.trans_system" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_TRANS_SYSTEM</p>
 </dd></dl>
 
@@ -147,6 +147,14 @@ are usually constructed using <a class="reference internal" href="argopandas.htm
 all dimensionless variables in the NetCDF.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.netcdf.NetCDFWrapper.info_">
+<span class="sig-name descname"><span class="pre">info_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.netcdf.NetCDFWrapper.info_" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a one-row <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> containing
+all dimensionless variables in the NetCDF, selecting
+specific variables.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -155,32 +163,44 @@ all dimensionless variables in the NetCDF.</p>
 <dd><p>Subclass representing a profile NetCDF file.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.ProfNetCDF.calib">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">calib</span></span><a class="headerlink" href="#argopandas.netcdf.ProfNetCDF.calib" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">calib</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.ProfNetCDF.calib" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_PROF, N_CALIB, N_PARAM</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.ProfNetCDF.history">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">history</span></span><a class="headerlink" href="#argopandas.netcdf.ProfNetCDF.history" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">history</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.ProfNetCDF.history" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_HISTORY, N_PROF</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.ProfNetCDF.levels">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">levels</span></span><a class="headerlink" href="#argopandas.netcdf.ProfNetCDF.levels" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">levels</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.ProfNetCDF.levels" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_PROF, N_LEVELS</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.netcdf.ProfNetCDF.levels_">
+<span class="sig-name descname"><span class="pre">levels_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.netcdf.ProfNetCDF.levels_" title="Permalink to this definition"></a></dt>
+<dd><p>Extract variables along N_PROF, N_LEVELS selecting specific variables</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.ProfNetCDF.param">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param</span></span><a class="headerlink" href="#argopandas.netcdf.ProfNetCDF.param" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.ProfNetCDF.param" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_PROF, N_PARAM</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.ProfNetCDF.prof">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">prof</span></span><a class="headerlink" href="#argopandas.netcdf.ProfNetCDF.prof" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">prof</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.ProfNetCDF.prof" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_PROF</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.netcdf.ProfNetCDF.prof_">
+<span class="sig-name descname"><span class="pre">prof_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.netcdf.ProfNetCDF.prof_" title="Permalink to this definition"></a></dt>
+<dd><p>Extract variables along N_PROF selecting specific variables</p>
 </dd></dl>
 
 </dd></dl>
@@ -191,7 +211,7 @@ all dimensionless variables in the NetCDF.</p>
 <dd><p>Subclass representing a tech NetCDF file</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.TechNetCDF.tech_param">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">tech_param</span></span><a class="headerlink" href="#argopandas.netcdf.TechNetCDF.tech_param" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">tech_param</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.TechNetCDF.tech_param" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_TECH_PARAM</p>
 </dd></dl>
 
@@ -203,8 +223,14 @@ all dimensionless variables in the NetCDF.</p>
 <dd><p>Subclass representing a trajectory NetCDF.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.TrajNetCDF.cycle">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">cycle</span></span><a class="headerlink" href="#argopandas.netcdf.TrajNetCDF.cycle" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">cycle</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.TrajNetCDF.cycle" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_CYCLE</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.netcdf.TrajNetCDF.cycle_">
+<span class="sig-name descname"><span class="pre">cycle_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.netcdf.TrajNetCDF.cycle_" title="Permalink to this definition"></a></dt>
+<dd><p>Extract variables along N_CYCLE selecting specific variables</p>
 </dd></dl>
 
 <dl class="py property">
@@ -215,13 +241,19 @@ all dimensionless variables in the NetCDF.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.TrajNetCDF.measurement">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">measurement</span></span><a class="headerlink" href="#argopandas.netcdf.TrajNetCDF.measurement" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">measurement</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.TrajNetCDF.measurement" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_MEASUREMENT</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.netcdf.TrajNetCDF.measurement_">
+<span class="sig-name descname"><span class="pre">measurement_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.netcdf.TrajNetCDF.measurement_" title="Permalink to this definition"></a></dt>
+<dd><p>Extract variables along N_MEASUREMENT selecting specific variables</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.netcdf.TrajNetCDF.param">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param</span></span><a class="headerlink" href="#argopandas.netcdf.TrajNetCDF.param" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.netcdf.TrajNetCDF.param" title="Permalink to this definition"></a></dt>
 <dd><p>Extract variables along N_PARAM</p>
 </dd></dl>
 

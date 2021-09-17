@@ -94,6 +94,19 @@ the files in this index.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.DataFrameIndex.info_">
+<span class="sig-name descname"><span class="pre">info_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.DataFrameIndex.info_" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.NetCDFWrapper.info" title="argopandas.netcdf.NetCDFWrapper.info"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.NetCDFWrapper.info</span></code></a> table for
+the files in this index, selecting specific variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vars</strong> – A variable, an interable of variables, or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+to select all possible variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="argopandas.index.DataFrameIndex.subset_data_mode">
 <span class="sig-name descname"><span class="pre">subset_data_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_mode</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.DataFrameIndex.subset_data_mode" title="Permalink to this definition"></a></dt>
 <dd><p>Return the subset of this index corresponding to the specified
@@ -223,6 +236,55 @@ datetime object.</p></li>
 <dt class="sig sig-object py" id="argopandas.index.MetaIndex">
 <em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">MetaIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.MetaIndex" title="Permalink to this definition"></a></dt>
 <dd><p>A subclass for an index of meta NetCDF files.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.MetaIndex.config_param">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">config_param</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.MetaIndex.config_param" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.MetaNetCDF.cycle</span></code> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.MetaIndex.launch_config_param">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">launch_config_param</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.MetaIndex.launch_config_param" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.MetaNetCDF.launch_config_param" title="argopandas.netcdf.MetaNetCDF.launch_config_param"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.MetaNetCDF.launch_config_param</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.MetaIndex.missions">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">missions</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.MetaIndex.missions" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.MetaNetCDF.missions" title="argopandas.netcdf.MetaNetCDF.missions"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.MetaNetCDF.missions</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.MetaIndex.param">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.MetaIndex.param" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.MetaNetCDF.param" title="argopandas.netcdf.MetaNetCDF.param"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.MetaNetCDF.param</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.MetaIndex.positioning_system">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">positioning_system</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.MetaIndex.positioning_system" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.MetaNetCDF.positioning_system" title="argopandas.netcdf.MetaNetCDF.positioning_system"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.MetaNetCDF.positioning_system</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.MetaIndex.sensor">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sensor</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.MetaIndex.sensor" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.MetaNetCDF.sensor" title="argopandas.netcdf.MetaNetCDF.sensor"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.MetaNetCDF.sensor</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.MetaIndex.trans_system">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">trans_system</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.MetaIndex.trans_system" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.MetaNetCDF.trans_system" title="argopandas.netcdf.MetaNetCDF.trans_system"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.MetaNetCDF.trans_system</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -230,10 +292,64 @@ datetime object.</p></li>
 <em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">ProfIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.ProfIndex" title="Permalink to this definition"></a></dt>
 <dd><p>A subclass for an index of profile NetCDF files.</p>
 <dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.ProfIndex.calib">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">calib</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.ProfIndex.calib" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.ProfNetCDF.calib" title="argopandas.netcdf.ProfNetCDF.calib"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.ProfNetCDF.calib</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.ProfIndex.history">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">history</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.ProfIndex.history" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.ProfNetCDF.history" title="argopandas.netcdf.ProfNetCDF.history"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.ProfNetCDF.history</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="argopandas.index.ProfIndex.levels">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">levels</span></span><a class="headerlink" href="#argopandas.index.ProfIndex.levels" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">levels</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.ProfIndex.levels" title="Permalink to this definition"></a></dt>
 <dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.ProfNetCDF.levels" title="argopandas.netcdf.ProfNetCDF.levels"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.ProfNetCDF.levels</span></code></a> table for
 the files in this index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.ProfIndex.levels_">
+<span class="sig-name descname"><span class="pre">levels_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.ProfIndex.levels_" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.ProfNetCDF.levels" title="argopandas.netcdf.ProfNetCDF.levels"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.ProfNetCDF.levels</span></code></a> table for
+the files in this index, selecting specific variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vars</strong> – A variable, an interable of variables, or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+to select all possible variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.ProfIndex.param">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.ProfIndex.param" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.ProfNetCDF.param" title="argopandas.netcdf.ProfNetCDF.param"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.ProfNetCDF.param</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.ProfIndex.prof">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">prof</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.ProfIndex.prof" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.ProfNetCDF.prof" title="argopandas.netcdf.ProfNetCDF.prof"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.ProfNetCDF.prof</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.ProfIndex.prof_">
+<span class="sig-name descname"><span class="pre">prof_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.ProfIndex.prof_" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.ProfNetCDF.prof" title="argopandas.netcdf.ProfNetCDF.prof"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.ProfNetCDF.prof</span></code></a> table for
+the files in this index, selecting specific variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vars</strong> – A variable, an interable of variables, or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+to select all possible variables.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -242,12 +358,73 @@ the files in this index.</p>
 <dt class="sig sig-object py" id="argopandas.index.TechIndex">
 <em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">TechIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.TechIndex" title="Permalink to this definition"></a></dt>
 <dd><p>A subclass for an index of tech NetCDF files.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.TechIndex.tech_param">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">tech_param</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.TechIndex.tech_param" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.TechNetCDF.tech_param" title="argopandas.netcdf.TechNetCDF.tech_param"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.TechNetCDF.tech_param</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.index.TrajIndex">
 <em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">TrajIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.TrajIndex" title="Permalink to this definition"></a></dt>
 <dd><p>A subclass for an index of trajectory NetCDF files.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.TrajIndex.cycle">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">cycle</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.TrajIndex.cycle" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.TrajNetCDF.cycle" title="argopandas.netcdf.TrajNetCDF.cycle"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.TrajNetCDF.cycle</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.TrajIndex.cycle_">
+<span class="sig-name descname"><span class="pre">cycle_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.TrajIndex.cycle_" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.TrajNetCDF.cycle" title="argopandas.netcdf.TrajNetCDF.cycle"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.TrajNetCDF.cycle</span></code></a> table for
+the files in this index, selecting specific variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vars</strong> – A variable, an interable of variables, or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+to select all possible variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.TrajIndex.history">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">history</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.TrajIndex.history" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.TrajNetCDF.history" title="argopandas.netcdf.TrajNetCDF.history"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.TrajNetCDF.history</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.TrajIndex.measurement">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">measurement</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.TrajIndex.measurement" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.TrajNetCDF.measurement" title="argopandas.netcdf.TrajNetCDF.measurement"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.TrajNetCDF.measurement</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.TrajIndex.measurement_">
+<span class="sig-name descname"><span class="pre">measurement_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vars</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.TrajIndex.measurement_" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.TrajNetCDF.measurement" title="argopandas.netcdf.TrajNetCDF.measurement"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.TrajNetCDF.measurement</span></code></a> table for
+the files in this index, selecting specific variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vars</strong> – A variable, an interable of variables, or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+to select all possible variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="argopandas.index.TrajIndex.param">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.TrajIndex.param" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.TrajNetCDF.param" title="argopandas.netcdf.TrajNetCDF.param"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.TrajNetCDF.param</span></code></a> table for
+the files in this index.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
