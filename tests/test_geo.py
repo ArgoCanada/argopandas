@@ -7,9 +7,6 @@ class TestGeo(unittest.TestCase):
     def test_geodist(self):
         pass
 
-    def test_rect_intersection(self):
-        pass
-
     def test_rect_intersects(self):
         pass
 

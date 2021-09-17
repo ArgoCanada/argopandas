@@ -23,26 +23,6 @@ def geodist_lnglat(xy1, xy2, R=6371.010):
         R=R
     )
 
-
-def rect_intersection(r1, r2):
-    limits = {
-        'xmin': np.maximum(r1['xmin'], r2['xmin']),
-        'xmax': np.minimum(r1['xmax'], r2['xmax']),
-        'ymin': np.maximum(r1['ymin'], r2['ymin']),
-        'ymax': np.minimum(r1['ymax'], r2['ymax'])
-    }
-
-    any_na = np.isnan(limits['xmin']) | np.isnan(limits['xmax']) | \
-        np.isnan(limits['ymin']) | np.isnan(limits['ymax'])
-    not_valid = any_na | ~((limits['xmax'] >= limits['xmin']) & (limits['ymax'] >= limits['ymin']))
-    
-    for k in limits:
-        limits[k] = np.asfarray(limits[k])
-        limits[k][not_valid] = np.nan
-
-    return limits
-
-
 def rect_intersects(r1, r2):
     limits = {
         'xmin': np.maximum(r1['xmin'], r2['xmin']),
