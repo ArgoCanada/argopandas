@@ -8,11 +8,12 @@ that load data from each.
 """
 
 import os
-from numpy import Inf
+import numpy as np
 import pandas as pd
 from .netcdf import MetaNetCDF, NetCDFWrapper, ProfNetCDF, TechNetCDF, TrajNetCDF
 from .progress import guess_progressor
 from . import path
+from . import _geo
 
 
 class DataFrameIndex(pd.DataFrame):
@@ -179,8 +180,6 @@ class DataFrameIndex(pd.DataFrame):
         else:
             return self[(self['date_update'] >= date_start) & (self['date_update'] <= date_end)]
 
-    # see https://github.com/ArgoCanada/argodata/blob/master/R/argo-filter.R#L207-L298
-
     def subset_radius(self, latitude, longitude, radius_km) -> pd.DataFrame:
         """
         Return the subset of this index representing profiles collected 
@@ -193,9 +192,17 @@ class DataFrameIndex(pd.DataFrame):
             be included.
         """
         self.__assert_columns('latitude', 'longitude')
-        raise NotImplementedError()
+        xy_target = {
+            'x': _geo.normalize_lng(longitude),
+            'y': _geo.normalize_lat(latitude)
+        }
+        xy = {
+            'x': _geo.normalize_lng(self['longitude']),
+            'y': _geo.normalize_lat(self['latitude'])
+        }
+        return self[_geo.geodist_lnglat(xy, xy_target) <= radius_km]
     
-    def subset_rect(self, lat_min=-Inf, lng_min=-Inf, lat_max=Inf, lng_max=Inf) -> pd.DataFrame:
+    def subset_rect(self, lat_min=-np.Inf, lng_min=-np.Inf, lat_max=np.Inf, lng_max=np.Inf) -> pd.DataFrame:
         """
         Return the subset of this index representing profiles or trajectories 
         within the bounding box. You can specify bounding boxes that wrap around
@@ -206,13 +213,54 @@ class DataFrameIndex(pd.DataFrame):
         :param lat_max: The maximum latitude to include
         :param lng_min: The maximum longitude to include
         """
+        r_target = {
+            'xmin': _geo.normalize_lng(lng_min),
+            'ymin': _geo.normalize_lat(lat_min),
+            'xmax': _geo.normalize_lng(lng_max),
+            'ymax': _geo.normalize_lat(lat_max)
+        }
+        r_target_west, r_target_east = _geo.rect_split_dateline(r_target)
+
         try:
             self.__assert_columns('latitude', 'longitude')
+            xy = {
+                'x': _geo.normalize_lng(self['longitude']),
+                'y': _geo.normalize_lat(self['latitude'])
+            }
+
+            contains = _geo.rect_contains(r_target_west, xy) | \
+                _geo.rect_contains(r_target_east, xy)
+
+            return self[contains]
         except ValueError:
             pass
             
         try:
             self.__assert_columns('latitude_max', 'longitude_max', 'latitude_min', 'longitude_min')
+            r = {
+                'xmin': _geo.normalize_lng(self['longitude_min']),
+                'ymin': _geo.normalize_lat(self['latitude_min']),
+                'xmax': _geo.normalize_lng(self['longitude_max']),
+                'ymax': _geo.normalize_lat(self['latitude_max'])
+            }
+
+            # normalize rectangles so that width < 180 degrees (a better assumption than
+            # the alternative and often true for floats in the pacific)
+            width_greater_than_180 = ~np.isnan(r['xmin']) & ~np.isnan(r['xmax']) & \
+                ((r['xmax'] - r['xmin']) > 180)
+            xmin_temp = r['xmin']
+            r['xmin'][width_greater_than_180] = r['xmax'][width_greater_than_180]
+            r['xmax'][width_greater_than_180] = xmin_temp[width_greater_than_180]
+
+            # split across the dateline and check for all combinations for possible intersection
+            r_west, r_east = _geo.rect_split_dateline(r)
+
+            contains = _geo.rect_intersects(r_west, r_target_west) | \
+                _geo.rect_intersects(r_west, r_target_east) | \
+                _geo.rect_intersects(r_east, r_target_west) | \
+                _geo.rect_intersects(r_east, r_target_east)
+
+            return self[contains]
         except ValueError:
             pass
         
