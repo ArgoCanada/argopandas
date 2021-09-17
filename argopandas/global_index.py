@@ -127,6 +127,7 @@ class GlobalIndex:
         """
         Return the subset of this index corresponding to the specified
         ``data_mode``.
+        See :meth:`argopandas.index.DataFrameIndex.subset_data_mode`.
 
         :param data_mode: One of 'R', 'D', 'realtime' or 'delayed'
         """
@@ -136,6 +137,7 @@ class GlobalIndex:
         """
         Return the subset of this index corresponding to the specified
         ``floats``.
+        See :meth:`argopandas.index.DataFrameIndex.subset_float`.
 
         :param floats: An integer, string, or iterable of those
             representing the float identifier(s).
@@ -146,6 +148,7 @@ class GlobalIndex:
         """
         Return the subset of this index corresponding to the specified
         ``direction``.
+        See :meth:`argopandas.index.DataFrameIndex.subset_direction`.
 
         :param direction: 'ascending', 'descending', 'asc', or 'desc'
         """
@@ -155,6 +158,7 @@ class GlobalIndex:
         """
         Return the subset of this index corresponding containing
         one or more of the parameters specified.
+        See :meth:`argopandas.index.DataFrameIndex.subset_parameter`.
 
         :param parameters: A string or iterable of strings containing
             the parameters of interest.
@@ -165,6 +169,7 @@ class GlobalIndex:
         """
         Return the subset of this index representing profiles collected between
         ``date_start`` and ``date_end``.
+        See :meth:`argopandas.index.DataFrameIndex.subset_date`.
 
         :param date_start: The first date to include in the subset. Can be a
             pandas-style date abbreviation like '2021' or '2021-09' or a
@@ -179,6 +184,7 @@ class GlobalIndex:
         """
         Return the subset of this index representing profiles updated between
         ``date_start`` and ``date_end``.
+        See :meth:`argopandas.index.DataFrameIndex.subset_updated`.
 
         :param date_start: The first date to include in the subset. Can be a
             pandas-style date abbreviation like '2021' or '2021-09' or a
@@ -194,6 +200,7 @@ class GlobalIndex:
         Return the subset of this index representing profiles collected 
         within ``radius_km`` of the position given by
         ``latitude``/``longitude``.
+        See :meth:`argopandas.index.DataFrameIndex.subset_radius`.
 
         :param latitude: The latitude of the target position.
         :param longitude: The longitude of the target position.
@@ -208,6 +215,7 @@ class GlobalIndex:
         Return the subset of this index representing profiles or trajectories 
         within the bounding box. You can specify bounding boxes that wrap around
         the international date line by specifying ``lat_min > lat_max``.
+        See :meth:`argopandas.index.DataFrameIndex.subset_rect`.
 
         :param latitude_min: The minimum latitude to include
         :param longitude_min: The minimum longitude to include
