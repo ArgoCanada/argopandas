@@ -1,73 +1,34 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>NetCDF File Index API &mdash; argopandas  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Global index file API" href="global_index.html" />
     <link rel="prev" title="Argo Float API" href="float.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> argopandas
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -75,18 +36,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="argopandas.html">argopandas package API</a></li>
@@ -98,73 +48,32 @@
 <li class="toctree-l1"><a class="reference internal" href="global_index.html">Global index file API</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">argopandas</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>NetCDF File Index API</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/index_mod.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="module-argopandas.index">
-<span id="netcdf-file-index-api"></span><h1>NetCDF File Index API<a class="headerlink" href="#module-argopandas.index" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="module-argopandas.index">
+<span id="netcdf-file-index-api"></span><h1>NetCDF File Index API<a class="headerlink" href="#module-argopandas.index" title="Permalink to this headline"></a></h1>
 <p>This module contains an interface to the index files provided
 by the GDAC. It is related to the <a href="#id1"><span class="problematic" id="id2">:module:`argopandas.netcdf`</span></a>
 module in that there is an index subclass for each
@@ -173,32 +82,156 @@ are <code class="docutils literal notranslate"><span class="pre">pandas.DataFram
 that load data from each.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.index.DataFrameIndex">
-<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">DataFrameIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.DataFrameIndex" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">DataFrameIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.DataFrameIndex" title="Permalink to this definition"></a></dt>
 <dd><p>A representation of a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> whose <code class="docutils literal notranslate"><span class="pre">file</span></code> column
 represents a path to a NetCDF file on the GDAC. These objects
 are created by subsetting the global indexes (e.g., <code class="docutils literal notranslate"><span class="pre">argopandas.prof</span></code>).</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.index.DataFrameIndex.info">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#argopandas.index.DataFrameIndex.info" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">info</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#argopandas.index.DataFrameIndex.info" title="Permalink to this definition"></a></dt>
 <dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.NetCDFWrapper.info" title="argopandas.netcdf.NetCDFWrapper.info"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.NetCDFWrapper.info</span></code></a> table for
 the files in this index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.DataFrameIndex.subset_data_mode">
+<span class="sig-name descname"><span class="pre">subset_data_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_mode</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.DataFrameIndex.subset_data_mode" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index corresponding to the specified
+<code class="docutils literal notranslate"><span class="pre">data_mode</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_mode</strong> – One of ‘R’, ‘D’, ‘realtime’ or ‘delayed’</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.DataFrameIndex.subset_date">
+<span class="sig-name descname"><span class="pre">subset_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.DataFrameIndex.subset_date" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index representing profiles collected between
+<code class="docutils literal notranslate"><span class="pre">date_start</span></code> and <code class="docutils literal notranslate"><span class="pre">date_end</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date_start</strong> – The first date to include in the subset. Can be a
+pandas-style date abbreviation like ‘2021’ or ‘2021-09’ or a
+datetime object.</p></li>
+<li><p><strong>date_end</strong> – The laste date to include in the subset. Can be a
+pandas-style date abbreviation like ‘2021’ or ‘2021-09’ or a
+datetime object.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.DataFrameIndex.subset_direction">
+<span class="sig-name descname"><span class="pre">subset_direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.DataFrameIndex.subset_direction" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index corresponding to the specified
+<code class="docutils literal notranslate"><span class="pre">direction</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>direction</strong> – ‘ascending’, ‘descending’, ‘asc’, or ‘desc’</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.DataFrameIndex.subset_float">
+<span class="sig-name descname"><span class="pre">subset_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">floats</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.DataFrameIndex.subset_float" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index corresponding to the specified
+<code class="docutils literal notranslate"><span class="pre">floats</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>floats</strong> – An integer, string, or iterable of those
+representing the float identifier(s).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.DataFrameIndex.subset_parameter">
+<span class="sig-name descname"><span class="pre">subset_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.DataFrameIndex.subset_parameter" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index corresponding containing
+one or more of the parameters specified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameters</strong> – A string or iterable of strings containing
+the parameters of interest.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.DataFrameIndex.subset_radius">
+<span class="sig-name descname"><span class="pre">subset_radius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius_km</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.DataFrameIndex.subset_radius" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index representing profiles collected 
+within <code class="docutils literal notranslate"><span class="pre">radius_km</span></code> of the position given by
+<code class="docutils literal notranslate"><span class="pre">latitude</span></code>/<code class="docutils literal notranslate"><span class="pre">longitude</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>latitude</strong> – The latitude of the target position.</p></li>
+<li><p><strong>longitude</strong> – The longitude of the target position.</p></li>
+<li><p><strong>radius_km</strong> – The number of kilometres within which profiles should
+be included.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.DataFrameIndex.subset_rect">
+<span class="sig-name descname"><span class="pre">subset_rect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latitude_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latitude_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.DataFrameIndex.subset_rect" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index representing profiles or trajectories 
+within the bounding box. You can specify bounding boxes that wrap around
+the international date line by specifying <code class="docutils literal notranslate"><span class="pre">lat_min</span> <span class="pre">&gt;</span> <span class="pre">lat_max</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>latitude_min</strong> – The minimum latitude to include</p></li>
+<li><p><strong>longitude_min</strong> – The minimum longitude to include</p></li>
+<li><p><strong>latitude_max</strong> – The maximum latitude to include</p></li>
+<li><p><strong>longitude_min</strong> – The maximum longitude to include</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.index.DataFrameIndex.subset_updated">
+<span class="sig-name descname"><span class="pre">subset_updated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.core.frame.DataFrame</span></span></span><a class="headerlink" href="#argopandas.index.DataFrameIndex.subset_updated" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index representing profiles updated between
+<code class="docutils literal notranslate"><span class="pre">date_start</span></code> and <code class="docutils literal notranslate"><span class="pre">date_end</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date_start</strong> – The first date to include in the subset. Can be a
+pandas-style date abbreviation like ‘2021’ or ‘2021-09’ or a
+datetime object.</p></li>
+<li><p><strong>date_end</strong> – The laste date to include in the subset. Can be a
+pandas-style date abbreviation like ‘2021’ or ‘2021-09’ or a
+datetime object.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.index.MetaIndex">
-<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">MetaIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.MetaIndex" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">MetaIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.MetaIndex" title="Permalink to this definition"></a></dt>
 <dd><p>A subclass for an index of meta NetCDF files.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.index.ProfIndex">
-<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">ProfIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.ProfIndex" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">ProfIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.ProfIndex" title="Permalink to this definition"></a></dt>
 <dd><p>A subclass for an index of profile NetCDF files.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="argopandas.index.ProfIndex.levels">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">levels</span></span><a class="headerlink" href="#argopandas.index.ProfIndex.levels" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">levels</span></span><a class="headerlink" href="#argopandas.index.ProfIndex.levels" title="Permalink to this definition"></a></dt>
 <dd><p>Combine the <a class="reference internal" href="netcdf.html#argopandas.netcdf.ProfNetCDF.levels" title="argopandas.netcdf.ProfNetCDF.levels"><code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.netcdf.ProfNetCDF.levels</span></code></a> table for
 the files in this index.</p>
 </dd></dl>
@@ -207,64 +240,47 @@ the files in this index.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.index.TechIndex">
-<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">TechIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.TechIndex" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">TechIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.TechIndex" title="Permalink to this definition"></a></dt>
 <dd><p>A subclass for an index of tech NetCDF files.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="argopandas.index.TrajIndex">
-<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">TrajIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.TrajIndex" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">TrajIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_mirror</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.index.TrajIndex" title="Permalink to this definition"></a></dt>
 <dd><p>A subclass for an index of trajectory NetCDF files.</p>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="global_index.html" class="btn btn-neutral float-right" title="Global index file API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="float.html" class="btn btn-neutral float-left" title="Argo Float API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="global_index.html" class="btn btn-neutral float-right" title="Global index file API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Dewey Dunnington.
-
-    </p>
+    <p>&#169; Copyright 2021, Dewey Dunnington.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
