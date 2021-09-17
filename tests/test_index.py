@@ -129,10 +129,12 @@ class TestDataFrameIndexHelpers(unittest.TestCase):
         self.assertEqual(len(self.index.subset_date()), 3)
         self.assertEqual(len(self.index.subset_date(date_start="2000-01")), 1)
         self.assertEqual(len(self.index.subset_date(date_end="2000-01")), 2)
+        self.assertEqual(len(self.index.subset_date("1997-01", "1997-12")), 1)
 
         self.assertEqual(len(self.index.subset_updated()), 3)
         self.assertEqual(len(self.index.subset_updated(date_start="2018-09")), 2)
         self.assertEqual(len(self.index.subset_updated(date_end="2018-09")), 1)
+        self.assertEqual(len(self.index.subset_updated("2018-07-01", "2018-07-31")), 1)
 
     def test_subset_radius(self):
         self.assertEqual(len(self.index.subset_radius(7, -52, 1000)), 1)
@@ -175,6 +177,10 @@ class TestDataFrameIndexHelpers(unittest.TestCase):
         self.assertEqual(len(index_dateline.subset_rect(**r_int)), 1)
         self.assertEqual(len(index_dateline.subset_rect(**r_int2)), 1)
         self.assertEqual(len(index_dateline.subset_rect(**r_noint)), 0)
+    
+    def test_subset_rect_error(self):
+        with self.assertRaises(ValueError):
+            dfi.DataFrameIndex({'none of the right cols': []}).subset_rect()
 
 
 if __name__ == '__main__':
