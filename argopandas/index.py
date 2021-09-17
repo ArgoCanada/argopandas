@@ -8,6 +8,7 @@ that load data from each.
 """
 
 import os
+from typing import Union, Iterable, Literal
 import numpy as np
 import pandas as pd
 from .netcdf import MetaNetCDF, NetCDFWrapper, ProfNetCDF, TechNetCDF, TrajNetCDF
@@ -38,7 +39,7 @@ class DataFrameIndex(pd.DataFrame):
     def _netcdf_wrapper(self, src):
         return NetCDFWrapper(src)
 
-    def _data_frame_along(self, attr):
+    def _data_frame_along(self, attr, vars=None):
         file = self['file']
 
         if len(file) == 0:
@@ -51,14 +52,17 @@ class DataFrameIndex(pd.DataFrame):
         objs = []
         keys = []
 
-
         message = f"Reading {len(file)} {'files' if len(file) != 1 else 'file'}"
         pb = guess_progressor(len(file), init_message=message)
+
+        # slightly different pattern if we need to pass 'vars' along:
+        # call object.attr_(vars=vars) instead of object.attr
         with pb:
             for item in file:
                 pb.bump(message=os.path.basename(item))
                 nc = self._netcdf_wrapper(self._mirror.netcdf_dataset_src('dac/' + item))
-                objs.append(getattr(nc, attr))
+                val = getattr(nc, attr) if vars is None else getattr(nc, attr + '_')(vars=vars)
+                objs.append(val)
                 keys.append(item)
 
         # combine them, adding a `file` index as a level in the multi-index
@@ -70,7 +74,17 @@ class DataFrameIndex(pd.DataFrame):
         Combine the :attr:`argopandas.netcdf.NetCDFWrapper.info` table for
         the files in this index.
         """
-        return self._data_frame_along('info')
+        return self.info_()
+    
+    def info_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.NetCDFWrapper.info` table for
+        the files in this index, selecting specific variables.
+
+        :param vars: A variable, an interable of variables, or ``None``
+            to select all possible variables.
+        """
+        return self._data_frame_along('info', vars=vars)
 
     def __assert_columns(self, *cols):
         missing_cols = [col for col in cols if col not in self]
@@ -271,27 +285,63 @@ class ProfIndex(DataFrameIndex):
         return ProfNetCDF(src)
 
     @property
-    def levels(self):
+    def levels(self) -> pd.DataFrame:
         """
         Combine the :attr:`argopandas.netcdf.ProfNetCDF.levels` table for
         the files in this index.
         """
-        return self._data_frame_along('levels')
+        return self.levels_()
+    
+    def levels_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.ProfNetCDF.levels` table for
+        the files in this index, selecting specific variables.
+
+        :param vars: A variable, an interable of variables, or ``None``
+            to select all possible variables.
+        """
+        return self._data_frame_along('levels', vars=vars)
 
     @property
-    def prof(self):
-        return self._data_frame_along('prof')
+    def prof(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.ProfNetCDF.prof` table for
+        the files in this index.
+        """
+        return self.prof_()
+    
+    def prof_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.ProfNetCDF.prof` table for
+        the files in this index, selecting specific variables.
+
+        :param vars: A variable, an interable of variables, or ``None``
+            to select all possible variables.
+        """
+        return self._data_frame_along('prof', vars=vars)
 
     @property
-    def calib(self):
+    def calib(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.ProfNetCDF.calib` table for
+        the files in this index.
+        """
         return self._data_frame_along('calib')
 
     @property
-    def param(self):
+    def param(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.ProfNetCDF.param` table for
+        the files in this index.
+        """
         return self._data_frame_along('param')
 
     @property
-    def history(self):
+    def history(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.ProfNetCDF.history` table for
+        the files in this index.
+        """
         return self._data_frame_along('history')
 
 
@@ -304,19 +354,55 @@ class TrajIndex(DataFrameIndex):
         return TrajNetCDF(src)
 
     @property
-    def measurement(self):
-        return self._data_frame_along('measurement')
+    def measurement(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.TrajNetCDF.measurement` table for
+        the files in this index.
+        """
+        return self.measurement_()
+    
+    def measurement_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.TrajNetCDF.measurement` table for
+        the files in this index, selecting specific variables.
+
+        :param vars: A variable, an interable of variables, or ``None``
+            to select all possible variables.
+        """
+        return self._data_frame_along('measurement', vars=vars)
 
     @property
-    def cycle(self):
-        return self._data_frame_along('cycle')
+    def cycle(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.TrajNetCDF.cycle` table for
+        the files in this index.
+        """
+        return self.cycle_()
+    
+    def cycle_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.TrajNetCDF.cycle` table for
+        the files in this index, selecting specific variables.
+
+        :param vars: A variable, an interable of variables, or ``None``
+            to select all possible variables.
+        """
+        return self._data_frame_along('cycle', vars=vars)
 
     @property
-    def param(self):
+    def param(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.TrajNetCDF.param` table for
+        the files in this index.
+        """
         return self._data_frame_along('param')
 
     @property
-    def history(self):
+    def history(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.TrajNetCDF.history` table for
+        the files in this index.
+        """
         return self._data_frame_along('history')
 
 
@@ -329,7 +415,11 @@ class TechIndex(DataFrameIndex):
         return TechNetCDF(src)
 
     @property
-    def tech_param(self):
+    def tech_param(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.TechNetCDF.tech_param` table for
+        the files in this index.
+        """
         return self._data_frame_along('tech_param')
 
 
@@ -342,29 +432,57 @@ class MetaIndex(DataFrameIndex):
         return MetaNetCDF(src)
 
     @property
-    def config_param(self):
+    def config_param(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.MetaNetCDF.cycle` table for
+        the files in this index.
+        """
         return self._data_frame_along('config_param')
 
     @property
-    def missions(self):
+    def missions(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.MetaNetCDF.missions` table for
+        the files in this index.
+        """
         return self._data_frame_along('missions')
 
     @property
-    def trans_system(self):
+    def trans_system(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.MetaNetCDF.trans_system` table for
+        the files in this index.
+        """
         return self._data_frame_along('trans_system')
 
     @property
-    def positioning_system(self):
+    def positioning_system(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.MetaNetCDF.positioning_system` table for
+        the files in this index.
+        """
         return self._data_frame_along('positioning_system')
 
     @property
-    def launch_config_param(self):
+    def launch_config_param(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.MetaNetCDF.launch_config_param` table for
+        the files in this index.
+        """
         return self._data_frame_along('launch_config_param')
 
     @property
-    def sensor(self):
+    def sensor(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.MetaNetCDF.sensor` table for
+        the files in this index.
+        """
         return self._data_frame_along('sensor')
 
     @property
-    def param(self):
+    def param(self) -> pd.DataFrame:
+        """
+        Combine the :attr:`argopandas.netcdf.MetaNetCDF.param` table for
+        the files in this index.
+        """
         return self._data_frame_along('param')

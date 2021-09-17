@@ -9,6 +9,7 @@ conform to the Argo standards.
 """
 
 
+from typing import Iterable, Literal, Union
 import os
 import io
 import shutil
@@ -16,7 +17,7 @@ import urllib.request
 import reprlib
 
 from netCDF4 import Dataset, Variable, chartostring
-from pandas import DataFrame, MultiIndex, concat
+from pandas import DataFrame, MultiIndex
 import numpy as np
 
 from .path import info as path_info
@@ -76,7 +77,15 @@ class NetCDFWrapper:
         Returns a one-row ``DataFrame`` containing
         all dimensionless variables in the NetCDF.
         """
-        return self._data_frame_along([])
+        return self.info_()
+    
+    def info_(self, vars: Union[Literal[None], str, Iterable[str]]=None):
+        """
+        Returns a one-row ``DataFrame`` containing
+        all dimensionless variables in the NetCDF, selecting
+        specific variables.
+        """
+        return self._data_frame_along([], vars=vars)
 
     @property
     def dataset(self) -> Dataset:
@@ -89,6 +98,9 @@ class NetCDFWrapper:
 
     def _data_frame_along(self, target_dims, vars=None):
         dataset = self.dataset
+
+        if isinstance(vars, str):
+            vars = [vars]
 
         var_names = self._var_names_along(target_dims, vars=vars)
         if not var_names:
@@ -159,27 +171,35 @@ class ProfNetCDF(NetCDFWrapper):
         super().__init__(src)
 
     @property
-    def levels(self):
+    def levels(self) -> DataFrame:
         """Extract variables along N_PROF, N_LEVELS"""
-        return self._data_frame_along(('N_PROF', 'N_LEVELS'))
+        return self.levels_()
+    
+    def levels_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> DataFrame:
+        """Extract variables along N_PROF, N_LEVELS selecting specific variables"""
+        return self._data_frame_along(('N_PROF', 'N_LEVELS'), vars=vars)
 
     @property
-    def prof(self):
+    def prof(self) -> DataFrame:
         """Extract variables along N_PROF"""
-        return self._data_frame_along(('N_PROF', ))
+        return self.prof_()
+    
+    def prof_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> DataFrame:
+        """Extract variables along N_PROF selecting specific variables"""
+        return self._data_frame_along(('N_PROF', ), vars=vars)
 
     @property
-    def calib(self):
+    def calib(self) -> DataFrame:
         """Extract variables along N_PROF, N_CALIB, N_PARAM"""
         return self._data_frame_along(('N_PROF', 'N_CALIB', 'N_PARAM'))
 
     @property
-    def param(self):
+    def param(self) -> DataFrame:
         """Extract variables along N_PROF, N_PARAM"""
         return self._data_frame_along(('N_PROF', 'N_PARAM'))
 
     @property
-    def history(self):
+    def history(self) -> DataFrame:
         """Extract variables along N_HISTORY, N_PROF"""
         return self._data_frame_along(('N_HISTORY', 'N_PROF'))
 
@@ -191,17 +211,25 @@ class TrajNetCDF(NetCDFWrapper):
         super().__init__(src)
 
     @property
-    def measurement(self):
+    def measurement(self) -> DataFrame:
         """Extract variables along N_MEASUREMENT"""
-        return self._data_frame_along(('N_MEASUREMENT', ))
+        return self.measurement_()
+    
+    def measurement_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> DataFrame:
+        """Extract variables along N_MEASUREMENT selecting specific variables"""
+        return self._data_frame_along(('N_MEASUREMENT', ), vars=vars)
 
     @property
-    def cycle(self):
+    def cycle(self) -> DataFrame:
         """Extract variables along N_CYCLE"""
-        return self._data_frame_along(('N_CYCLE', ))
+        return self.cycle_()
+    
+    def cycle_(self,  vars: Union[Literal[None], str, Iterable[str]]=None) -> DataFrame:
+        """Extract variables along N_CYCLE selecting specific variables"""
+        return self._data_frame_along(('N_CYCLE', ), vars=vars)
 
     @property
-    def param(self):
+    def param(self) -> DataFrame:
         """Extract variables along N_PARAM"""
         return self._data_frame_along(('N_PARAM', ))
 
@@ -218,7 +246,7 @@ class TechNetCDF(NetCDFWrapper):
         super().__init__(src)
 
     @property
-    def tech_param(self):
+    def tech_param(self) -> DataFrame:
         """Extract variables along N_TECH_PARAM"""
         return self._data_frame_along(('N_TECH_PARAM', ))
 
@@ -232,7 +260,7 @@ class MetaNetCDF(NetCDFWrapper):
         super().__init__(src)
 
     @property
-    def config_param(self):
+    def config_param(self) -> DataFrame:
         """
         Extract variables along N_CONFIG_PARAM and combine
         them with variables along N_MISSIONS and N_CONFIG_PARAM.
@@ -255,32 +283,32 @@ class MetaNetCDF(NetCDFWrapper):
         return values
 
     @property
-    def missions(self):
+    def missions(self) -> DataFrame:
         """Extract variables along N_MISSIONS"""
         return self._data_frame_along(('N_MISSIONS', ))
 
     @property
-    def trans_system(self):
+    def trans_system(self) -> DataFrame:
         """Extract variables along N_TRANS_SYSTEM"""
         return self._data_frame_along(('N_TRANS_SYSTEM', ))
 
     @property
-    def positioning_system(self):
+    def positioning_system(self) -> DataFrame:
         """Extract variables along N_POSITIONING_SYSTEM"""
         return self._data_frame_along(('N_POSITIONING_SYSTEM', ))
 
     @property
-    def launch_config_param(self):
+    def launch_config_param(self) -> DataFrame:
         """Extract variables along N_LAUNCH_CONFIG_PARAM"""
         return self._data_frame_along(('N_LAUNCH_CONFIG_PARAM', ))
 
     @property
-    def sensor(self):
+    def sensor(self) -> DataFrame:
         """Extract variables along N_SENSOR"""
         return self._data_frame_along(('N_SENSOR', ))
 
     @property
-    def param(self):
+    def param(self) -> DataFrame:
         """Extract variables along N_PARAM"""
         return self._data_frame_along(('N_PARAM', ))
 
