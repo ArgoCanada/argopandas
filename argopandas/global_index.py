@@ -9,6 +9,7 @@ import io
 from typing import Iterable, Union
 import urllib.request
 import numpy as np
+import pandas as pd
 import pyarrow
 import pyarrow.csv as csv
 from . import index
@@ -111,15 +112,15 @@ class GlobalIndex:
         else:
             return self._index().head(n)
 
-    def __getitem__(self, k):
+    def __getitem__(self, k) -> Union[index.DataFrameIndex, pd.Series]:
         return self._index()[k]
 
     @property
-    def loc(self):
+    def loc(self) -> index.DataFrameIndex:
         return self._index().loc
 
     @property
-    def iloc(self):
+    def iloc(self) -> index.DataFrameIndex:
         return self._index().iloc
 
     def subset_data_mode(self, data_mode: str) -> index.DataFrameIndex:
