@@ -7,8 +7,9 @@ are ``pandas.DataFrame`` subclasses with a few accessors
 that load data from each.
 """
 
+from _typeshed import NoneType
 import os
-from typing import Union, Iterable, Literal
+from typing import Union, Iterable
 import numpy as np
 import pandas as pd
 from .netcdf import MetaNetCDF, NetCDFWrapper, ProfNetCDF, TechNetCDF, TrajNetCDF
@@ -76,7 +77,7 @@ class DataFrameIndex(pd.DataFrame):
         """
         return self.info_()
     
-    def info_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> pd.DataFrame:
+    def info_(self, vars: Union[NoneType, str, Iterable[str]]=None) -> pd.DataFrame:
         """
         Combine the :attr:`argopandas.netcdf.NetCDFWrapper.info` table for
         the files in this index, selecting specific variables.
@@ -292,7 +293,7 @@ class ProfIndex(DataFrameIndex):
         """
         return self.levels_()
     
-    def levels_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> pd.DataFrame:
+    def levels_(self, vars: Union[NoneType, str, Iterable[str]]=None) -> pd.DataFrame:
         """
         Combine the :attr:`argopandas.netcdf.ProfNetCDF.levels` table for
         the files in this index, selecting specific variables.
@@ -310,7 +311,7 @@ class ProfIndex(DataFrameIndex):
         """
         return self.prof_()
     
-    def prof_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> pd.DataFrame:
+    def prof_(self, vars: Union[NoneType, str, Iterable[str]]=None) -> pd.DataFrame:
         """
         Combine the :attr:`argopandas.netcdf.ProfNetCDF.prof` table for
         the files in this index, selecting specific variables.
@@ -361,7 +362,7 @@ class TrajIndex(DataFrameIndex):
         """
         return self.measurement_()
     
-    def measurement_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> pd.DataFrame:
+    def measurement_(self, vars: Union[NoneType, str, Iterable[str]]=None) -> pd.DataFrame:
         """
         Combine the :attr:`argopandas.netcdf.TrajNetCDF.measurement` table for
         the files in this index, selecting specific variables.
@@ -379,7 +380,7 @@ class TrajIndex(DataFrameIndex):
         """
         return self.cycle_()
     
-    def cycle_(self, vars: Union[Literal[None], str, Iterable[str]]=None) -> pd.DataFrame:
+    def cycle_(self, vars: Union[NoneType, str, Iterable[str]]=None) -> pd.DataFrame:
         """
         Combine the :attr:`argopandas.netcdf.TrajNetCDF.cycle` table for
         the files in this index, selecting specific variables.
