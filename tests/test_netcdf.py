@@ -84,6 +84,12 @@ class TestNetCDFWrapper(unittest.TestCase):
         # scalar dimensions
         self.assertIn('DATA_TYPE', ncobj._data_frame_along([]).keys())
 
+        # preselected variables
+        levels_temp = ncobj._data_frame_along(('N_PROF', 'N_LEVELS'), vars='TEMP')
+        self.assertSetEqual(set(levels_temp.keys()), set(['TEMP']))
+        levels_temp2 = ncobj._data_frame_along(('N_PROF', 'N_LEVELS'), vars=['TEMP'])
+        self.assertSetEqual(set(levels_temp2.keys()), set(['TEMP']))
+
     def test_tables(self):
         ncobj = nc.NetCDFWrapper(self.test_file)
         self.assertIn('DATA_TYPE', ncobj.info.keys())
