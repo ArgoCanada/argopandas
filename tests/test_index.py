@@ -105,30 +105,76 @@ class TestDataFrameIndexHelpers(unittest.TestCase):
         self.index = dfi.DataFrameIndex(pd.DataFrame.from_records(records))
 
     def test_subset_regex(self):
-        self.index.subset_data_mode("realtime")
-        self.index.subset_data_mode("delayed")
+        self.assertEqual(len(self.index.subset_data_mode("realtime")), 2)
+        self.assertEqual(len(self.index.subset_data_mode("delayed")), 1)
 
-        self.index.subset_direction("ascending")
-        self.index.subset_direction("descending")
+        self.assertEqual(len(self.index.subset_direction("ascending")), 3)
+        self.assertEqual(len(self.index.subset_direction("descending")), 0)
         with self.assertRaises(ValueError):
             self.index.subset_direction("squareways")
         
-        self.index.subset_float(1901499)
+        self.assertEqual(len(self.index.subset_float(1901499)), 1)
+
+        df_params = pd.DataFrame.from_records([
+            {'parameters': 'DOXY PSAL'},
+            {'parameters': 'PSAL TEMP'}
+        ])
+        index_params = dfi.DataFrameIndex(df_params)
+        self.assertEqual(len(index_params.subset_parameter('DOXY')), 1)
+        self.assertEqual(len(index_params.subset_parameter(['DOXY', 'PSAL'])), 2)
+        self.assertEqual(len(index_params.subset_parameter([])), 0)
+        self.assertEqual(len(index_params.subset_parameter('BANANAS')), 0)
 
     def test_subset_date(self):
-        self.index.subset_date(date_start="2000-01")
-        self.index.subset_date(date_end="2000-01")
+        self.assertEqual(len(self.index.subset_date()), 3)
+        self.assertEqual(len(self.index.subset_date(date_start="2000-01")), 1)
+        self.assertEqual(len(self.index.subset_date(date_end="2000-01")), 2)
+
+        self.assertEqual(len(self.index.subset_updated()), 3)
+        self.assertEqual(len(self.index.subset_updated(date_start="2018-09")), 2)
+        self.assertEqual(len(self.index.subset_updated(date_end="2018-09")), 1)
 
     def test_subset_radius(self):
-        self.index.subset_radius(7, -52, 1000)
+        self.assertEqual(len(self.index.subset_radius(7, -52, 1000)), 1)
 
     def test_subset_rect_point(self):
-        self.index.subset_rect()
-        self.index.subset_rect(7, -53, 8, -52)
-        # make sure to test backside of the earth
+        self.assertEqual(len(self.index.subset_rect()), 3)
+        self.assertEqual(len(self.index.subset_rect(7, -53, 8, -52)), 1)
 
+        # test across the dateline
+        r_dl = {'latitude_min': -10, 'latitude_max': 12, 'longitude_min': 178, 'longitude_max': -179}
+        df_dateline = pd.DataFrame.from_records([
+            {'longitude': -179.5, 'latitude': 0},
+            {'longitude': 178.5, 'latitude': 0},
+            {'longitude': 0, 'latitude': 0}
+        ])
+        index_dateline = dfi.DataFrameIndex(df_dateline)
+        self.assertEqual(len(index_dateline.subset_rect()), 3)
+        self.assertEqual(len(index_dateline.subset_rect(**r_dl)), 2)
+        
     def test_subset_rect_rect(self):
-        pass
+        # test normal rect
+        r_norm = {'latitude_min': -10, 'latitude_max': 12, 'longitude_min': -10, 'longitude_max': 11}
+        r_norm_int = {'latitude_min': -1, 'latitude_max': 1, 'longitude_min': -1, 'longitude_max': 1}
+        r_norm_noint = {'latitude_min': -1, 'latitude_max': 1, 'longitude_min': 12, 'longitude_max': 13}
+        df = pd.DataFrame(r_norm, index=[1])
+        index = dfi.DataFrameIndex(df)
+        self.assertEqual(len(index.subset_rect()), 1)
+        self.assertEqual(len(index.subset_rect(**r_norm_int)), 1)
+        self.assertEqual(len(index.subset_rect(**r_norm_noint)), 0)
+
+        # test across the dateline
+        r_dl = {'latitude_min': -10, 'latitude_max': 12, 'longitude_min': 178, 'longitude_max': -179}
+        r_int = {'latitude_min': -1, 'latitude_max': 1, 'longitude_min': -179.5, 'longitude_max': -179}
+        r_int2 = {'latitude_min': -1, 'latitude_max': 1, 'longitude_min': 179, 'longitude_max': 179.5}
+        r_noint = {'latitude_min': -1, 'latitude_max': 1, 'longitude_min': -1, 'longitude_max': 1}
+
+        df_dateline = pd.DataFrame(r_dl, index=[1])
+        index_dateline = dfi.DataFrameIndex(df_dateline)
+        self.assertEqual(len(index_dateline.subset_rect()), 1)
+        self.assertEqual(len(index_dateline.subset_rect(**r_int)), 1)
+        self.assertEqual(len(index_dateline.subset_rect(**r_int2)), 1)
+        self.assertEqual(len(index_dateline.subset_rect(**r_noint)), 0)
 
 
 if __name__ == '__main__':

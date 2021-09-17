@@ -93,6 +93,8 @@ def normalize_lng(longitude):
         
         longitude = np.asfarray(longitude).copy()
         longitude[longitude == -999.999] = np.nan
+        longitude_inf = np.isinf(longitude)
         normalized = np.asfarray(((longitude + 180.0) % 360) - 180.0)
         normalized[longitude == 180.0] = 180.0
+        normalized[longitude_inf] = longitude[longitude_inf]
         return normalized

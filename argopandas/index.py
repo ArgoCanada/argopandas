@@ -130,9 +130,11 @@ class DataFrameIndex(pd.DataFrame):
         else:
             parameters = r'\b)|(\b'.join(p.upper() for p in parameters)
             parameters = r'(\b' + parameters + r'\b)'
-        
-        return self[self['parameters'].str.contains(parameters)]
 
+        if parameters == r'(\b\b)':
+            return self.iloc[[]]
+        else:
+            return self[self['parameters'].str.contains(parameters)]
 
     def subset_date(self, date_start=None, date_end=None) -> pd.DataFrame:
         """
@@ -202,22 +204,23 @@ class DataFrameIndex(pd.DataFrame):
         }
         return self[_geo.geodist_lnglat(xy, xy_target) <= radius_km]
     
-    def subset_rect(self, lat_min=-np.Inf, lng_min=-np.Inf, lat_max=np.Inf, lng_max=np.Inf) -> pd.DataFrame:
+    def subset_rect(self, latitude_min=-np.Inf, longitude_min=-np.Inf,
+                    latitude_max=np.Inf, longitude_max=np.Inf) -> pd.DataFrame:
         """
         Return the subset of this index representing profiles or trajectories 
         within the bounding box. You can specify bounding boxes that wrap around
         the international date line by specifying ``lat_min > lat_max``.
 
-        :param lat_min: The minimum latitude to include
-        :param lng_min: The minimum longitude to include
-        :param lat_max: The maximum latitude to include
-        :param lng_min: The maximum longitude to include
+        :param latitude_min: The minimum latitude to include
+        :param longitude_min: The minimum longitude to include
+        :param latitude_max: The maximum latitude to include
+        :param longitude_min: The maximum longitude to include
         """
         r_target = {
-            'xmin': _geo.normalize_lng(lng_min),
-            'ymin': _geo.normalize_lat(lat_min),
-            'xmax': _geo.normalize_lng(lng_max),
-            'ymax': _geo.normalize_lat(lat_max)
+            'xmin': _geo.normalize_lng(longitude_min),
+            'ymin': _geo.normalize_lat(latitude_min),
+            'xmax': _geo.normalize_lng(longitude_max),
+            'ymax': _geo.normalize_lat(latitude_max)
         }
         r_target_west, r_target_east = _geo.rect_split_dateline(r_target)
 
@@ -243,14 +246,6 @@ class DataFrameIndex(pd.DataFrame):
                 'xmax': _geo.normalize_lng(self['longitude_max']),
                 'ymax': _geo.normalize_lat(self['latitude_max'])
             }
-
-            # normalize rectangles so that width < 180 degrees (a better assumption than
-            # the alternative and often true for floats in the pacific)
-            width_greater_than_180 = ~np.isnan(r['xmin']) & ~np.isnan(r['xmax']) & \
-                ((r['xmax'] - r['xmin']) > 180)
-            xmin_temp = r['xmin']
-            r['xmin'][width_greater_than_180] = r['xmax'][width_greater_than_180]
-            r['xmax'][width_greater_than_180] = xmin_temp[width_greater_than_180]
 
             # split across the dateline and check for all combinations for possible intersection
             r_west, r_east = _geo.rect_split_dateline(r)
