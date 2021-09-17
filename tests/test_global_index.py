@@ -52,6 +52,48 @@ class TestGlobalIndex(unittest.TestCase):
         self.assertIsNone(root._cached_index)
         self.assertFalse(os.path.exists(root._mirror.filename(root._path)))
 
+    def test_subset(self):
+        root = global_index.GlobalBioProf()
+        root._set_mirror(self.mirror)
+        ind = root[:]
+
+        self.assertEqual(
+            len(root.subset_data_mode('realtime')),
+            len(ind.subset_data_mode('realtime'))
+        )
+        self.assertEqual(
+            len(root.subset_float(2900313)),
+            len(ind.subset_float(2900313))
+        )
+        self.assertEqual(
+            len(root.subset_direction('desc')),
+            len(ind.subset_direction('desc'))
+        )
+        self.assertEqual(
+            len(root.subset_data_mode('realtime')),
+            len(ind.subset_data_mode('realtime'))
+        )
+        self.assertEqual(
+            len(root.subset_parameter('NOT_A_PARAM')),
+            len(ind.subset_parameter('NOT_A_PARAM'))
+        )
+        self.assertEqual(
+            len(root.subset_date()),
+            len(ind.subset_date())
+        )
+        self.assertEqual(
+            len(root.subset_updated()),
+            len(ind.subset_updated())
+        )
+        self.assertEqual(
+            len(root.subset_radius(0, 0, 1000)),
+            len(ind.subset_radius(0, 0, 1000))
+        )
+        self.assertEqual(
+            len(root.subset_rect()),
+            len(ind.subset_rect())
+        )
+
     def test_prof(self):
         root = global_index.GlobalProf()
         root._set_mirror(self.mirror)

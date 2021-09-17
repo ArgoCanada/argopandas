@@ -127,7 +127,7 @@ def is_float(path, floats):
     in ``floats``.
 
     :param floats: An integer, string, or iterable of those
-        representing.
+        representing the float identifier(s).
     """
     if isinstance(floats, str) or isinstance(floats, int):
         floats = [floats]

@@ -72,13 +72,13 @@ from .netcdf import load_netcdf, NetCDFWrapper
 
 _index_all = global_index.make_globals()
 
-meta = _index_all['meta']  #: The :class:`argopandas.global_index.GlobalMeta` for the current :func:`default_mirror`.
-tech = _index_all['tech']
-traj = _index_all['traj']
-prof = _index_all['prof']
-bio_traj = _index_all['bio_traj']
-bio_prof = _index_all['bio_prof']
-synthetic_prof = _index_all['synthetic_prof']
+meta: global_index.GlobalMeta = _index_all['meta']  #: The :class:`argopandas.global_index.GlobalMeta` for the current :func:`default_mirror`.
+tech: global_index.GlobalTech = _index_all['tech']
+traj: global_index.GlobalTraj = _index_all['traj']
+prof: global_index.GlobalProf = _index_all['prof']
+bio_traj: global_index.GlobalBioTraj = _index_all['bio_traj']
+bio_prof: global_index.GlobalBioProf = _index_all['bio_prof']
+synthetic_prof: global_index.GlobalSyntheticProf = _index_all['synthetic_prof']
 
 
 # --- global mirror preference ----
