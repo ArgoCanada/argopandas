@@ -291,3 +291,7 @@ __all__ = (
     'meta', 'tech', 'traj', 'prof', 'bio_traj', 'bio_prof', 'nc',
     'synthetic_prof', 'path', 'float'
 )
+
+# only works in Python 3.7+ but is mostly useful for autocomplete
+def __dir__():
+    return list(__all__) + ['open']
