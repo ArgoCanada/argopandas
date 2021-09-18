@@ -83,8 +83,9 @@ class TestMirrorContext(unittest.TestCase):
         self.mirror = FileMirror(self.test_dir)
 
     def test_mirror_context(self):
+        from argopandas._interactive import MirrorContext
         # test use without the with: syntax
-        m = argo.MirrorContext(self.mirror)
+        m = MirrorContext(self.mirror)
         self.assertTrue(os.path.exists(m.filename('ar_index_global_meta.txt.gz')))
         with m.open('ar_index_global_meta.txt.gz') as f:
             self.assertTrue(hasattr(f, 'read'))
@@ -92,7 +93,7 @@ class TestMirrorContext(unittest.TestCase):
         self.assertIs(m.prepare([]), m)
 
         prev_mirror = argo.default_mirror()
-        with argo.MirrorContext(self.mirror) as m:
+        with MirrorContext(self.mirror) as m:
             self.assertIs(argo.default_mirror(), m)
             self.assertTrue(os.path.exists(m.filename('ar_index_global_meta.txt.gz')))
             with m.open('ar_index_global_meta.txt.gz') as f:
