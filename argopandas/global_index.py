@@ -57,6 +57,10 @@ class GlobalIndex:
     def __init__(self, path: str):
         self._path = path
         self._mirror = Mirror()
+        self._cached_index = None
+    
+    def reset(self):
+        self._cached_index = None
 
     def is_downloaded(self):
         return self._cached_index is not None

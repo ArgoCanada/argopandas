@@ -11,6 +11,7 @@ argopandas package API
     .. autofunction:: set_default_mirror
     .. autofunction:: file_mirror
     .. autofunction:: url_mirror
+    .. autofunction:: reset
 
 
     Quick access to floats and files

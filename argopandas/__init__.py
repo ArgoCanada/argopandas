@@ -72,13 +72,24 @@ from .netcdf import load_netcdf, NetCDFWrapper
 
 _index_all = global_index.make_globals()
 
-meta: global_index.GlobalMeta = _index_all['meta']  #: The :class:`argopandas.global_index.GlobalMeta` for the current :func:`default_mirror`.
+meta: global_index.GlobalMeta = _index_all['meta']
 tech: global_index.GlobalTech = _index_all['tech']
 traj: global_index.GlobalTraj = _index_all['traj']
 prof: global_index.GlobalProf = _index_all['prof']
 bio_traj: global_index.GlobalBioTraj = _index_all['bio_traj']
 bio_prof: global_index.GlobalBioProf = _index_all['bio_prof']
 synthetic_prof: global_index.GlobalSyntheticProf = _index_all['synthetic_prof']
+
+
+def _redefine_global_indexes():
+    global meta, tech, traj, prof, bio_prof, bio_traj, synthetic_prof, _index_all
+    meta = _index_all['meta']
+    tech = _index_all['tech']
+    traj = _index_all['traj']
+    prof = _index_all['prof']
+    bio_traj = _index_all['bio_traj']
+    bio_prof = _index_all['bio_prof']
+    synthetic_prof = _index_all['synthetic_prof']
 
 
 # --- global mirror preference ----
@@ -92,14 +103,24 @@ def set_default_mirror(mirror: Mirror) -> Mirror:
 
     :param mirror: One of :func:`url_mirror` or :func:`file_mirror`.
     """
-    global _default_mirror
+    global _default_mirror, _index_all
+
+    # cache global indexes with the previous mirror
+    if hasattr(_default_mirror, 'cache'):
+        _default_mirror.cache['__argo__index_all'] = _index_all
+    
+    # keep a reference to the previous mirror and set the new one
     previous = _default_mirror
     _default_mirror = mirror
 
-    # update mirror for globals
-    for index in _index_all.values():
-        index._set_mirror(mirror)
-
+    # restore the global indexes from the mirror if they exist and remove them
+    if hasattr(_default_mirror, 'cache') and  '__argo__index_all' in _default_mirror.cache:
+        _index_all = _default_mirror.cache['__argo__index_all']
+        del _default_mirror.cache['__argo__index_all']
+    else:
+        _index_all = global_index.make_globals(_default_mirror)
+    
+    _redefine_global_indexes()
     return previous
 
 
@@ -223,6 +244,17 @@ def _float_iter(float, globals):
     for f in float:
         yield Float(f, globals=globals)
 
+
+def reset():
+    """
+    Forget cached index files and temporary downloads from the
+    current mirror; redefine global indexes.
+    """
+    global _index_all
+    default_mirror().reset()
+    _index_all = global_index.make_globals(default_mirror())
+    _redefine_global_indexes()
+    
 
 def open(path: Union[str, Iterator[str]]) -> Union[str, Iterator[BinaryIO]]:
     """

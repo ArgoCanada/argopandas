@@ -42,6 +42,13 @@ class Mirror:
       /dac/csio/1234/1234_meta.nc)
     """
 
+    def __init__(self):
+        # used to cache objects generated from the mirror like global indexes
+        self.cache = {}
+    
+    def reset(self):
+        self.cache = {}
+
     def open(self, path) -> BinaryIO:
         """Get a file-like object for this ``path``."""
         raise NotImplementedError()
@@ -91,6 +98,7 @@ class FileMirror(Mirror):
         """
         :param root: The root directory containing the files.
         """
+        super().__init__()
         if not os.path.isdir(root):
             raise ValueError(f"'{root}' is not a directory")
         self._root = root
@@ -138,6 +146,7 @@ class UrlMirror(Mirror):
         :param root: The URL of the base directory. This can
             be anything supported by ``urllib.request.urlopen``.
         """
+        super().__init__()
         if root.endswith('/'):
             root = root[:-1]
         self._root = root
@@ -193,6 +202,14 @@ class CachedUrlMirror(UrlMirror):
     def __del__(self):
         if self._temp_dir is not None:
             self._temp_dir.cleanup()
+    
+    def reset(self):
+        super().reset()
+        # only delete the cache directory if it's a tempdir
+        if self._temp_dir is not None:
+            self._temp_dir.cleanup()
+            self._temp_dir = tempfile.TemporaryDirectory()
+            self._cache_dir = self._temp_dir.name
 
     def __repr__(self) -> str:
         if self._temp_dir is None:

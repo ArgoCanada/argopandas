@@ -39,6 +39,31 @@ class TestGlobalIndexInterface(unittest.TestCase):
 
         self.assertIsInstance(argo.bio_traj, global_index.GlobalBioTraj)
         self.assertIs(argo.meta._mirror, self.mirror)
+    
+    def test_reset(self):
+        old_vals = [
+            argo.meta, argo.tech, argo.prof, argo.traj,
+            argo.bio_prof, argo.synthetic_prof, argo.bio_traj
+        ]
+        # force resolving the index for all indexes
+        for val in old_vals:
+            val[:]
+
+        old_mirror = argo.default_mirror()
+
+        # reset
+        argo.reset()
+
+        self.assertTrue(argo.default_mirror(), old_mirror)
+
+        new_vals = [
+            argo.meta, argo.tech, argo.prof, argo.traj,
+            argo.bio_prof, argo.synthetic_prof, argo.bio_traj
+        ]
+        for old, new in zip(old_vals, new_vals):
+            self.assertFalse(old is new)
+            self.assertIsNone(new._cached_index)
+            self.assertIsNotNone(old._cached_index)
 
 
 class TestGlobalMirrors(unittest.TestCase):
