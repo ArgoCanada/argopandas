@@ -154,7 +154,7 @@ class GlobalIndex:
         """
         return self._index().subset_direction(direction)
     
-    def subset_parameter(self, parameters: Union[str, Iterable[str]]) -> index.DataFrameIndex:
+    def subset_parameter(self, parameters: Union[None, str, Iterable[str]]) -> index.DataFrameIndex:
         """
         Return the subset of this index corresponding containing
         one or more of the parameters specified.

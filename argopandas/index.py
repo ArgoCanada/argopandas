@@ -76,7 +76,7 @@ class DataFrameIndex(pd.DataFrame):
         """
         return self.info_()
     
-    def info_(self, vars: Union[str, Iterable[str]]=None) -> pd.DataFrame:
+    def info_(self, vars: Union[None, str, Iterable[str]]=None) -> pd.DataFrame:
         """
         Combine the :attr:`argopandas.netcdf.NetCDFWrapper.info` table for
         the files in this index, selecting specific variables.
@@ -292,7 +292,7 @@ class ProfIndex(DataFrameIndex):
         """
         return self.levels_()
     
-    def levels_(self, vars: Union[str, Iterable[str]]=None) -> pd.DataFrame:
+    def levels_(self, vars: Union[None, str, Iterable[str]]=None) -> pd.DataFrame:
         """
         Combine the :attr:`argopandas.netcdf.ProfNetCDF.levels` table for
         the files in this index, selecting specific variables.
@@ -310,7 +310,7 @@ class ProfIndex(DataFrameIndex):
         """
         return self.prof_()
     
-    def prof_(self, vars: Union[str, Iterable[str]]=None) -> pd.DataFrame:
+    def prof_(self, vars: Union[None, str, Iterable[str]]=None) -> pd.DataFrame:
         """
         Combine the :attr:`argopandas.netcdf.ProfNetCDF.prof` table for
         the files in this index, selecting specific variables.
@@ -361,7 +361,7 @@ class TrajIndex(DataFrameIndex):
         """
         return self.measurement_()
     
-    def measurement_(self, vars: Union[str, Iterable[str]]=None) -> pd.DataFrame:
+    def measurement_(self, vars: Union[None, str, Iterable[str]]=None) -> pd.DataFrame:
         """
         Combine the :attr:`argopandas.netcdf.TrajNetCDF.measurement` table for
         the files in this index, selecting specific variables.
@@ -379,7 +379,7 @@ class TrajIndex(DataFrameIndex):
         """
         return self.cycle_()
     
-    def cycle_(self, vars: Union[str, Iterable[str]]=None) -> pd.DataFrame:
+    def cycle_(self, vars: Union[None, str, Iterable[str]]=None) -> pd.DataFrame:
         """
         Combine the :attr:`argopandas.netcdf.TrajNetCDF.cycle` table for
         the files in this index, selecting specific variables.

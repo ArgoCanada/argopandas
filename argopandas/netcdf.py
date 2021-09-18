@@ -79,7 +79,7 @@ class NetCDFWrapper:
         """
         return self.info_()
     
-    def info_(self, vars: Union[str, Iterable[str]]=None):
+    def info_(self, vars: Union[None, str, Iterable[str]]=None):
         """
         Returns a one-row ``DataFrame`` containing
         all dimensionless variables in the NetCDF, selecting
@@ -175,7 +175,7 @@ class ProfNetCDF(NetCDFWrapper):
         """Extract variables along N_PROF, N_LEVELS"""
         return self.levels_()
     
-    def levels_(self, vars: Union[str, Iterable[str]]=None) -> DataFrame:
+    def levels_(self, vars: Union[None, str, Iterable[str]]=None) -> DataFrame:
         """Extract variables along N_PROF, N_LEVELS selecting specific variables"""
         return self._data_frame_along(('N_PROF', 'N_LEVELS'), vars=vars)
 
@@ -184,7 +184,7 @@ class ProfNetCDF(NetCDFWrapper):
         """Extract variables along N_PROF"""
         return self.prof_()
     
-    def prof_(self, vars: Union[str, Iterable[str]]=None) -> DataFrame:
+    def prof_(self, vars: Union[None, str, Iterable[str]]=None) -> DataFrame:
         """Extract variables along N_PROF selecting specific variables"""
         return self._data_frame_along(('N_PROF', ), vars=vars)
 
@@ -215,7 +215,7 @@ class TrajNetCDF(NetCDFWrapper):
         """Extract variables along N_MEASUREMENT"""
         return self.measurement_()
     
-    def measurement_(self, vars: Union[str, Iterable[str]]=None) -> DataFrame:
+    def measurement_(self, vars: Union[None, str, Iterable[str]]=None) -> DataFrame:
         """Extract variables along N_MEASUREMENT selecting specific variables"""
         return self._data_frame_along(('N_MEASUREMENT', ), vars=vars)
 
@@ -224,7 +224,7 @@ class TrajNetCDF(NetCDFWrapper):
         """Extract variables along N_CYCLE"""
         return self.cycle_()
     
-    def cycle_(self,  vars: Union[str, Iterable[str]]=None) -> DataFrame:
+    def cycle_(self,  vars: Union[None, str, Iterable[str]]=None) -> DataFrame:
         """Extract variables along N_CYCLE selecting specific variables"""
         return self._data_frame_along(('N_CYCLE', ), vars=vars)
 
