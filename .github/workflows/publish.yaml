@@ -14,8 +14,8 @@ jobs:
       with:
         python-version: 3.9
     - name: Build dist
-        run: |
-          python -m build --dist --wheel --outdir dist/
+      run: |
+        python -m build --dist --wheel --outdir dist/
     - name: Publish to Test PyPI
       uses: pypa/gh-action-pypi-publish@master
       with:
