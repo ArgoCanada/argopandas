@@ -3,10 +3,6 @@ on:
   release:
     types:
     - published
-    - created
-    - edited
-    - released
-    - prereleased
 
 jobs:
   build-n-publish:
@@ -29,14 +25,13 @@ jobs:
         python -m build --sdist --wheel --outdir dist/
 
     - name: Publish to Test PyPI
-      if: github.release && (github.release.draft == false)
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.TEST_PYPI_API_TOKEN }}
         repository_url: https://test.pypi.org/legacy/
 
     - name: Publish to PyPI
-      if: github.release && (github.release.draft == false)
+      if:  github.release.prerelease == false
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
