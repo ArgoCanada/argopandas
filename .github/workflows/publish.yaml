@@ -24,6 +24,12 @@ jobs:
       run: |
         python -m build --sdist --wheel --outdir dist/
 
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: |
+        echo "$GITHUB_CONTEXT"
+
     - name: Publish to Test PyPI
       uses: pypa/gh-action-pypi-publish@master
       with:
