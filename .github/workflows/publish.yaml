@@ -21,6 +21,11 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build netCDF4 pandas pyarrow
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Build dist
       run: |
         python -m build --dist --wheel --outdir dist/
