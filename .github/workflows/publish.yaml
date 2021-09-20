@@ -28,7 +28,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Build dist
       run: |
-        python -m build --dist --wheel --outdir dist/
+        python -m build --sdist --wheel --outdir dist/
     - name: Publish to Test PyPI
       uses: pypa/gh-action-pypi-publish@master
       with:
