@@ -66,10 +66,10 @@ jobs:
 
           # remove current release documentation (not dev!)
           for [DIRECTORY in $(ls -d */ | sed 's|dev/||')] ; do
-            git rm -rf $DIRECTORY
+            git rm -rf "$DIRECTORY"
           done
           for [FILE in $(ls | sed 's|dev||')] ; do
-            git rm $FILE
+            git rm "$FILE"
           done
 
           # copy
