@@ -58,19 +58,19 @@ jobs:
           cd ..
 
       - name: Update release documentation
-        if: success() && github.event.release
+        if: success() && (github.event.release || (github.ref == 'refs/heads/master'))
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           cd pages-clone
 
           # remove current release documentation (not dev!)
-          for [DIRECTORY in $(ls -d */ | sed 's|dev/||')]
+          for [DIRECTORY in $(ls -d */ | sed 's|dev/||')] ; do
             git rm -rf $DIRECTORY
-          fi
-          for [FILE in $(ls | sed 's|dev||')]
+          done
+          for [FILE in $(ls | sed 's|dev||')] ; do
             git rm $FILE
-          fi
+          done
 
           # copy
           cp -R ../docs/_build/html/* .
