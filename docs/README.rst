@@ -135,7 +135,7 @@ Once you have a data frame you do anything you’d do with a regular
 
 
 
-.. image:: README_files%5CREADME_8_0.png
+.. image:: README_files/README_8_0.png
 
 
 You can access all the index files for a particular float using

@@ -76,7 +76,11 @@ def build_readme(args):
     with open('docs/README.rst', 'rb') as f:
         content = f.read().decode('utf-8')
 
+    # Windows generates extraneous \r that results in double linebreaks
     content = content.replace('\r', '')
+
+    # any generated file path gets mangled on Windows; fix here
+    content = content.replace('README_files%5C', 'README_files/')
 
     with open('docs/README.rst', 'wb') as f:
         f.write(content.encode('utf-8'))
