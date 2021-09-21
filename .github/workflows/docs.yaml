@@ -33,7 +33,7 @@ jobs:
           sphinx-build docs docs/_build/html
 
       - name: Clone gh-pages branch
-        if: success() && (github.ref == 'refs/heads/master')
+        if: success() && (github.event.release || (github.ref == 'refs/heads/master'))
         uses: actions/checkout@master
         with:
           ref: gh-pages
