@@ -65,10 +65,10 @@ jobs:
           cd pages-clone
 
           # remove current release documentation (not dev!)
-          for [DIRECTORY in $(ls -d */ | sed 's|dev/||')] ; do
+          for DIRECTORY in $(ls -d */ | sed 's|dev/||') ; do
             git rm -rf "$DIRECTORY"
           done
-          for [FILE in $(ls | sed 's|dev||')] ; do
+          for FILE in $(ls | sed 's|dev||') ; do
             git rm "$FILE"
           done
 
