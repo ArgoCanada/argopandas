@@ -73,7 +73,8 @@
              
   <section id="argopandas">
 <h1>argopandas<a class="headerlink" href="#argopandas" title="Permalink to this headline"></a></h1>
-<p><a class="reference external" href="https://github.com/ArgoCanada/argopandas/actions/workflows/check.yaml"><img alt="Check" src="https://github.com/ArgoCanada/argopandas/actions/workflows/check.yaml/badge.svg" /></a> <a class="reference external" href="https://codecov.io/gh/ArgoCanada/argopandas?branch=master"><img alt="Codecov test coverage" src="https://codecov.io/gh/ArgoCanada/argopandas/branch/master/graph/badge.svg" /></a></p>
+<p><a class="reference external" href="https://github.com/ArgoCanada/argopandas/actions/workflows/check.yaml"><img alt="Check" src="https://github.com/ArgoCanada/argopandas/actions/workflows/check.yaml/badge.svg" /></a> <a class="reference external" href="https://codecov.io/gh/ArgoCanada/argopandas?branch=master"><img alt="Codecov test coverage" src="https://codecov.io/gh/ArgoCanada/argopandas/branch/master/graph/badge.svg" /></a> <a class="reference external" href="https://pypi.org/project/argopandas/"><img alt="argopandas on PyPi" src="https://pypip.in/v/argopandas/badge.svg" /></a> <a class="reference external" href="https://argocanada.github.io/argopandas/"><img alt="Documentation" src="https://img.shields.io/badge/Documentation-ArgoCanada.github.io%2Fargopandas-yellow" /></a>
+<a class="reference external" href="https://github.com/ArgoCanada/argopandas"><img alt="argopandas on GitHub" src="https://img.shields.io/badge/GitHub-ArgoCanada%2Fargopandas-blue" /></a></p>
 <p>The goal of argopandas is to provide seamless access to Argo NetCDF
 files using a pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>-based interface. It is a Python port
 of the <a class="reference external" href="https://github.com/ArgoCanada/argodata">argodata package for
@@ -83,7 +84,7 @@ anything else about the package!</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
 <p>You can install the <code class="docutils literal notranslate"><span class="pre">argopandas</span></code> package using <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/ArgoCanada/argopandas.git
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install argopandas
 </pre></div>
 </div>
 <p>The package depends on <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, <code class="docutils literal notranslate"><span class="pre">netCDF4</span></code>, and
@@ -95,30 +96,23 @@ package requires Python 3.6 or later.</p>
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
 <p>The intended interface for most usage is contained in the <code class="docutils literal notranslate"><span class="pre">argopandas</span></code>
 module. You can import this as <code class="docutils literal notranslate"><span class="pre">argo</span></code> for pretty-looking syntax:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argopandas</span> <span class="k">as</span> <span class="nn">argo</span>
-<span class="c1"># to make this work with GitHub</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.notebook_repr_html&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import argopandas as argo
 </pre></div>
 </div>
 <p>The global indexes are available via <code class="docutils literal notranslate"><span class="pre">argo.prof</span></code>, <code class="docutils literal notranslate"><span class="pre">argo.meta</span></code>,
 <code class="docutils literal notranslate"><span class="pre">argo.tech</span></code>, <code class="docutils literal notranslate"><span class="pre">argo.traj</span></code>, <code class="docutils literal notranslate"><span class="pre">argo.bio_prof</span></code>,
 <code class="docutils literal notranslate"><span class="pre">argo.synthetic_prof</span></code>, and <code class="docutils literal notranslate"><span class="pre">argo.bio_traj</span></code>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">argo</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>argo.meta.head(5)
 </pre></div>
 </div>
-<pre class="literal-block">                       file  profiler_type institution  0  aoml/13857/13857_meta.nc            845          AO
-1  aoml/13858/13858_meta.nc            845          AO
-2  aoml/13859/13859_meta.nc            845          AO
-3  aoml/15819/15819_meta.nc            845          AO
-4  aoml/15820/15820_meta.nc            845          AO
-
-                date_update
-0 2018-10-11 20:00:14+00:00
-1 2018-10-11 20:00:15+00:00
-2 2018-10-11 20:00:25+00:00
-3 2018-10-11 20:00:16+00:00
-4 2018-10-11 20:00:18+00:00</pre>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                       <span class="n">file</span>  <span class="n">profiler_type</span> <span class="n">institution</span>     <span class="n">date_update</span>
+<span class="mi">0</span>  <span class="n">aoml</span><span class="o">/</span><span class="mi">13857</span><span class="o">/</span><span class="mi">13857</span><span class="n">_meta</span><span class="o">.</span><span class="n">nc</span>            <span class="mi">845</span>          <span class="n">AO</span>  <span class="mi">20181011200014</span>
+<span class="mi">1</span>  <span class="n">aoml</span><span class="o">/</span><span class="mi">13858</span><span class="o">/</span><span class="mi">13858</span><span class="n">_meta</span><span class="o">.</span><span class="n">nc</span>            <span class="mi">845</span>          <span class="n">AO</span>  <span class="mi">20181011200015</span>
+<span class="mi">2</span>  <span class="n">aoml</span><span class="o">/</span><span class="mi">13859</span><span class="o">/</span><span class="mi">13859</span><span class="n">_meta</span><span class="o">.</span><span class="n">nc</span>            <span class="mi">845</span>          <span class="n">AO</span>  <span class="mi">20181011200025</span>
+<span class="mi">3</span>  <span class="n">aoml</span><span class="o">/</span><span class="mi">15819</span><span class="o">/</span><span class="mi">15819</span><span class="n">_meta</span><span class="o">.</span><span class="n">nc</span>            <span class="mi">845</span>          <span class="n">AO</span>  <span class="mi">20181011200016</span>
+<span class="mi">4</span>  <span class="n">aoml</span><span class="o">/</span><span class="mi">15820</span><span class="o">/</span><span class="mi">15820</span><span class="n">_meta</span><span class="o">.</span><span class="n">nc</span>            <span class="mi">845</span>          <span class="n">AO</span>  <span class="mi">20181011200018</span>
+</pre></div>
+</div>
 <p>By defaut, downloads are lazily cached from the <a class="reference external" href="https://data-argo.ifremer.fr">Ifremer https
 mirror</a>. You can use
 <code class="docutils literal notranslate"><span class="pre">argo.url_mirror()</span></code> or <code class="docutils literal notranslate"><span class="pre">argo.file_mirror()</span></code> with
@@ -128,11 +122,7 @@ copy of Argo.</p>
 use one of the table accessors to download, cache, and read variables
 aligned along common dimensions. The accessor you probably want is the
 <code class="docutils literal notranslate"><span class="pre">.levels</span></code> accessor from the <code class="docutils literal notranslate"><span class="pre">argo.prof</span></code> index:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">argo</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">levels</span><span class="p">[[</span><span class="s1">&#39;PRES&#39;</span><span class="p">,</span> <span class="s1">&#39;TEMP&#39;</span><span class="p">]]</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Downloading</span> <span class="mi">5</span> <span class="n">files</span> <span class="kn">from</span> <span class="s1">&#39;https://data-argo.ifremer.fr/dac/aoml/13857/profiles&#39;</span>
-<span class="n">Reading</span> <span class="mi">5</span> <span class="n">files</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>argo.prof.head(5).levels[[&#39;PRES&#39;, &#39;TEMP&#39;]]
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                                                          <span class="n">PRES</span>       <span class="n">TEMP</span>
@@ -170,27 +160,22 @@ variables that aren’t aligned along any dimensions</p></li>
 </ul>
 <p>Once you have a data frame you do anything you’d do with a regular
 <code class="docutils literal notranslate"><span class="pre">pd.DataFrame()</span></code>, like plot your data using the built-in plot method:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">argo</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">levels</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">):</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;TEMP&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;PRES&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+for label, df in argo.prof.head(5).levels.groupby(&#39;file&#39;):
+    df.plot(x=&#39;TEMP&#39;, y = &#39;PRES&#39;, ax=ax, label=label)
+ax.invert_yaxis()
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Reading</span> <span class="mi">5</span> <span class="n">files</span>
-</pre></div>
-</div>
-<img alt="_images/README_8_1.png" src="_images/README_8_1.png" />
+<img alt="README_files%5CREADME_8_0.png" src="README_files%5CREADME_8_0.png" />
 <p>You can access all the index files for a particular float using
 <code class="docutils literal notranslate"><span class="pre">argo.float()</span></code>, which lazily filters all the indexes for a particular
 float ID.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">float_obj</span> <span class="o">=</span> <span class="n">argo</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="mi">13857</span><span class="p">)</span>
-<span class="n">float_obj</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">info</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>float_obj = argo.float(13857)
+float_obj.meta.info
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Downloading</span> <span class="s1">&#39;https://data-argo.ifremer.fr/ar_index_global_meta.txt.gz&#39;</span>
-<span class="n">Downloading</span> <span class="s1">&#39;https://data-argo.ifremer.fr/dac/aoml/13857/13857_meta.nc&#39;</span>
-<span class="n">Reading</span> <span class="mi">1</span> <span class="n">file</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Reading</span> <span class="mi">1</span> <span class="n">file</span>
 </pre></div>
 </div>
 <pre class="literal-block">                                   DATA_TYPE FORMAT_VERSION HANDBOOK_VERSION  file
