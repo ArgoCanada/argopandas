@@ -60,7 +60,7 @@ jobs:
           cd ..
 
       - name: Update release documentation
-        if: success() # && github.event.release
+        if: success() && github.event.release
         env:
           DOC_TAG: "released"
         run: |
