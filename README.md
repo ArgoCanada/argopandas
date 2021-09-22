@@ -3,7 +3,7 @@
 [![Check](https://github.com/ArgoCanada/argopandas/actions/workflows/check.yaml/badge.svg)](https://github.com/ArgoCanada/argopandas/actions/workflows/check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/ArgoCanada/argopandas/branch/master/graph/badge.svg)](https://codecov.io/gh/ArgoCanada/argopandas?branch=master)
 [![argopandas on PyPi](https://pypip.in/v/argopandas/badge.svg)](https://pypi.org/project/argopandas/)
-[![Documentation](https://img.shields.io/badge/Documentation-ArgoCanada.github.io%2Fargopandas-yellow)](https://argocanada.github.io/argopandas/)
+[![Documentation](https://img.shields.io/badge/Documentation-released-yellow)](https://argocanada.github.io/argopandas/released)
 [![argopandas on GitHub](https://img.shields.io/badge/GitHub-ArgoCanada%2Fargopandas-blue)](https://github.com/ArgoCanada/argopandas)
 
 The goal of argopandas is to provide seamless access to Argo NetCDF files using a pandas `DataFrame`-based interface. It is a Python port of the [argodata package for R](https://github.com/ArgoCanada/argodata). The package is under heavy development and we would love feedback on the interface or anything else about the package!

@@ -62,7 +62,7 @@ jobs:
       - name: Update release documentation
         if: success() # && github.event.release
         env:
-          DOC_TAG: "latest"
+          DOC_TAG: "released"
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"

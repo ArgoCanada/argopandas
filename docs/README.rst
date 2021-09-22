@@ -37,8 +37,8 @@ module. You can import this as ``argo`` for pretty-looking syntax:
    :target: https://codecov.io/gh/ArgoCanada/argopandas?branch=master
 .. |argopandas on PyPi| image:: https://pypip.in/v/argopandas/badge.svg
    :target: https://pypi.org/project/argopandas/
-.. |Documentation| image:: https://img.shields.io/badge/Documentation-ArgoCanada.github.io%2Fargopandas-yellow
-   :target: https://argocanada.github.io/argopandas/
+.. |Documentation| image:: https://img.shields.io/badge/Documentation-released-yellow
+   :target: https://argocanada.github.io/argopandas/released
 .. |argopandas on GitHub| image:: https://img.shields.io/badge/GitHub-ArgoCanada%2Fargopandas-blue
    :target: https://github.com/ArgoCanada/argopandas
 
