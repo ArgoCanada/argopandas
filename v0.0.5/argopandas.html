@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>argopandas package API &mdash; argopandas  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Mirror API" href="mirror.html" />
+    <link rel="prev" title="argopandas" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> argopandas
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">argopandas package API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#global-indexes">Global indexes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mirror-setters-and-getters">Mirror setters and getters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-access-to-floats-and-files">Quick access to floats and files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mirror.html">Mirror API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="path.html">Argo filename information API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netcdf.html">NetCDF Wrapper API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="float.html">Argo Float API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_mod.html">NetCDF File Index API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="global_index.html">Global index file API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">argopandas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>argopandas package API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/argopandas.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-argopandas">
+<span id="argopandas-package-api"></span><h1>argopandas package API<a class="headerlink" href="#module-argopandas" title="Permalink to this headline"></a></h1>
+<p>The root package contains the interface for
+argopandas.</p>
+<section id="global-indexes">
+<h2>Global indexes<a class="headerlink" href="#global-indexes" title="Permalink to this headline"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">argopandas.meta</span></code></p>
+<blockquote>
+<div><p>The <a class="reference internal" href="global_index.html#argopandas.global_index.GlobalMeta" title="argopandas.global_index.GlobalMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.global_index.GlobalMeta</span></code></a> for the current <a class="reference internal" href="#argopandas.default_mirror" title="argopandas.default_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_mirror()</span></code></a>.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">argopandas.tech</span></code></p>
+<blockquote>
+<div><p>The <a class="reference internal" href="global_index.html#argopandas.global_index.GlobalTech" title="argopandas.global_index.GlobalTech"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.global_index.GlobalTech</span></code></a> for the current <a class="reference internal" href="#argopandas.default_mirror" title="argopandas.default_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_mirror()</span></code></a>.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">argopandas.prof</span></code></p>
+<blockquote>
+<div><p>The <a class="reference internal" href="global_index.html#argopandas.global_index.GlobalProf" title="argopandas.global_index.GlobalProf"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.global_index.GlobalProf</span></code></a> for the current <a class="reference internal" href="#argopandas.default_mirror" title="argopandas.default_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_mirror()</span></code></a>.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">argopandas.traj</span></code></p>
+<blockquote>
+<div><p>The <a class="reference internal" href="global_index.html#argopandas.global_index.GlobalTraj" title="argopandas.global_index.GlobalTraj"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.global_index.GlobalTraj</span></code></a> for the current <a class="reference internal" href="#argopandas.default_mirror" title="argopandas.default_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_mirror()</span></code></a>.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">argopandas.bio_traj</span></code></p>
+<blockquote>
+<div><p>The <a class="reference internal" href="global_index.html#argopandas.global_index.GlobalBioTraj" title="argopandas.global_index.GlobalBioTraj"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.global_index.GlobalBioTraj</span></code></a> for the current <a class="reference internal" href="#argopandas.default_mirror" title="argopandas.default_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_mirror()</span></code></a>.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">argopandas.bio_prof</span></code></p>
+<blockquote>
+<div><p>The <a class="reference internal" href="global_index.html#argopandas.global_index.GlobalBioProf" title="argopandas.global_index.GlobalBioProf"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.global_index.GlobalBioProf</span></code></a> for the current <a class="reference internal" href="#argopandas.default_mirror" title="argopandas.default_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_mirror()</span></code></a>.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">argopandas.synthetic_prof</span></code></p>
+<blockquote>
+<div><p>The <a class="reference internal" href="global_index.html#argopandas.global_index.GlobalSyntheticProf" title="argopandas.global_index.GlobalSyntheticProf"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.global_index.GlobalSyntheticProf</span></code></a> for the current <a class="reference internal" href="#argopandas.default_mirror" title="argopandas.default_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_mirror()</span></code></a>.</p>
+</div></blockquote>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">argopandas</span> <span class="k">as</span> <span class="nn">argo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">argo</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">                       file  profiler_type institution               date_update</span>
+<span class="go">0  aoml/13857/13857_meta.nc            845          AO 2018-10-11 20:00:14+00:00</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">argo</span><span class="o">.</span><span class="n">tech</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">                       file institution               date_update</span>
+<span class="go">0  aoml/13857/13857_tech.nc          AO 2021-04-28 20:03:35+00:00</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">argo</span><span class="o">.</span><span class="n">prof</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">                                file                      date  latitude  longitude ocean  profiler_type institution               date_update</span>
+<span class="go">0  aoml/13857/profiles/R13857_001.nc 1997-07-29 20:03:00+00:00     0.267    -16.032     A            845          AO 2018-10-11 18:05:20+00:00</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">argo</span><span class="o">.</span><span class="n">bio_prof</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">                                     file                      date  latitude  ...                       parameters parameter_data_mode               date_update</span>
+<span class="go">0  aoml/1900722/profiles/BD1900722_001.nc 2006-10-22 02:16:24+00:00   -40.316  ...  PRES TEMP_DOXY BPHASE_DOXY DOXY                RRRD 2020-03-12 15:32:30+00:00</span>
+<span class="go">[1 rows x 10 columns]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">argo</span><span class="o">.</span><span class="n">synthetic_prof</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">                                     file                      date  latitude  longitude  ... institution           parameters parameter_data_mode               date_update</span>
+<span class="go">0  aoml/1900722/profiles/SD1900722_001.nc 2006-10-22 02:16:24+00:00   -40.316     73.389  ...          AO  PRES TEMP PSAL DOXY                DDDD 2020-10-30 13:30:05+00:00</span>
+<span class="go">[1 rows x 10 columns]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">argo</span><span class="o">.</span><span class="n">bio_traj</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">                             file latitude_max latitude_min  ... institution                                         parameters               date_update</span>
+<span class="go">0  bodc/3901496/3901496_BRtraj.nc         None         None  ...          BO  PRES C1PHASE_DOXY C2PHASE_DOXY TEMP_DOXY DOXY ... 2021-07-22 15:44:18+00:00</span>
+<span class="go">[1 rows x 9 columns]</span>
+</pre></div>
+</div>
+</section>
+<section id="mirror-setters-and-getters">
+<h2>Mirror setters and getters<a class="headerlink" href="#mirror-setters-and-getters" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.default_mirror">
+<span class="sig-name descname"><span class="pre">default_mirror</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="mirror.html#argopandas.mirror.Mirror" title="argopandas.mirror.Mirror"><span class="pre">argopandas.mirror.Mirror</span></a></span></span><a class="headerlink" href="#argopandas.default_mirror" title="Permalink to this definition"></a></dt>
+<dd><p>Get the default mirror (e.g., used to populate
+the global indexes).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">argopandas</span> <span class="k">as</span> <span class="nn">argo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">argo</span><span class="o">.</span><span class="n">default_mirror</span><span class="p">()</span>
+<span class="go">argo.CachedUrlMirror(&#39;https://data-argo.ifremer.fr&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.set_default_mirror">
+<span class="sig-name descname"><span class="pre">set_default_mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mirror</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="mirror.html#argopandas.mirror.Mirror" title="argopandas.mirror.Mirror"><span class="pre">argopandas.mirror.Mirror</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="mirror.html#argopandas.mirror.Mirror" title="argopandas.mirror.Mirror"><span class="pre">argopandas.mirror.Mirror</span></a></span></span><a class="headerlink" href="#argopandas.set_default_mirror" title="Permalink to this definition"></a></dt>
+<dd><p>Set the default mirror.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mirror</strong> – One of <a class="reference internal" href="#argopandas.url_mirror" title="argopandas.url_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">url_mirror()</span></code></a> or <a class="reference internal" href="#argopandas.file_mirror" title="argopandas.file_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">file_mirror()</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.file_mirror">
+<span class="sig-name descname"><span class="pre">file_mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">argopandas._interactive.MirrorContext</span></span></span><a class="headerlink" href="#argopandas.file_mirror" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a mirror from a local file system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>root</strong> – A directory that contains a dac/ directory and
+a listing of .txt.gz index files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.url_mirror">
+<span class="sig-name descname"><span class="pre">url_mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cached</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">argopandas._interactive.MirrorContext</span></span></span><a class="headerlink" href="#argopandas.url_mirror" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a mirror with an optional cache directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> – A URL that contains a dac/ directory and
+a listing of .txt.gz index files.</p></li>
+<li><p><strong>cache_dir</strong> – Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to use a temporary file
+or sepcify an existing cache directory.</p></li>
+<li><p><strong>cached</strong> – Use <code class="docutils literal notranslate"><span class="pre">False</span></code> to skip the cache step
+completely and operate on data sets in memory.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.reset" title="Permalink to this definition"></a></dt>
+<dd><p>Forget cached index files and temporary downloads from the
+current mirror; redefine global indexes.</p>
+</dd></dl>
+
+</section>
+<section id="quick-access-to-floats-and-files">
+<h2>Quick access to floats and files<a class="headerlink" href="#quick-access-to-floats-and-files" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.float">
+<span class="sig-name descname"><span class="pre">float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">float_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="float.html#argopandas.float.Float" title="argopandas.float.Float"><span class="pre">argopandas.float.Float</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="float.html#argopandas.float.Float" title="argopandas.float.Float"><span class="pre">argopandas.float.Float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#argopandas.float" title="Permalink to this definition"></a></dt>
+<dd><p>Subset all the global indexes for a given float.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>float_id</strong> – A string or int float identifier or iterable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.nc">
+<span class="sig-name descname"><span class="pre">nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="netcdf.html#argopandas.netcdf.NetCDFWrapper" title="argopandas.netcdf.NetCDFWrapper"><span class="pre">argopandas.netcdf.NetCDFWrapper</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#argopandas.nc" title="Permalink to this definition"></a></dt>
+<dd><p>Get a <code class="docutils literal notranslate"><span class="pre">netCDF4.Dataset</span></code> or iterate over multiple data sets.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#argopandas.filename" title="Permalink to this definition"></a></dt>
+<dd><p>Download a one or more files and return the filename.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.url">
+<span class="sig-name descname"><span class="pre">url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#argopandas.url" title="Permalink to this definition"></a></dt>
+<dd><p>Return the URL to one or more files. If <a class="reference internal" href="#argopandas.default_mirror" title="argopandas.default_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_mirror()</span></code></a>
+is a <a class="reference internal" href="#argopandas.file_mirror" title="argopandas.file_mirror"><code class="xref py py-func docutils literal notranslate"><span class="pre">file_mirror()</span></code></a>, this will be a <code class="docutils literal notranslate"><span class="pre">file://</span></code> URL.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">BinaryIO</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#argopandas.open" title="Permalink to this definition"></a></dt>
+<dd><p>Open a file or iterate over open files on the default mirror.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> – One or more paths relative to the root directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="argopandas" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mirror.html" class="btn btn-neutral float-right" title="Mirror API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Dewey Dunnington.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
