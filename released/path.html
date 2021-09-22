@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Argo filename information API &mdash; argopandas  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="NetCDF Wrapper API" href="netcdf.html" />
+    <link rel="prev" title="Mirror API" href="mirror.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> argopandas
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="argopandas.html">argopandas package API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mirror.html">Mirror API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Argo filename information API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netcdf.html">NetCDF Wrapper API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="float.html">Argo Float API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_mod.html">NetCDF File Index API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="global_index.html">Global index file API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">argopandas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Argo filename information API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/path.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-argopandas.path">
+<span id="argo-filename-information-api"></span><h1>Argo filename information API<a class="headerlink" href="#module-argopandas.path" title="Permalink to this headline"></a></h1>
+<p>This module contains functions that operate on Argo filenames.
+These filenames follow specific conventions that can be hard
+to remember. This is built-in to the interactive module. The
+<code class="docutils literal notranslate"><span class="pre">path</span></code> argument for all functions in this module can be a string
+file path, an iterable of file paths, a <code class="docutils literal notranslate"><span class="pre">pandas.Series</span></code> or
+a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> (whose ‘file’ column is used as input).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">argopandas</span> <span class="k">as</span> <span class="nn">argo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">argo</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;2902746_tech.nc&#39;</span><span class="p">)</span>
+<span class="go">{&#39;type&#39;: &#39;tech&#39;, &#39;modifier&#39;: None, &#39;data_mode&#39;: None, &#39;float&#39;: 2902746, &#39;aux&#39;: None}</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.path.info">
+<span class="sig-name descname"><span class="pre">info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.path.info" title="Permalink to this definition"></a></dt>
+<dd><p>Return a dictionary of information that can be obtained
+from the file path. <code class="docutils literal notranslate"><span class="pre">pandas.Series</span></code> objects are expanded
+to <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> s; <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> objects are
+appended to the output <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.path.is_data_mode">
+<span class="sig-name descname"><span class="pre">is_data_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_mode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.path.is_data_mode" title="Permalink to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if  <code class="docutils literal notranslate"><span class="pre">path</span></code> is path a to a real-time (‘R’)
+or delayed (‘D’) mode file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_mode</strong> – One of ‘R’, ‘D’, ‘realtime’ or ‘delayed’</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.path.is_descending">
+<span class="sig-name descname"><span class="pre">is_descending</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.path.is_descending" title="Permalink to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if this profile is a descending
+profile.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.path.is_float">
+<span class="sig-name descname"><span class="pre">is_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">floats</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.path.is_float" title="Permalink to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">path</span></code> matches one of the floats listed
+in <code class="docutils literal notranslate"><span class="pre">floats</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>floats</strong> – An integer, string, or iterable of those
+representing the float identifier(s).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.path.is_meta">
+<span class="sig-name descname"><span class="pre">is_meta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.path.is_meta" title="Permalink to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if  <code class="docutils literal notranslate"><span class="pre">path</span></code> is path to a meta NetCDF
+or <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.path.is_prof">
+<span class="sig-name descname"><span class="pre">is_prof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.path.is_prof" title="Permalink to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if  <code class="docutils literal notranslate"><span class="pre">path</span></code> is path to a profile NetCDF
+or <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.path.is_tech">
+<span class="sig-name descname"><span class="pre">is_tech</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.path.is_tech" title="Permalink to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if  <code class="docutils literal notranslate"><span class="pre">path</span></code> is path to a tech NetCDF
+or <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argopandas.path.is_traj">
+<span class="sig-name descname"><span class="pre">is_traj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.path.is_traj" title="Permalink to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if  <code class="docutils literal notranslate"><span class="pre">path</span></code> is path to a traj NetCDF
+or <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mirror.html" class="btn btn-neutral float-left" title="Mirror API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="netcdf.html" class="btn btn-neutral float-right" title="NetCDF Wrapper API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Dewey Dunnington.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

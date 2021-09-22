@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global index file API &mdash; argopandas  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="NetCDF File Index API" href="index_mod.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> argopandas
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="argopandas.html">argopandas package API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mirror.html">Mirror API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="path.html">Argo filename information API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netcdf.html">NetCDF Wrapper API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="float.html">Argo Float API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_mod.html">NetCDF File Index API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Global index file API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">argopandas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Global index file API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/global_index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-argopandas.global_index">
+<span id="global-index-file-api"></span><h1>Global index file API<a class="headerlink" href="#module-argopandas.global_index" title="Permalink to this headline"></a></h1>
+<p>This module implements the logic to lazily load index files as
+necessary. The classes in this module represent the indexes
+provided by the main package API (e.g., <code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.prof</span></code>).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalBioProf">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">GlobalBioProf</span></span><a class="headerlink" href="#argopandas.global_index.GlobalBioProf" title="Permalink to this definition"></a></dt>
+<dd><p>The global BGC profile index (i.e., ‘argo_bio-profile_index.txt.gz’).
+Subsets are <a class="reference internal" href="index_mod.html#argopandas.index.ProfIndex" title="argopandas.index.ProfIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.index.ProfIndex</span></code></a> objects.
+This object is available as the <code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.bio_prof</span></code> object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalBioTraj">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">GlobalBioTraj</span></span><a class="headerlink" href="#argopandas.global_index.GlobalBioTraj" title="Permalink to this definition"></a></dt>
+<dd><p>The global BGC trajectory index (i.e., ‘argo_bio-traj_index.txt.gz’).
+Subsets are <a class="reference internal" href="index_mod.html#argopandas.index.TrajIndex" title="argopandas.index.TrajIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.index.TrajIndex</span></code></a> objects.
+This object is available as the <code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.bio_traj</span></code> object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalIndex">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">GlobalIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.global_index.GlobalIndex" title="Permalink to this definition"></a></dt>
+<dd><p>Abstract base class for global indexes implementing the logic to
+make these lazy and data frame-like (without unnecessarily downloading
+the index until requested).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalIndex.head">
+<span class="sig-name descname"><span class="pre">head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#argopandas.global_index.GlobalIndex.head" title="Permalink to this definition"></a></dt>
+<dd><p>Get the first <code class="docutils literal notranslate"><span class="pre">n</span></code> rows of this index without downloading it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalIndex.subset_data_mode">
+<span class="sig-name descname"><span class="pre">subset_data_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_mode</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex" title="argopandas.index.DataFrameIndex"><span class="pre">argopandas.index.DataFrameIndex</span></a></span></span><a class="headerlink" href="#argopandas.global_index.GlobalIndex.subset_data_mode" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index corresponding to the specified
+<code class="docutils literal notranslate"><span class="pre">data_mode</span></code>.
+See <a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex.subset_data_mode" title="argopandas.index.DataFrameIndex.subset_data_mode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">argopandas.index.DataFrameIndex.subset_data_mode()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_mode</strong> – One of ‘R’, ‘D’, ‘realtime’ or ‘delayed’</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalIndex.subset_date">
+<span class="sig-name descname"><span class="pre">subset_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex" title="argopandas.index.DataFrameIndex"><span class="pre">argopandas.index.DataFrameIndex</span></a></span></span><a class="headerlink" href="#argopandas.global_index.GlobalIndex.subset_date" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index representing profiles collected between
+<code class="docutils literal notranslate"><span class="pre">date_start</span></code> and <code class="docutils literal notranslate"><span class="pre">date_end</span></code>.
+See <a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex.subset_date" title="argopandas.index.DataFrameIndex.subset_date"><code class="xref py py-meth docutils literal notranslate"><span class="pre">argopandas.index.DataFrameIndex.subset_date()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date_start</strong> – The first date to include in the subset. Can be a
+pandas-style date abbreviation like ‘2021’ or ‘2021-09’ or a
+datetime object.</p></li>
+<li><p><strong>date_end</strong> – The laste date to include in the subset. Can be a
+pandas-style date abbreviation like ‘2021’ or ‘2021-09’ or a
+datetime object.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalIndex.subset_direction">
+<span class="sig-name descname"><span class="pre">subset_direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex" title="argopandas.index.DataFrameIndex"><span class="pre">argopandas.index.DataFrameIndex</span></a></span></span><a class="headerlink" href="#argopandas.global_index.GlobalIndex.subset_direction" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index corresponding to the specified
+<code class="docutils literal notranslate"><span class="pre">direction</span></code>.
+See <a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex.subset_direction" title="argopandas.index.DataFrameIndex.subset_direction"><code class="xref py py-meth docutils literal notranslate"><span class="pre">argopandas.index.DataFrameIndex.subset_direction()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>direction</strong> – ‘ascending’, ‘descending’, ‘asc’, or ‘desc’</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalIndex.subset_float">
+<span class="sig-name descname"><span class="pre">subset_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">floats</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex" title="argopandas.index.DataFrameIndex"><span class="pre">argopandas.index.DataFrameIndex</span></a></span></span><a class="headerlink" href="#argopandas.global_index.GlobalIndex.subset_float" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index corresponding to the specified
+<code class="docutils literal notranslate"><span class="pre">floats</span></code>.
+See <a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex.subset_float" title="argopandas.index.DataFrameIndex.subset_float"><code class="xref py py-meth docutils literal notranslate"><span class="pre">argopandas.index.DataFrameIndex.subset_float()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>floats</strong> – An integer, string, or iterable of those
+representing the float identifier(s).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalIndex.subset_parameter">
+<span class="sig-name descname"><span class="pre">subset_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex" title="argopandas.index.DataFrameIndex"><span class="pre">argopandas.index.DataFrameIndex</span></a></span></span><a class="headerlink" href="#argopandas.global_index.GlobalIndex.subset_parameter" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index corresponding containing
+one or more of the parameters specified.
+See <a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex.subset_parameter" title="argopandas.index.DataFrameIndex.subset_parameter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">argopandas.index.DataFrameIndex.subset_parameter()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameters</strong> – A string or iterable of strings containing
+the parameters of interest.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalIndex.subset_radius">
+<span class="sig-name descname"><span class="pre">subset_radius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius_km</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex" title="argopandas.index.DataFrameIndex"><span class="pre">argopandas.index.DataFrameIndex</span></a></span></span><a class="headerlink" href="#argopandas.global_index.GlobalIndex.subset_radius" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index representing profiles collected 
+within <code class="docutils literal notranslate"><span class="pre">radius_km</span></code> of the position given by
+<code class="docutils literal notranslate"><span class="pre">latitude</span></code>/<code class="docutils literal notranslate"><span class="pre">longitude</span></code>.
+See <a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex.subset_radius" title="argopandas.index.DataFrameIndex.subset_radius"><code class="xref py py-meth docutils literal notranslate"><span class="pre">argopandas.index.DataFrameIndex.subset_radius()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>latitude</strong> – The latitude of the target position.</p></li>
+<li><p><strong>longitude</strong> – The longitude of the target position.</p></li>
+<li><p><strong>radius_km</strong> – The number of kilometres within which profiles should
+be included.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalIndex.subset_rect">
+<span class="sig-name descname"><span class="pre">subset_rect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latitude_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latitude_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex" title="argopandas.index.DataFrameIndex"><span class="pre">argopandas.index.DataFrameIndex</span></a></span></span><a class="headerlink" href="#argopandas.global_index.GlobalIndex.subset_rect" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index representing profiles or trajectories 
+within the bounding box. You can specify bounding boxes that wrap around
+the international date line by specifying <code class="docutils literal notranslate"><span class="pre">lat_min</span> <span class="pre">&gt;</span> <span class="pre">lat_max</span></code>.
+See <a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex.subset_rect" title="argopandas.index.DataFrameIndex.subset_rect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">argopandas.index.DataFrameIndex.subset_rect()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>latitude_min</strong> – The minimum latitude to include</p></li>
+<li><p><strong>longitude_min</strong> – The minimum longitude to include</p></li>
+<li><p><strong>latitude_max</strong> – The maximum latitude to include</p></li>
+<li><p><strong>longitude_min</strong> – The maximum longitude to include</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalIndex.subset_updated">
+<span class="sig-name descname"><span class="pre">subset_updated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex" title="argopandas.index.DataFrameIndex"><span class="pre">argopandas.index.DataFrameIndex</span></a></span></span><a class="headerlink" href="#argopandas.global_index.GlobalIndex.subset_updated" title="Permalink to this definition"></a></dt>
+<dd><p>Return the subset of this index representing profiles updated between
+<code class="docutils literal notranslate"><span class="pre">date_start</span></code> and <code class="docutils literal notranslate"><span class="pre">date_end</span></code>.
+See <a class="reference internal" href="index_mod.html#argopandas.index.DataFrameIndex.subset_updated" title="argopandas.index.DataFrameIndex.subset_updated"><code class="xref py py-meth docutils literal notranslate"><span class="pre">argopandas.index.DataFrameIndex.subset_updated()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date_start</strong> – The first date to include in the subset. Can be a
+pandas-style date abbreviation like ‘2021’ or ‘2021-09’ or a
+datetime object.</p></li>
+<li><p><strong>date_end</strong> – The laste date to include in the subset. Can be a
+pandas-style date abbreviation like ‘2021’ or ‘2021-09’ or a
+datetime object.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalMeta">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">GlobalMeta</span></span><a class="headerlink" href="#argopandas.global_index.GlobalMeta" title="Permalink to this definition"></a></dt>
+<dd><p>The global meta index (i.e., ‘ar_index_global_meta.txt.gz’). Subsets
+of the global meta index are <a class="reference internal" href="index_mod.html#argopandas.index.MetaIndex" title="argopandas.index.MetaIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.index.MetaIndex</span></code></a> objects.
+This object is available as the <code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.meta</span></code> object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalProf">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">GlobalProf</span></span><a class="headerlink" href="#argopandas.global_index.GlobalProf" title="Permalink to this definition"></a></dt>
+<dd><p>The global profile index (i.e., ‘ar_index_global_prof.txt.gz’). Subsets
+of the global meta index are <a class="reference internal" href="index_mod.html#argopandas.index.ProfIndex" title="argopandas.index.ProfIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.index.ProfIndex</span></code></a> objects.
+This object is available as the <code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.prof</span></code> object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalSyntheticProf">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">GlobalSyntheticProf</span></span><a class="headerlink" href="#argopandas.global_index.GlobalSyntheticProf" title="Permalink to this definition"></a></dt>
+<dd><p>The global BGC synthetic profile index (i.e., ‘argo_synthetic-profile_index.txt.gz’).
+Subsets are <a class="reference internal" href="index_mod.html#argopandas.index.ProfIndex" title="argopandas.index.ProfIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.index.ProfIndex</span></code></a> objects. This object is
+avilable as the <code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.synthetic_prof</span></code> object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalTech">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">GlobalTech</span></span><a class="headerlink" href="#argopandas.global_index.GlobalTech" title="Permalink to this definition"></a></dt>
+<dd><p>The global tech index (i.e., ‘ar_index_global_tech.txt.gz’). Subsets
+of the global meta index are <a class="reference internal" href="index_mod.html#argopandas.index.TechIndex" title="argopandas.index.TechIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.index.TechIndex</span></code></a> objects.
+This object is available as the <code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.tech</span></code> object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="argopandas.global_index.GlobalTraj">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">GlobalTraj</span></span><a class="headerlink" href="#argopandas.global_index.GlobalTraj" title="Permalink to this definition"></a></dt>
+<dd><p>The global trajectory index (i.e., ‘ar_index_global_traj.txt.gz’). Subsets
+of the global meta index are <a class="reference internal" href="index_mod.html#argopandas.index.TrajIndex" title="argopandas.index.TrajIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">argopandas.index.TrajIndex</span></code></a> objects.
+This object is available as the <code class="xref py py-attr docutils literal notranslate"><span class="pre">argopandas.traj</span></code> object.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index_mod.html" class="btn btn-neutral float-left" title="NetCDF File Index API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Dewey Dunnington.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
