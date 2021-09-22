@@ -41,39 +41,41 @@ jobs:
 
       - name: Update development documentation
         if: success() && (github.event.release || (github.ref == 'refs/heads/master'))
+        env:
+          DOC_TAG: "dev"
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           cd pages-clone
-          if [ -d dev ]; then
-            git rm -rf dev
+          if [ -d "$DOC_TAG" ]; then
+            git rm -rf "$DOC_TAG"
           fi
-          mkdir dev
-          cp -R ../docs/_build/html/* dev
+          mkdir "$DOC_TAG"
+          cp -R ../docs/_build/html/* "$DOC_TAG"
           touch .nojekyll
           git add .nojekyll
           git add *
-          git commit --allow-empty -m"update development documentation"
+          git commit --allow-empty -m"update documentation for tag $DOC_TAG"
           git push
           cd ..
 
       - name: Update release documentation
-        if: success() && github.event.release
+        if: success() # && github.event.release
+        env:
+          # DOC_TAG: ${{ github.event.release.tag_name }}
+          DOC_TAG: v0.0.5
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           cd pages-clone
-
-          # remove current release documentation (not dev!)
-          for DIRECTORY in $(ls -d */ | sed 's|dev/||') ; do
-            git rm -rf "$DIRECTORY"
-          done
-          for FILE in $(ls | sed 's|dev||') ; do
-            git rm "$FILE"
-          done
-
-          # copy
-          cp -R ../docs/_build/html/* .
+          if [ -d "$DOC_TAG" ]; then
+            git rm -rf "$DOC_TAG"
+          fi
+          mkdir "$DOC_TAG"
+          cp -R ../docs/_build/html/* "$DOC_TAG"
+          touch .nojekyll
+          git add .nojekyll
           git add *
-          git commit --allow-empty -m"update release documentation"
+          git commit --allow-empty -m"update documentation for tag $DOC_TAG"
           git push
+          cd ..
