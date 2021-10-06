@@ -14,8 +14,9 @@ anything else about the package!
 Installation
 ------------
 
-You can install the ``argopandas`` package from `PyPI <>`__ or
-`conda-forge <>`__.
+You can install the ``argopandas`` package from
+`PyPI <https://pypi.org/project/argopandas/>`__ or
+`conda-forge <https://github.com/conda-forge/argopandas-feedstock>`__.
 
 .. code:: bash
 

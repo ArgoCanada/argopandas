@@ -10,7 +10,7 @@ The goal of argopandas is to provide seamless access to Argo NetCDF files using 
 
 ## Installation
 
-You can install the `argopandas` package from [PyPI]() or [conda-forge]().
+You can install the `argopandas` package from [PyPI](https://pypi.org/project/argopandas/) or [conda-forge](https://github.com/conda-forge/argopandas-feedstock).
 
 ``` bash
 pip install argopandas
