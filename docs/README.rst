@@ -14,16 +14,18 @@ anything else about the package!
 Installation
 ------------
 
-You can install the ``argopandas`` package using ``pip``.
+You can install the ``argopandas`` package from `PyPI <>`__ or
+`conda-forge <>`__.
 
 .. code:: bash
 
    pip install argopandas
+   conda install --channel=conda-forge argopandas
 
 The package depends on ``pandas``, ``numpy``, ``netCDF4``, and
-``pyarrow``, which install automatically if using ``pip`` or you can
-install also your favourite Python package manager. The ``argopandas``
-package requires Python 3.6 or later.
+``pyarrow``, which install automatically if using ``pip`` or
+``conda install``. The ``argopandas`` package requires Python 3.6 or
+later.
 
 Examples
 --------
@@ -57,14 +59,71 @@ The global indexes are available via ``argo.prof``, ``argo.meta``,
 
 
 
-.. parsed-literal::
+.. raw:: html
 
-                           file  profiler_type institution     date_update
-    0  aoml/13857/13857_meta.nc            845          AO  20181011200014
-    1  aoml/13858/13858_meta.nc            845          AO  20181011200015
-    2  aoml/13859/13859_meta.nc            845          AO  20181011200025
-    3  aoml/15819/15819_meta.nc            845          AO  20181011200016
-    4  aoml/15820/15820_meta.nc            845          AO  20181011200018
+    <div>
+    <style scoped>
+        .dataframe tbody tr th:only-of-type {
+            vertical-align: middle;
+        }
+    
+        .dataframe tbody tr th {
+            vertical-align: top;
+        }
+    
+        .dataframe thead th {
+            text-align: right;
+        }
+    </style>
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>file</th>
+          <th>profiler_type</th>
+          <th>institution</th>
+          <th>date_update</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>aoml/13857/13857_meta.nc</td>
+          <td>845</td>
+          <td>AO</td>
+          <td>2018-10-11 20:00:14+00:00</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>aoml/13858/13858_meta.nc</td>
+          <td>845</td>
+          <td>AO</td>
+          <td>2018-10-11 20:00:15+00:00</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>aoml/13859/13859_meta.nc</td>
+          <td>845</td>
+          <td>AO</td>
+          <td>2018-10-11 20:00:25+00:00</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>aoml/15819/15819_meta.nc</td>
+          <td>845</td>
+          <td>AO</td>
+          <td>2018-10-11 20:00:16+00:00</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>aoml/15820/15820_meta.nc</td>
+          <td>845</td>
+          <td>AO</td>
+          <td>2018-10-11 20:00:18+00:00</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
 
 
 
@@ -84,25 +143,113 @@ aligned along common dimensions. The accessor you probably want is the
     argo.prof.head(5).levels[['PRES', 'TEMP']]
 
 
-
-
 .. parsed-literal::
 
-                                                              PRES       TEMP
-    file                              N_PROF N_LEVELS                        
-    aoml/13857/profiles/R13857_001.nc 0      0           11.900000  22.235001
-                                             1           17.000000  21.987000
-                                             2           22.100000  21.891001
-                                             3           27.200001  21.812000
-                                             4           32.299999  21.632000
-    ...                                                        ...        ...
-    aoml/13857/profiles/R13857_005.nc 0      102        976.500000   4.527000
-                                             103        986.700012   4.527000
-                                             104        996.799988   4.533000
-                                             105       1007.000000   4.487000
-                                             106       1017.200012   4.471000
+    Downloading 5 files from 'https://data-argo.ifremer.fr/dac/aoml/13857/profiles'
+    Reading 5 files
+
+
+
+
+.. raw:: html
+
+    <div>
+    <style scoped>
+        .dataframe tbody tr th:only-of-type {
+            vertical-align: middle;
+        }
     
-    [551 rows x 2 columns]
+        .dataframe tbody tr th {
+            vertical-align: top;
+        }
+    
+        .dataframe thead th {
+            text-align: right;
+        }
+    </style>
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th></th>
+          <th></th>
+          <th>PRES</th>
+          <th>TEMP</th>
+        </tr>
+        <tr>
+          <th>file</th>
+          <th>N_PROF</th>
+          <th>N_LEVELS</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th rowspan="5" valign="top">aoml/13857/profiles/R13857_001.nc</th>
+          <th rowspan="5" valign="top">0</th>
+          <th>0</th>
+          <td>11.900000</td>
+          <td>22.235001</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>17.000000</td>
+          <td>21.987000</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>22.100000</td>
+          <td>21.891001</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>27.200001</td>
+          <td>21.812000</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>32.299999</td>
+          <td>21.632000</td>
+        </tr>
+        <tr>
+          <th>...</th>
+          <th>...</th>
+          <th>...</th>
+          <td>...</td>
+          <td>...</td>
+        </tr>
+        <tr>
+          <th rowspan="5" valign="top">aoml/13857/profiles/R13857_005.nc</th>
+          <th rowspan="5" valign="top">0</th>
+          <th>102</th>
+          <td>976.500000</td>
+          <td>4.527000</td>
+        </tr>
+        <tr>
+          <th>103</th>
+          <td>986.700012</td>
+          <td>4.527000</td>
+        </tr>
+        <tr>
+          <th>104</th>
+          <td>996.799988</td>
+          <td>4.533000</td>
+        </tr>
+        <tr>
+          <th>105</th>
+          <td>1007.000000</td>
+          <td>4.487000</td>
+        </tr>
+        <tr>
+          <th>106</th>
+          <td>1017.200012</td>
+          <td>4.471000</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>551 rows × 2 columns</p>
+    </div>
 
 
 
@@ -134,8 +281,13 @@ Once you have a data frame you do anything you’d do with a regular
     ax.invert_yaxis()
 
 
+.. parsed-literal::
 
-.. image:: README_files/README_8_0.png
+    Reading 5 files
+
+
+
+.. image:: README_files/README_8_1.png
 
 
 You can access all the index files for a particular float using
@@ -145,66 +297,60 @@ float ID.
 .. code:: ipython3
 
     float_obj = argo.float(13857)
-    float_obj.meta.info
+    dict(float_obj.meta.info.iloc[0])
 
 
 .. parsed-literal::
 
     Reading 1 file
-    
+
 
 
 
 .. parsed-literal::
 
-                                       DATA_TYPE FORMAT_VERSION HANDBOOK_VERSION  \
-    file                                                                           
-    aoml/13857/13857_meta.nc 0  Argo meta-data             3.1              1.2    
-    
-                                 DATE_CREATION     DATE_UPDATE PLATFORM_NUMBER  \
-    file                                                                         
-    aoml/13857/13857_meta.nc 0  20181011200014  20181011200014        13857      
-    
-                                                                              PTT  \
-    file                                                                            
-    aoml/13857/13857_meta.nc 0  09335                                         ...   
-    
-                                                                  PLATFORM_FAMILY  \
-    file                                                                            
-    aoml/13857/13857_meta.nc 0  FLOAT                                         ...   
-    
-                                                   PLATFORM_TYPE  \
-    file                                                           
-    aoml/13857/13857_meta.nc 0  PALACE                             
-    
-                                                                   PLATFORM_MAKER  \
-    file                                                                            
-    aoml/13857/13857_meta.nc 0  WRC                                           ...   
-    
-                                ... LAUNCH_QC      START_DATE START_DATE_QC  \
-    file                        ...                                           
-    aoml/13857/13857_meta.nc 0  ...      b'1'  19970719163000          b'1'   
-    
-                                  STARTUP_DATE STARTUP_DATE_QC  \
-    file                                                         
-    aoml/13857/13857_meta.nc 0  19970719103000            b'1'   
-    
-                                             DEPLOYMENT_PLATFORM  \
-    file                                                           
-    aoml/13857/13857_meta.nc 0  R/V Seward Johnson                 
-    
-                                            DEPLOYMENT_CRUISE_ID  \
-    file                                                           
-    aoml/13857/13857_meta.nc 0  97-03                              
-    
-                                                  DEPLOYMENT_REFERENCE_STATION_ID  \
-    file                                                                            
-    aoml/13857/13857_meta.nc 0  CTD 108                                       ...   
-    
-                               END_MISSION_DATE END_MISSION_STATUS  
-    file                                                            
-    aoml/13857/13857_meta.nc 0                                 NaN  
-    
-    [1 rows x 43 columns]
+    {'DATA_TYPE': 'Argo meta-data  ',
+     'FORMAT_VERSION': '3.1 ',
+     'HANDBOOK_VERSION': '1.2 ',
+     'DATE_CREATION': '20181011200014',
+     'DATE_UPDATE': '20181011200014',
+     'PLATFORM_NUMBER': '13857   ',
+     'PTT': '09335                                                                                                                                                                                                                                                           ',
+     'PLATFORM_FAMILY': 'FLOAT                                                                                                                                                                                                                                                           ',
+     'PLATFORM_TYPE': 'PALACE                          ',
+     'PLATFORM_MAKER': 'WRC                                                                                                                                                                                                                                                             ',
+     'FIRMWARE_VERSION': '012797                          ',
+     'MANUAL_VERSION': '012797          ',
+     'FLOAT_SERIAL_NO': '28                              ',
+     'STANDARD_FORMAT_ID': 'n/a             ',
+     'DAC_FORMAT_ID': 'PALACE_T1       ',
+     'WMO_INST_TYPE': '845 ',
+     'PROJECT_NAME': 'ACCE (Atlantic Circulation and Climate Experiment)              ',
+     'DATA_CENTRE': 'AO',
+     'PI_NAME': 'BOB MOLINARI                                                    ',
+     'ANOMALY': 'n/a                                                                                                                                                                                                                                                             ',
+     'BATTERY_TYPE': 'Alkaline                                                        ',
+     'BATTERY_PACKS': 'board -  1 (s/n: 32);                                           ',
+     'CONTROLLER_BOARD_TYPE_PRIMARY': 'n/a                             ',
+     'CONTROLLER_BOARD_TYPE_SECONDARY': 'n/a                             ',
+     'CONTROLLER_BOARD_SERIAL_NO_PRIMARY': '32                              ',
+     'CONTROLLER_BOARD_SERIAL_NO_SECONDARY': 'n/a                             ',
+     'SPECIAL_FEATURES': 'n/a                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ',
+     'FLOAT_OWNER': 'BOB MOLINARI                                                    ',
+     'OPERATING_INSTITUTION': 'NOAA, AOML, Miami                                               ',
+     'CUSTOMISATION': 'n/a                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ',
+     'LAUNCH_DATE': '19970719145500',
+     'LAUNCH_LATITUDE': 0.007516666781157255,
+     'LAUNCH_LONGITUDE': -15.013999938964844,
+     'LAUNCH_QC': b'1',
+     'START_DATE': '19970719163000',
+     'START_DATE_QC': b'1',
+     'STARTUP_DATE': '19970719103000',
+     'STARTUP_DATE_QC': b'1',
+     'DEPLOYMENT_PLATFORM': 'R/V Seward Johnson              ',
+     'DEPLOYMENT_CRUISE_ID': '97-03                           ',
+     'DEPLOYMENT_REFERENCE_STATION_ID': 'CTD 108                                                                                                                                                                                                                                                         ',
+     'END_MISSION_DATE': '              ',
+     'END_MISSION_STATUS': nan}
 
 

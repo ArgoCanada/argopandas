@@ -10,13 +10,14 @@ The goal of argopandas is to provide seamless access to Argo NetCDF files using 
 
 ## Installation
 
-You can install the `argopandas` package using `pip`.
+You can install the `argopandas` package from [PyPI]() or [conda-forge]().
 
 ``` bash
 pip install argopandas
+conda install --channel=conda-forge argopandas
 ```
 
-The package depends on `pandas`, `numpy`, `netCDF4`, and `pyarrow`, which install automatically if using `pip` or you can install also your favourite Python package manager. The `argopandas` package requires Python 3.6 or later.
+The package depends on `pandas`, `numpy`, `netCDF4`, and `pyarrow`, which install automatically if using `pip` or `conda install`. The `argopandas` package requires Python 3.6 or later.
 
 ## Examples
 
@@ -102,7 +103,7 @@ argo.prof.head(5).levels[['PRES', 'TEMP']]
 
     Downloading 5 files from 'https://data-argo.ifremer.fr/dac/aoml/13857/profiles'
     Reading 5 files
-                                                                                        
+                                                                          
 
 
 
@@ -215,7 +216,7 @@ ax.invert_yaxis()
 ```
 
     Reading 5 files
-                                                                                        
+                                                                          
 
 
     
@@ -227,101 +228,59 @@ You can access all the index files for a particular float using `argo.float()`, 
 
 ```python
 float_obj = argo.float(13857)
-float_obj.meta.info
+dict(float_obj.meta.info.iloc[0])
 ```
 
     Downloading 'https://data-argo.ifremer.fr/ar_index_global_meta.txt.gz'
     Downloading 'https://data-argo.ifremer.fr/dac/aoml/13857/13857_meta.nc'
     Reading 1 file
-                                                                                        
+                                                                          
 
 
 
 
-<div>
-
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>DATA_TYPE</th>
-      <th>FORMAT_VERSION</th>
-      <th>HANDBOOK_VERSION</th>
-      <th>DATE_CREATION</th>
-      <th>DATE_UPDATE</th>
-      <th>PLATFORM_NUMBER</th>
-      <th>PTT</th>
-      <th>PLATFORM_FAMILY</th>
-      <th>PLATFORM_TYPE</th>
-      <th>PLATFORM_MAKER</th>
-      <th>...</th>
-      <th>LAUNCH_QC</th>
-      <th>START_DATE</th>
-      <th>START_DATE_QC</th>
-      <th>STARTUP_DATE</th>
-      <th>STARTUP_DATE_QC</th>
-      <th>DEPLOYMENT_PLATFORM</th>
-      <th>DEPLOYMENT_CRUISE_ID</th>
-      <th>DEPLOYMENT_REFERENCE_STATION_ID</th>
-      <th>END_MISSION_DATE</th>
-      <th>END_MISSION_STATUS</th>
-    </tr>
-    <tr>
-      <th>file</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>aoml/13857/13857_meta.nc</th>
-      <th>0</th>
-      <td>Argo meta-data</td>
-      <td>3.1</td>
-      <td>1.2</td>
-      <td>20181011200014</td>
-      <td>20181011200014</td>
-      <td>13857</td>
-      <td>09335                                         ...</td>
-      <td>FLOAT                                         ...</td>
-      <td>PALACE</td>
-      <td>WRC                                           ...</td>
-      <td>...</td>
-      <td>b'1'</td>
-      <td>19970719163000</td>
-      <td>b'1'</td>
-      <td>19970719103000</td>
-      <td>b'1'</td>
-      <td>R/V Seward Johnson</td>
-      <td>97-03</td>
-      <td>CTD 108                                       ...</td>
-      <td></td>
-      <td>NaN</td>
-    </tr>
-  </tbody>
-</table>
-<p>1 rows × 43 columns</p>
-</div>
+    {'DATA_TYPE': 'Argo meta-data  ',
+     'FORMAT_VERSION': '3.1 ',
+     'HANDBOOK_VERSION': '1.2 ',
+     'DATE_CREATION': '20181011200014',
+     'DATE_UPDATE': '20181011200014',
+     'PLATFORM_NUMBER': '13857   ',
+     'PTT': '09335                                                                                                                                                                                                                                                           ',
+     'PLATFORM_FAMILY': 'FLOAT                                                                                                                                                                                                                                                           ',
+     'PLATFORM_TYPE': 'PALACE                          ',
+     'PLATFORM_MAKER': 'WRC                                                                                                                                                                                                                                                             ',
+     'FIRMWARE_VERSION': '012797                          ',
+     'MANUAL_VERSION': '012797          ',
+     'FLOAT_SERIAL_NO': '28                              ',
+     'STANDARD_FORMAT_ID': 'n/a             ',
+     'DAC_FORMAT_ID': 'PALACE_T1       ',
+     'WMO_INST_TYPE': '845 ',
+     'PROJECT_NAME': 'ACCE (Atlantic Circulation and Climate Experiment)              ',
+     'DATA_CENTRE': 'AO',
+     'PI_NAME': 'BOB MOLINARI                                                    ',
+     'ANOMALY': 'n/a                                                                                                                                                                                                                                                             ',
+     'BATTERY_TYPE': 'Alkaline                                                        ',
+     'BATTERY_PACKS': 'board -  1 (s/n: 32);                                           ',
+     'CONTROLLER_BOARD_TYPE_PRIMARY': 'n/a                             ',
+     'CONTROLLER_BOARD_TYPE_SECONDARY': 'n/a                             ',
+     'CONTROLLER_BOARD_SERIAL_NO_PRIMARY': '32                              ',
+     'CONTROLLER_BOARD_SERIAL_NO_SECONDARY': 'n/a                             ',
+     'SPECIAL_FEATURES': 'n/a                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ',
+     'FLOAT_OWNER': 'BOB MOLINARI                                                    ',
+     'OPERATING_INSTITUTION': 'NOAA, AOML, Miami                                               ',
+     'CUSTOMISATION': 'n/a                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ',
+     'LAUNCH_DATE': '19970719145500',
+     'LAUNCH_LATITUDE': 0.007516666781157255,
+     'LAUNCH_LONGITUDE': -15.013999938964844,
+     'LAUNCH_QC': b'1',
+     'START_DATE': '19970719163000',
+     'START_DATE_QC': b'1',
+     'STARTUP_DATE': '19970719103000',
+     'STARTUP_DATE_QC': b'1',
+     'DEPLOYMENT_PLATFORM': 'R/V Seward Johnson              ',
+     'DEPLOYMENT_CRUISE_ID': '97-03                           ',
+     'DEPLOYMENT_REFERENCE_STATION_ID': 'CTD 108                                                                                                                                                                                                                                                         ',
+     'END_MISSION_DATE': '              ',
+     'END_MISSION_STATUS': nan}
 
 
